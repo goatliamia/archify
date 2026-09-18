@@ -568,8 +568,15 @@ export function formatMessage(template, values = {}) {
   ));
 }
 
-export function translateMessage(locale, key, values = {}) {
+// A domain pack may restate renderer-owned copy through `meta.labels`.
+// Overrides stay a lookup layer: the built-in catalog keeps its defaults, so
+// documents that author no labels render byte-for-byte as before.
+export function translateMessage(locale, key, values = {}, overrides = null) {
   const resolved = resolveLocale(locale);
+  const override = overrides && typeof overrides[key] === 'string' && overrides[key].trim() !== ''
+    ? overrides[key]
+    : null;
+  if (override !== null) return formatMessage(override, values);
   if (!Object.hasOwn(CATALOGS[resolved], key)) {
     throw new Error(`Missing Archify i18n message ${JSON.stringify(key)} for ${resolved}`);
   }
@@ -581,13 +588,18 @@ export function translateCount(locale, key, count, values = {}) {
   return translateMessage(locale, `${key}.${suffix}`, { ...values, count });
 }
 
-export function viewerCatalog(locale) {
+export function viewerCatalog(locale, overrides = null) {
   const resolved = resolveLocale(locale);
-  return Object.fromEntries(Object.entries(CATALOGS[resolved]).filter(([key]) => key.startsWith('viewer.')));
+  const catalog = Object.fromEntries(Object.entries(CATALOGS[resolved]).filter(([key]) => key.startsWith('viewer.')));
+  if (!overrides) return catalog;
+  for (const [key, value] of Object.entries(overrides)) {
+    if (key.startsWith('viewer.') && typeof value === 'string' && value.trim() !== '') catalog[key] = value;
+  }
+  return catalog;
 }
 
-export function localizeTemplate(template, locale) {
-  return template.replace(/\{\{i18n:([a-zA-Z0-9_.-]+)\}\}/g, (_match, key) => escapeHtml(translateMessage(locale, key)));
+export function localizeTemplate(template, locale, overrides = null) {
+  return template.replace(/\{\{i18n:([a-zA-Z0-9_.-]+)\}\}/g, (_match, key) => escapeHtml(translateMessage(locale, key, {}, overrides)));
 }
 
 export function catalogKeys() {

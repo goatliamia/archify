@@ -1,4 +1,5 @@
 import { esc, renderDefinitions, renderSemanticSigil, textUnits } from '../shared/utils.mjs';
+import { walkClock } from '../shared/clock-walk.mjs';
 import { animateAttr, focusEdgeAttrs, focusNodeAttrs, focusNodeTitle, svgAccessibleText, svgRootAttrs } from '../shared/cli.mjs';
 import {
   throwDiagnosticError,
@@ -114,6 +115,16 @@ function nodeWidthContributor(node) {
 function authoredNodeHeight(node) {
   if (Number.isFinite(node?.height)) return node.height;
   return node?.tag ? 68 : 52;
+}
+
+// A leg that also states what it costs needs a taller chip: the caption must sit
+// on the chip, not on the line it names.
+function legStatesCost(edge) {
+  return Boolean(edge) && edge.id !== undefined && edge.id !== null && edgeStepMinutes.has(edge.id);
+}
+
+function edgeLabelHeight(edge) {
+  return legStatesCost(edge) ? 22 : 14;
 }
 
 function workflowLabelWidth(label) {
@@ -752,6 +763,360 @@ function semanticContractDiagnostics(workflow) {
   return diagnostics;
 }
 
+// Content-layer derivation. The core knows none of the domain's field names:
+// a rule names the facts it accumulates, where each chain starts, and how the
+// derived value is rendered. A document without rules returns immediately, so
+// every existing artifact keeps its bytes.
+function ruleFactValue(element, name) {
+  if (!name) return 0;
+  const bag = element && element.facts;
+  const value = bag ? bag[name] : undefined;
+  return typeof value === 'number' && Number.isFinite(value) ? value : null;
+}
+
+function ruleSeedValue(base) {
+  const match = /^([01][0-9]|2[0-3]):([0-5][0-9])$/.exec(String(base));
+  return match ? Number(match[1]) * 60 + Number(match[2]) : Number(base);
+}
+
+function ruleRenderValue(value, isClock, rule) {
+  if (!isClock) return String(Math.round(value * 100) / 100);
+  const wrapAt = rule.wrap && Number.isFinite(rule.wrap.at) ? rule.wrap.at : null;
+  const shown = wrapAt && value >= wrapAt
+    ? `${rule.wrap.label || ''}${String(Math.floor((value - wrapAt) / 60)).padStart(2, '0')}:${String((value - wrapAt) % 60).padStart(2, '0')}`
+    : `${String(Math.floor(value / 60)).padStart(2, '0')}:${String(value % 60).padStart(2, '0')}`;
+  return shown;
+}
+
+// The core keeps seven palette slots; the vocabulary of kinds is the
+// document's. A document without meta.types keeps the built-in seven.
+const PALETTE_FILL = { cyan: 'c-frontend', green: 'c-backend', violet: 'c-database', amber: 'c-cloud', rose: 'c-security', orange: 'c-messagebus', slate: 'c-external' };
+const PALETTE_STROKE_VAR = { cyan: 'frontend', green: 'backend', violet: 'database', amber: 'cloud', rose: 'security', orange: 'messagebus', slate: 'external' };
+const PALETTE_TEXT = { cyan: 't-frontend', green: 't-backend', violet: 't-database', amber: 't-cloud', rose: 't-security', orange: 't-messagebus', slate: 't-external' };
+
+function declaredTypeMap(document) {
+  return new Map(asArray(document && document.meta && document.meta.types).map((type) => [type.id, type]));
+}
+
+function typeFill(document, type) {
+  const declared = declaredTypeMap(document).get(type);
+  if (declared) return PALETTE_FILL[declared.color] || 'c-external';
+  return componentFill[type];
+}
+
+function typeText(document, type) {
+  const declared = declaredTypeMap(document).get(type);
+  if (declared) return PALETTE_TEXT[declared.color] || 't-muted';
+  return componentText[type];
+}
+
+function typeVocabularyDiagnostics(document) {
+  const declared = declaredTypeMap(document);
+  const workflow = document;
+  if (!declared.size) return [];
+  const legacy = new Set(Object.keys(componentFill));
+  return asArray(workflow.nodes)
+    .filter((node) => !declared.has(node.type) && !legacy.has(node.type))
+    .map((node) => ({
+      code: 'workflow/unknown-type',
+      severity: 'error',
+      message: `Node "${node.id}" uses type "${node.type}", which this document does not declare in meta.types.`,
+      subject: { diagramType: 'workflow', node: node.id },
+      evidence: { type: node.type, declared: [...declared.keys()] },
+      supportedFixes: [`declare "${node.type}" in meta.types`, 'or use a declared id'],
+    }));
+}
+
+// The reader side keeps values, not meanings: a document declares the slots a
+// reader may write, and a view naming a slot it never declared is a mistake
+// worth reporting rather than silently ignoring.
+function readerDiagnostics(document) {
+  const reader = document.meta && document.meta.reader;
+  if (!reader) return [];
+  const declared = new Set(asArray(reader.slots).map((slot) => slot.id));
+  const view = reader.view || {};
+  const named = (entry) => (typeof entry === 'string' ? entry : entry && typeof entry.slot === 'string' ? entry.slot : null);
+  const referenced = [...asArray(view.dim), ...asArray(view.stow)].map(named).filter(Boolean);
+  const clock = reader.clock && typeof reader.clock === 'object' ? reader.clock : null;
+  if (clock) referenced.push(...[clock.anchor, clock.at, clock.dwell].filter((id) => typeof id === 'string'));
+  const rules = asArray(document.meta && document.meta.rules);
+  const namedRule = clock && typeof clock.rule === 'string' ? rules.find((rule) => rule.id === clock.rule) : null;
+  const ruleProblems = clock && typeof clock.rule === 'string' && !namedRule
+    ? [{
+        code: 'workflow/unknown-rule',
+        severity: 'error',
+        message: `meta.reader.clock replays rule "${clock.rule}", which meta.rules does not declare.`,
+        subject: { diagramType: 'workflow', path: '/meta/reader/clock', rule: clock.rule },
+        evidence: { rule: clock.rule, declared: rules.map((rule) => rule.id) },
+        supportedFixes: [`declare rule "${clock.rule}" in meta.rules`, 'or drop meta.reader.clock'],
+      }]
+    : clock && namedRule.kind !== 'accumulate'
+      ? [{
+          code: 'workflow/unreplayable-rule',
+          severity: 'error',
+          message: `meta.reader.clock replays rule "${clock.rule}" of kind "${namedRule.kind}"; only a forward walk can be replayed from a reader's moment.`,
+          subject: { diagramType: 'workflow', path: '/meta/reader/clock', rule: clock.rule },
+          evidence: { rule: clock.rule, kind: namedRule.kind },
+          supportedFixes: ['point the clock at an accumulate rule', 'or drop meta.reader.clock'],
+        }]
+      : [];
+  return [...referenced
+    .filter((id) => !declared.has(id))
+    .map((id) => ({
+      code: 'workflow/unknown-slot',
+      severity: 'error',
+      message: `meta.reader.view names slot "${id}", which meta.reader.slots does not declare.`,
+      subject: { diagramType: 'workflow', path: '/meta/reader/view', slot: id },
+      evidence: { slot: id, declared: [...declared] },
+      supportedFixes: [`declare "${id}" in meta.reader.slots`, 'or drop the reference'],
+    })), ...ruleProblems];
+}
+
+// Problems the render pass discovers first-hand — an action row that cannot
+// fit, a second rule claiming one render slot — are collected here so the
+// check uses exactly the numbers the drawing used.
+const renderProblems = [];
+
+const authoredEdgeLabels = new Map();
+// What each leg costs, as the rule computed it, for the caption under its label.
+const edgeStepMinutes = new Map();
+
+function applyRules(workflow) {
+  const rules = asArray(workflow.meta && workflow.meta.rules);
+  authoredEdgeLabels.clear();
+  edgeStepMinutes.clear();
+  if (!rules.length) return [];
+  const renderSlots = new Map();
+  const diagnostics = [];
+  const nodes = asArray(workflow.nodes);
+  const edges = asArray(workflow.edges);
+  const nodeById = new Map(nodes.map((node) => [node.id, node]));
+  const laneById = new Map(asArray(workflow.lanes).map((lane) => [lane.id, lane]));
+  const factOf = (element, field) => (element && element.facts && typeof element.facts[field] === 'number'
+    ? element.facts[field]
+    : null);
+  const laneIds = asArray(workflow.lanes).map((lane) => lane.id);
+  for (const rule of rules) {
+    if (rule.kind === 'window') {
+      const bounds = { min: Number.isFinite(rule.min) ? rule.min : -Infinity, max: Number.isFinite(rule.max) ? rule.max : Infinity };
+      const scope = rule.scope === 'node' ? nodes : rule.scope === 'edge' ? edges : [...nodes, ...edges];
+      // Authored facts are opt-in: an element that never declares the field is
+      // simply not a carrier, so a rule stays silent instead of demanding one.
+      const carriers = scope.filter((element) => factOf(element, rule.field) !== null);
+      for (const element of carriers) {
+        const value = factOf(element, rule.field);
+        if (value < bounds.min || value > bounds.max) {
+          diagnostics.push({
+            code: 'constraint/out-of-window',
+            severity: 'error',
+            message: `Rule "${rule.id}" requires ${rule.field} within [${bounds.min}, ${bounds.max}], but "${element.id}" authors ${value}.`,
+            subject: { diagramType: 'workflow', rule: rule.id, node: element.id, edge: element.id },
+            evidence: { field: rule.field, value, min: bounds.min, max: bounds.max },
+            supportedFixes: [`bring ${rule.field} on ${element.id} inside the declared window`],
+          });
+        }
+      }
+      continue;
+    }
+    if (rule.kind === 'sum') {
+      const scope = rule.scope === 'node' ? nodes : rule.scope === 'edge' ? edges : [...nodes, ...edges];
+      const carriers = scope.filter((element) => factOf(element, rule.field) !== null);
+      const total = carriers.reduce((accumulator, element) => accumulator + factOf(element, rule.field), 0);
+      const tolerance = Number.isFinite(rule.tolerance) ? rule.tolerance : 0;
+      if (!(Math.abs(total - Number(rule.expect)) <= tolerance)) {
+        diagnostics.push({
+          code: 'constraint/sum-mismatch',
+          severity: 'error',
+          message: `Rule "${rule.id}" totals ${rule.field} to ${Math.round(total * 100) / 100}, but the document declares ${rule.expect}.`,
+          subject: { diagramType: 'workflow', rule: rule.id },
+          evidence: { field: rule.field, total, expect: rule.expect, tolerance, carriers: carriers.map((element) => element.id) },
+          supportedFixes: ['correct the contributing facts or the declared total'],
+        });
+      }
+      continue;
+    }
+    if (rule.kind === 'compare') {
+      const scope = rule.on === 'edge' ? edges : rule.on === 'lane' ? asArray(workflow.lanes) : nodes;
+      const symbol = rule.op === 'lte' ? '<=' : rule.op === 'gte' ? '>=' : '==';
+      for (const element of scope) {
+        const left = factOf(element, rule.left);
+        const right = factOf(element, rule.right);
+        // Either side may be undeclared: that element simply is not comparable.
+        if (left === null || right === null) continue;
+        const holds = rule.op === 'lte' ? left <= right : rule.op === 'gte' ? left >= right : left === right;
+        if (!holds) {
+          diagnostics.push({
+            code: 'constraint/compare-failed',
+            severity: 'error',
+            message: `Rule "${rule.id}" requires ${rule.left} ${symbol} ${rule.right} on ${element.id}, but ${left} vs ${right}.`,
+            subject: { diagramType: 'workflow', rule: rule.id, node: element.id, edge: element.id },
+            evidence: { left: rule.left, leftValue: left, op: rule.op, right: rule.right, rightValue: right },
+            supportedFixes: [`reconcile ${rule.left} and ${rule.right} on ${element.id}`],
+          });
+        }
+      }
+      continue;
+    }
+    if (rule.kind === 'require') {
+      const scope = rule.on === 'edge' ? edges : rule.on === 'lane' ? asArray(workflow.lanes) : nodes;
+      for (const element of scope) {
+        if (factOf(element, rule.field) === null) {
+          diagnostics.push({
+            code: 'constraint/missing-fact',
+            severity: 'error',
+            message: `Rule "${rule.id}" requires fact "${rule.field}" on every ${rule.on || 'node'}, but "${element.id}" does not author it.`,
+            subject: { diagramType: 'workflow', rule: rule.id, node: element.id, edge: element.id, lane: element.id },
+            evidence: { field: rule.field, on: rule.on || 'node' },
+            supportedFixes: [`author facts.${rule.field} on ${element.id}`],
+          });
+        }
+      }
+      continue;
+    }
+    const seeds = rule.seeds && typeof rule.seeds === 'object' ? rule.seeds : {};
+    for (const [laneId, seed] of Object.entries(seeds)) {
+      if (!seed || typeof seed !== 'object') continue;
+      const lane = laneById.get(laneId);
+      const crossLane = rule.scope === 'chain';
+      // A chain either stays inside one seeded lane, or follows the authored
+      // edges anywhere. Naming something that does not exist is an error, not
+      // a silent skip: a rule that quietly does nothing is worse than one that
+      // reports why it could not run.
+      if (!crossLane && !lane) {
+        diagnostics.push({
+          code: 'derive/unknown-lane',
+          severity: 'error',
+          message: `Rule "${rule.id}" seeds "${laneId}", which is neither a lane nor a scope=chain name.`,
+          subject: { diagramType: 'workflow', rule: rule.id, lane: laneId },
+          evidence: { seeds: Object.keys(seeds), lanes: [...laneById.keys()] },
+          supportedFixes: ['seed an existing lane id', 'or set scope: "chain" to follow edges across lanes'],
+        });
+        continue;
+      }
+      if (!nodeById.has(seed.start)) {
+        diagnostics.push({
+          code: 'derive/unknown-seed',
+          severity: 'error',
+          message: `Rule "${rule.id}" starts "${laneId}" from node "${seed.start}", which does not exist.`,
+          subject: { diagramType: 'workflow', rule: rule.id, lane: laneId },
+          evidence: { start: seed.start },
+          supportedFixes: ['point the seed at an existing node id'],
+        });
+        continue;
+      }
+      const laneIds = crossLane ? new Set(nodes.map((node) => node.id)) : new Set(nodes.filter((node) => node.lane === laneId).map((node) => node.id));
+      if (!crossLane && !laneIds.has(seed.start)) {
+        diagnostics.push({
+          code: 'derive/seed-outside-lane',
+          severity: 'error',
+          message: `Rule "${rule.id}" seeds lane "${laneId}" from node "${seed.start}", which is not in that lane.`,
+          subject: { diagramType: 'workflow', rule: rule.id, lane: laneId },
+          evidence: { start: seed.start },
+          supportedFixes: ['point the seed at a node of the same lane', 'or set scope: "chain"'],
+        });
+        continue;
+      }
+      // A chain usually stays inside one lane, but real processes cross lanes.
+      // scope=chain follows the authored edges wherever they go; the default
+      // keeps the walk inside the seeded lane.
+      const outgoing = new Map();
+      for (const edge of edges) {
+        if (crossLane ? true : (laneIds.has(edge.from) && laneIds.has(edge.to))) outgoing.set(edge.from, edge);
+      }
+      const isClock = typeof seed.base === 'string';
+      let value = ruleSeedValue(seed.base);
+      let current = nodeById.get(seed.start);
+      const seen = new Set();
+      while (current && !seen.has(current.id)) {
+        seen.add(current.id);
+        const nodeFact = ruleFactValue(current, rule.add && rule.add.node);
+        if (nodeFact === null && rule.missing === 'error') {
+          diagnostics.push({
+            code: 'derive/missing-fact',
+            severity: 'error',
+            message: `Rule "${rule.id}" adds node fact "${rule.add.node}", but node "${current.id}" does not author it.`,
+            subject: { diagramType: 'workflow', rule: rule.id, node: current.id, lane: laneId },
+            evidence: { fact: rule.add.node, facts: Object.keys(current.facts || {}) },
+            supportedFixes: [`author facts.${rule.add.node} on ${current.id}`, 'or drop that fact from the rule'],
+          });
+          break;
+        }
+        value += nodeFact === null ? 0 : nodeFact;
+        const leg = outgoing.get(current.id);
+        if (!leg) break;
+        const edgeFact = ruleFactValue(leg, rule.add && rule.add.edge);
+        if (edgeFact === null && rule.missing === 'error') {
+          diagnostics.push({
+            code: 'derive/missing-fact',
+            severity: 'error',
+            message: `Rule "${rule.id}" adds edge fact "${rule.add.edge}", but edge "${leg.id || `${leg.from}->${leg.to}`}" does not author it.`,
+            subject: { diagramType: 'workflow', rule: rule.id, edge: leg.id, lane: laneId },
+            evidence: { fact: rule.add.edge, from: leg.from, to: leg.to },
+            supportedFixes: [`author facts.${rule.add.edge} on that leg`],
+          });
+          break;
+        }
+        value += edgeFact === null ? 0 : edgeFact;
+        if (rule.limit && Number.isFinite(rule.limit.max) && value > rule.limit.max) {
+          diagnostics.push({
+            code: 'derive/limit-exceeded',
+            severity: 'error',
+            message: `Rule "${rule.id}" reaches ${ruleRenderValue(value, isClock, rule)} in lane "${laneId}", past its declared limit.`,
+            subject: { diagramType: 'workflow', rule: rule.id, edge: leg.id, lane: laneId },
+            evidence: { value, limit: rule.limit.max, at: leg.to },
+            supportedFixes: ['shorten the chain, raise the limit, or split the lane'],
+          });
+          break;
+        }
+        if (rule.render && rule.render.edge) {
+          const claimed = renderSlots.get(leg.id);
+          if (claimed && claimed !== rule.id) {
+            // One render slot, one contributor. Stacking two prefixes turns a
+            // readable label into two half-labels, so the second rule reports
+            // instead of silently appending.
+            diagnostics.push({
+              code: 'derive/render-slot-conflict',
+              severity: 'error',
+              message: `Edge "${leg.id || `${leg.from}->${leg.to}`}" already renders "${claimed}"; rule "${rule.id}" cannot also write its label.`,
+              subject: { diagramType: 'workflow', rule: rule.id, edge: leg.id, lane: laneId },
+              evidence: { claimedBy: claimed, edge: leg.id, from: leg.from, to: leg.to },
+              supportedFixes: [`drop the render template from rule "${rule.id}"`, 'or merge both quantities into one rule'],
+            });
+            break;
+          }
+          if (!claimed) renderSlots.set(leg.id, rule.id);
+          if (!authoredEdgeLabels.has(leg.id)) authoredEdgeLabels.set(leg.id, leg.label || '');
+          if (typeof edgeFact === 'number' && Number.isFinite(edgeFact)) edgeStepMinutes.set(leg.id, edgeFact);
+          leg.label = `${rule.render.edge.replace('{value}', ruleRenderValue(value, isClock, rule))}${leg.label || ''}`;
+        }
+        current = nodeById.get(leg.to);
+      }
+      if (rule.render && rule.render.lane) {
+        const laneClaim = renderSlots.get('lane:' + laneId);
+        if (laneClaim && laneClaim !== rule.id) {
+          // Two rules prefixing one lane title is the same defect as two rules
+          // prefixing one edge label: one render slot, one contributor.
+          diagnostics.push({
+            code: 'derive/render-slot-conflict',
+            severity: 'error',
+            message: `Lane "${laneId}" already renders "${laneClaim}"; rule "${rule.id}" cannot also write its title.`,
+            subject: { diagramType: 'workflow', rule: rule.id, lane: laneId },
+            evidence: { claimedBy: laneClaim, lane: laneId },
+            supportedFixes: [`drop the render.lane template from rule "${rule.id}"`, 'or merge both quantities into one rule'],
+          });
+        } else if (!laneClaim) {
+          renderSlots.set('lane:' + laneId, rule.id);
+          // The authored name keeps its identity; a derived clock is status that
+          // the reader controls must not swallow.
+          if (lane.readerLabel === undefined) lane.readerLabel = lane.label;
+          lane.label = `${lane.label} ${rule.render.lane.replace('{value}', ruleRenderValue(ruleSeedValue(seed.base), isClock, rule))}`;
+        }
+      }
+    }
+  }
+  return diagnostics;
+}
+
 function compileWorkflowInternal({
   workflow: inputWorkflow,
   qualityProfile,
@@ -799,6 +1164,27 @@ function compileWorkflowInternal({
     );
   }
   const workflow = canonicalReadableWorkflow(qualityResolvedWorkflow);
+  const ruleDiagnostics = applyRules(workflow);
+  if (ruleDiagnostics.length) {
+    return compilerFailure(
+      workflow.schema_version === 2 ? 'readable-v2' : 'fixed-v1',
+      ruleDiagnostics,
+    );
+  }
+  const typeDiagnostics = typeVocabularyDiagnostics(workflow);
+  if (typeDiagnostics.length) {
+    return compilerFailure(
+      workflow.schema_version === 2 ? 'readable-v2' : 'fixed-v1',
+      typeDiagnostics,
+    );
+  }
+  const readerProblems = readerDiagnostics(workflow);
+  if (readerProblems.length) {
+    return compilerFailure(
+      workflow.schema_version === 2 ? 'readable-v2' : 'fixed-v1',
+      readerProblems,
+    );
+  }
   const semanticDiagnostics = semanticContractDiagnostics(workflow);
   if (semanticDiagnostics.length) {
     return compilerFailure(
@@ -815,7 +1201,10 @@ function compileWorkflowInternal({
     ? createReadableLayout(workflow, layoutFeedback)
     : createLegacyLayout();
 
-const LEGEND_CATALOG = [
+const declaredLegendTypes = asArray(workflow.meta && workflow.meta.types);
+const LEGEND_CATALOG = declaredLegendTypes.length
+  ? declaredLegendTypes.map((type) => ({ kind: type.id, label: type.label }))
+  : [
   'frontend',
   'backend',
   'security',
@@ -3990,9 +4379,9 @@ function labelRectFor(edge, relationIndex) {
     relationIndex,
     label: edge.label,
     x: lx - width / 2,
-    y: ly - 10,
+    y: legStatesCost(edge) ? ly - 22 : ly - 10,
     width,
-    height: 14,
+    height: edgeLabelHeight(edge),
     lx,
     ly,
   };
@@ -4160,8 +4549,11 @@ function renderLane(lane, index) {
     : '';
   const labelClass = lane.variant === 'exception' ? 't-security' : 't-dim';
   const prefix = lane.variant === 'exception' ? 'EX' : String(index + 1).padStart(2, '0');
-  return `        <rect data-graph-role="structural-frame" data-composition-frame-kind="lane" data-composition-frame-id="lane-${index}" x="${layout.laneX}" y="${y}" width="${layout.laneW}" height="${height}" rx="10" class="c-lane" stroke-width="1"/>${exception}
-        <text x="${layout.laneX + 14}" y="${y + 22}" class="${labelClass}" font-size="10" font-weight="600">${prefix} / ${esc(lane.label)}</text>`;
+  // A reader who reads one lane alone needs the other lanes to leave the
+  // canvas, so the frame and its title carry their lane when solo is declared.
+  const laneId = readerDeclaration().needsLanes ? ` data-lane-id="${esc(lane.id)}"` : '';
+  return `        <rect data-graph-role="structural-frame" data-composition-frame-kind="lane" data-composition-frame-id="lane-${index}"${laneId} x="${layout.laneX}" y="${y}" width="${layout.laneW}" height="${height}" rx="10" class="c-lane" stroke-width="1"/>${exception}
+        <text${readerDeclaration().needsLanes ? ` data-lane-label="${esc(lane.id)}"` : ''} x="${layout.laneX + 14}" y="${y + 22}" class="${labelClass}" font-size="10" font-weight="600">${prefix} / ${esc(lane.label)}</text>`;
 }
 
 function renderPhase(phase) {
@@ -4183,13 +4575,236 @@ function renderGroup(group, index) {
   const cls = group.variant === 'security' ? 'c-security-group' : 'c-lane';
   const textClass = variantAccent(group.variant);
   const labelY = workflow.schema_version === 2 ? y + GROUP_LABEL_BASELINE_OFFSET : y + 14;
-  return `        <rect data-graph-role="structural-frame" data-composition-frame-kind="group" data-composition-frame-id="group-${index}" x="${span.x}" y="${y}" width="${span.width}" height="${height}" rx="9" class="${cls}" stroke-width="1"/>
+  const laneId = readerDeclaration().needsLanes ? ` data-lane-id="${esc(group.lane)}"` : '';
+  return `        <rect data-graph-role="structural-frame" data-composition-frame-kind="group" data-composition-frame-id="group-${index}"${laneId} x="${span.x}" y="${y}" width="${span.width}" height="${height}" rx="9" class="${cls}" stroke-width="1"/>
         <text x="${span.x + 10}" y="${labelY}" class="${textClass}" font-size="7" font-weight="600">${esc(group.label)}</text>`;
 }
 
+// Reader affordances are declared per document and default to nothing. The
+// renderer knows a slot's value shape, never its meaning: a pack names the
+// slot, labels it, says which view it drives, and which rule the reader's own
+// clock should replay.
+function readerDeclaration() {
+  const reader = (workflow.meta && workflow.meta.reader) || null;
+  const empty = {
+    active: false,
+    store: false,
+    slots: [],
+    view: { dim: [], stow: [], solo: false },
+    clock: null,
+    needsLanes: false,
+    suppress: [],
+  };
+  if (!reader) return empty;
+  const crafted = (slot, index) => {
+    const kind = slot.kind || 'flag';
+    const label = typeof slot.label === 'string' && slot.label.trim() ? slot.label : slot.id;
+    const cue = typeof slot.cue === 'string' && slot.cue.trim()
+      ? slot.cue
+      : { flag: '✓', point: '◎', text: '✎', time: '◔', minutes: '⏱' }[kind];
+    return {
+      id: slot.id,
+      kind,
+      label,
+      cue,
+      maxLength: Number.isInteger(slot.maxLength) ? slot.maxLength : 200,
+      order: index,
+    };
+  };
+  const target = (entry) => {
+    if (typeof entry === 'string') return { slot: entry, reach: 'self' };
+    if (entry && typeof entry === 'object' && typeof entry.slot === 'string') {
+      return { slot: entry.slot, reach: entry.reach === 'before' ? 'before' : 'self' };
+    }
+    return null;
+  };
+  const targets = (list) => asArray(list).map(target).filter(Boolean);
+  const slots = asArray(reader.slots).filter((slot) => slot && typeof slot.id === 'string').map(crafted);
+  const view = reader.view || {};
+  const dim = targets(view.dim);
+  const stow = targets(view.stow);
+  const solo = view.solo === true;
+  const raw = reader.clock && typeof reader.clock === 'object' ? reader.clock : null;
+  const clock = raw && typeof raw.rule === 'string'
+    ? {
+        rule: raw.rule,
+        anchor: typeof raw.anchor === 'string' ? raw.anchor : null,
+        at: typeof raw.at === 'string' ? raw.at : null,
+        dwell: typeof raw.dwell === 'string' ? raw.dwell : null,
+      }
+    : null;
+  return {
+    active: slots.length > 0 || dim.length > 0 || stow.length > 0 || solo,
+    store: reader.store === true,
+    slots,
+    view: { dim, stow, solo },
+    clock,
+    needsLanes: solo || [...dim, ...stow].some((entry) => entry.reach === 'before'),
+    suppress: asArray(reader.suppress),
+  };
+}
+
+// The reader's clock replays the authored rule in the browser, so the rule's
+// inputs travel with the artifact: the seeds, the per-stop and per-leg
+// minutes, and the templates the compiler rendered with.
+function readerClockBlob() {
+  const declaration = readerDeclaration();
+  const clock = declaration.clock;
+  if (!clock || !clock.rule) return null;
+  const rule = asArray(workflow.meta && workflow.meta.rules).find((entry) => entry.id === clock.rule);
+  if (!rule || rule.kind !== 'accumulate') return null;
+  const nodeFact = (rule.add && rule.add.node) || null;
+  const edgeFact = (rule.add && rule.add.edge) || null;
+  const lanes = {};
+  const laneLabels = {};
+  const nodes = {};
+  const edges = {};
+  const edgeLabels = {};
+  for (const [laneId, seed] of Object.entries(rule.seeds || {})) {
+    lanes[laneId] = { start: seed.start, base: ruleSeedValue(seed.base) };
+  }
+  for (const lane of asArray(workflow.lanes)) {
+    if (lanes[lane.id]) laneLabels[lane.id] = lane.readerLabel || lane.label;
+  }
+  for (const node of asArray(workflow.nodes)) {
+    const value = nodeFact ? ruleFactValue(node, nodeFact) : null;
+    nodes[node.id] = value === null ? 0 : value;
+  }
+  for (const edge of asArray(workflow.edges)) {
+    const key = edge.from + ' ' + edge.to;
+    const value = edgeFact ? ruleFactValue(edge, edgeFact) : null;
+    edges[key] = value === null ? 0 : value;
+    edgeLabels[key] = authoredEdgeLabels.get(edge.id) || edge.label || '';
+  }
+  const first = Object.values(rule.seeds || {})[0];
+  return {
+    limit: rule.limit && Number.isFinite(rule.limit.max) ? rule.limit.max : null,
+    lanes,
+    laneLabels,
+    nodes,
+    edges,
+    edgeLabels,
+    edgeFormat: (rule.render && rule.render.edge) || null,
+    laneFormat: (rule.render && rule.render.lane) || null,
+    wrap: rule.wrap && Number.isFinite(rule.wrap.at) ? { at: rule.wrap.at, label: rule.wrap.label || '' } : null,
+    clock: typeof (first && first.base) === 'string',
+  };
+}
+
+function renderNodeActions(node) {
+  const links = asArray(node.links);
+  if (!links.length) return '';
+  const gap = 4;
+  const chips = links.map((link) => {
+    const text = String(link.label);
+    // CJK-aware enough for 2-4 character chip labels at font-size 8.
+    const width = Math.round([...text].reduce((sum, ch) => sum + (ch.codePointAt(0) > 0x2e80 ? 8 : 4.6), 0)) + 10;
+    return { href: link.href, text, width };
+  });
+  const total = chips.reduce((sum, chip) => sum + chip.width, 0) + gap * Math.max(chips.length - 1, 0);
+  // The row is the card's footer, clear of the description line above it.
+  const baseline = node.y + node.height - 4;
+  const rowFits = total <= node.width - 12;
+  if (chips.length && !rowFits) {
+    renderProblems.push({
+      code: 'workflow/action-row-overflow',
+      severity: 'error',
+      message: `Node "${node.id}" authors ${chips.length} actions needing ${total}px, but only ${node.width - 12}px is available. The row would be dropped silently.`,
+      subject: { diagramType: 'workflow', node: node.id },
+      evidence: { actions: chips.map((chip) => chip.text), needed: total, available: node.width - 12 },
+      supportedFixes: [
+        'shorten an action label',
+        'increase the node width',
+        'or move the full action list into a card',
+      ],
+    });
+  }
+  if (chips.length && rowFits && node.tag && node.height < 78) {
+    renderProblems.push({
+      code: 'workflow/action-row-overlap',
+      severity: 'error',
+      message: `Node "${node.id}" carries a tag, a context line and ${chips.length} actions in ${node.height}px; the lines would overlap.`,
+      subject: { diagramType: 'workflow', node: node.id },
+      evidence: { height: node.height, needed: 78, actions: chips.length },
+      supportedFixes: ['give the node height: 78', 'or move the actions into a card'],
+    });
+  }
+  let row = '';
+  if (chips.length && rowFits) {
+    let x = node.cx - total / 2;
+    row = chips.map((chip) => {
+      const out = `<a href="${esc(chip.href)}" target="_blank" rel="noopener noreferrer" data-node-link="${esc(chip.text)}" aria-label="${esc(chip.text + ' ' + node.label)}"><rect x="${x.toFixed(1)}" y="${(baseline - 8).toFixed(1)}" width="${chip.width}" height="11" class="c-action-hit"/><text x="${(x + chip.width / 2).toFixed(1)}" y="${baseline.toFixed(1)}" class="t-action ${typeText(workflow, node.type) || 't-muted'}" font-size="8" text-anchor="middle">${esc(chip.text)}</text></a>`;
+      x += chip.width + gap;
+      return out;
+    }).join('');
+  }
+  // Reader state does not draw here: the viewer's own passport already opens
+  // on a click, and the runtime adds the declared slots to that surface.
+  return `\n          <g class="node-actions" data-node-actions="">${row}</g>`;
+}
+
+// Authored links, media, and reader chrome are the only sources that emit this
+// stylesheet, so diagrams without them keep byte-identical output.
+function renderLinkStyles() {
+  const anyNode = [...nodes.values()].some((node) => Array.isArray(node.links) && node.links.length);
+  const anyEdge = workflow.edges.some((edge) => Array.isArray(edge.links) && edge.links.length);
+  const anyMedia = [...nodes.values()].some((node) => node.media && node.media.href);
+  const declaration = readerDeclaration();
+  if (!anyNode && !anyEdge && !anyMedia && !declaration.suppress.length) return '';
+  return `
+        <style>
+          .c-action-hit { fill: transparent; }
+          .t-action { font-weight: 600; }
+          svg a[data-node-link]:hover .t-action { text-decoration: underline; }
+          .c-link-chip { fill: var(--mask, #0f172a); stroke: var(--panel-border, #334155); stroke-width: 1; vector-effect: non-scaling-stroke; }
+          .t-link-chip { fill: var(--text, #e2e8f0); font-weight: 700; }
+          .node-actions { opacity: 0; pointer-events: none; transition: opacity 140ms ease; }
+          svg [data-node-id]:hover .node-actions,
+          svg [data-node-id]:focus-visible .node-actions,
+          svg [data-node-id][data-focus-selected] .node-actions { opacity: 1; pointer-events: auto; }
+          svg a[data-node-link], svg a[data-edge-link] { cursor: pointer; }
+          svg a:focus-visible .c-link-chip { stroke: #34d399; stroke-width: 2; }
+          .c-media-frame { fill: var(--mask, #0f172a); stroke: var(--panel-border, #334155); stroke-width: 1; }
+          .t-media-caption { fill: var(--text-muted, #94a3b8); }
+          .node-media { display: none; pointer-events: none; }
+          svg [data-node-id]:hover .node-media,
+          svg [data-node-id]:focus-visible .node-media,
+          svg[data-focus-active]:not([data-focus-active*=" "]) [data-node-id][data-focus-selected] .node-media { display: inline; opacity: 1; }
+          @media print { .node-actions, .node-media { display: none; } }
+        </style>`;
+}
+
+// The clip path is shared because every media card uses one size. It is only
+// emitted when a node actually authors media, so other diagrams stay identical.
+function renderMediaClip() {
+  const anyMedia = [...nodes.values()].some((node) => node.media && node.media.href);
+  if (!anyMedia) return '';
+  return `
+        <defs><clipPath id="node-media-clip"><rect x="0" y="0" width="168" height="100" rx="6"/></clipPath></defs>`;
+}
+
+// An authored photo stays out of the canonical diagram until its owner is
+// hovered, focused, or selected. The card floats in diagram space, so it never
+// changes validated geometry, and diagrams without media emit nothing.
+function renderNodeMedia(node) {
+  const media = node.media;
+  if (!media || !media.href) return '';
+  const width = 168;
+  const height = 100;
+  const x = node.cx - width / 2;
+  const y = node.y + node.height + 8;
+  const caption = media.alt
+    ? `\n          <text x="${(width / 2).toFixed(1)}" y="${(height + 13).toFixed(1)}" class="t-media-caption" font-size="8" text-anchor="middle">${esc(media.alt)}</text>`
+    : '';
+  return `\n          <g class="node-media" data-node-media="" aria-hidden="true" transform="translate(${x.toFixed(1)} ${y.toFixed(1)})">
+          <rect x="-3" y="-3" width="${width + 6}" height="${height + 6}" rx="8" class="c-media-frame"/>
+          <image href="${esc(media.href)}" x="0" y="0" width="${width}" height="${height}" preserveAspectRatio="xMidYMid slice" clip-path="url(#node-media-clip)"/>${caption}
+        </g>`;
+}
+
 function renderNode(node) {
-  const fill = componentFill[node.type] || 'c-external';
-  const accent = componentText[node.type] || 't-muted';
+  const fill = typeFill(workflow, node.type) || 'c-external';
+  const accent = typeText(workflow, node.type) || 't-muted';
   const hasSub = node.sublabel != null && node.sublabel !== '';
   const labelFontSize = fittedNodeFontSize(node.label, brandLabelFitWidth(node, node.width), nodeTextFit.labelPreferred, nodeTextFit.labelMinimum);
   const sublabelFontSize = hasSub
@@ -4202,13 +4817,18 @@ function renderNode(node) {
     ? `\n        <text data-detail="fine" x="${node.cx}" y="${node.y + node.height - 12}" class="${accent}" font-size="${fittedNodeFontSize(node.tag, node.width, nodeTextFit.tagPreferred, nodeTextFit.tagMinimum)}" text-anchor="middle">${esc(node.tag)}</text>`
     : '';
   const brand = renderBrandMark(node, { x: node.x + node.width - 22, y: node.y + 6 });
+  const actions = renderNodeActions(node);
+  const mediaCard = renderNodeMedia(node);
   const passport = { kind: node.type, sublabel: node.sublabel, tag: node.tag, context: nodeContext(node), ...brandMetadataFor(node) };
-  return `        <g ${focusNodeAttrs(node.id, node.label, passport, workflow.meta.locale)}>
+  // Lane membership is only emitted when a document lets readers read one lane
+  // alone, so every other workflow keeps its previous markup.
+  const laneAttr = readerDeclaration().needsLanes ? ` data-node-lane="${esc(node.lane)}"` : '';
+  return `        <g ${focusNodeAttrs(node.id, node.label, passport, workflow.meta.locale)}${laneAttr}>
           ${focusNodeTitle(node.label, passport)}
           <rect x="${node.x}" y="${node.y}" width="${node.width}" height="${node.height}" rx="6" class="c-mask"/>
           <rect x="${node.x}" y="${node.y}" width="${node.width}" height="${node.height}" rx="6" class="${fill}"${animateAttr(workflow.meta, 'node', nodeStep(node))} stroke-width="1.5"/>
           ${renderSemanticSigil(node.type, { x: node.x + 6, y: node.y + 6 })}${brand ? `\n          ${brand}` : ''}
-          <text data-node-label=""${hasSub ? ' data-detail-anchor=""' : ''} x="${node.cx}" y="${node.y + 21}" class="t-primary" font-size="${labelFontSize}" font-weight="600" text-anchor="middle">${esc(node.label)}</text>${sub}${tag}
+          <text data-node-label=""${hasSub ? ' data-detail-anchor=""' : ''} x="${node.cx}" y="${node.y + 21}" class="t-primary" font-size="${labelFontSize}" font-weight="600" text-anchor="middle">${esc(node.label)}</text>${sub}${tag}${actions}${mediaCard}
         </g>`;
 }
 
@@ -4216,7 +4836,25 @@ function renderEdgePath(edge, index) {
   const [cls, marker] = arrowClassMap[edge.variant || 'default'] || arrowClassMap.default;
   const routed = pathFor(edge);
   const strokeWidth = edge.width || (edge.variant === 'emphasis' ? 1.8 : 1.4);
-  return `        <path ${focusEdgeAttrs(edge.from, edge.to, edge.label, index, edge.id)} data-composition-points="${routePointsValue(routed.points)}" d="${routed.d}" class="${cls}"${animateAttr(workflow.meta, 'edge', edgeSteps.get(edge))} stroke-width="${strokeWidth}" marker-end="url(#${marker})"/>`;
+  const stateMap = declaredEdgeStateMap();
+  const authored = typeof edge.state === 'string' && stateMap.has(edge.state)
+    ? ` data-edge-state="${esc(edge.state)}"`
+    : '';
+  const dashed = authored && stateMap.get(edge.state).dash === true ? ' stroke-dasharray="10 8"' : '';
+  return `        <path ${focusEdgeAttrs(edge.from, edge.to, edge.label, index, edge.id)}${authored} data-composition-points="${routePointsValue(routed.points)}" d="${routed.d}" class="${cls}"${animateAttr(workflow.meta, 'edge', edgeSteps.get(edge))} stroke-width="${strokeWidth}"${dashed} marker-end="url(#${marker})"/>`;
+}
+
+// The viewer installs its own transparent relationship rails above the edge
+// paths, so a linked edge needs its own rail in the later label layer to stay
+// clickable. This emits nothing unless the edge actually authored a link.
+function renderEdgeLinkHits() {
+  const linked = workflow.edges.filter((edge) => Array.isArray(edge.links) && edge.links.length);
+  if (!linked.length) return '';
+  return linked.map((edge) => {
+    const primary = edge.links[0];
+    const routed = pathFor(edge);
+    return `        <a href="${esc(primary.href)}" target="_blank" rel="noopener noreferrer" data-edge-link-target="${esc(primary.label)}" aria-label="${esc(primary.label)}"><path d="${routed.d}" fill="none" stroke="transparent" stroke-width="18" pointer-events="stroke" style="cursor:pointer"/></a>`;
+  }).join('\n');
 }
 
 function renderEdgeLabel(edge, index) {
@@ -4224,9 +4862,23 @@ function renderEdgeLabel(edge, index) {
   const routed = pathFor(edge);
   const [lx, ly] = workflowEdgeLabelPoint(edge, routed.points);
   const labelW = workflowLabelWidth(edge.label);
-  return `        <g data-detail="context" ${focusEdgeAttrs(edge.from, edge.to, edge.label, index, edge.id)}>
-          <rect x="${lx - labelW / 2}" y="${ly - 10}" width="${labelW}" height="14" rx="3" class="c-mask"/>
-          <text x="${lx}" y="${ly}" class="${variantAccent(edge.variant, { dashed: 't-database' })}" font-size="8" text-anchor="middle">${esc(edge.label)}</text>
+  // The line is the leg: what it costs sits as a caption under the mode, so the
+  // chip keeps its width and the journey is still what the middle reads.
+  const minutes = edge.id !== undefined && edge.id !== null ? edgeStepMinutes.get(edge.id) : undefined;
+  const spoken = typeof minutes === 'number' ? `${edge.label} · 这段 ${minutes} 分` : edge.label;
+  const caption = typeof minutes === 'number'
+    ? `\n          <text x="${lx}" y="${ly - 3}" class="t-muted" font-size="7" text-anchor="middle">${esc(`${minutes} 分`)}</text>`
+    : '';
+  const chip = legStatesCost(edge)
+    ? `\n          <text x="${lx}" y="${ly - 13}" class="${variantAccent(edge.variant, { dashed: 't-database' })}" font-size="8" text-anchor="middle">${esc(edge.label)}</text>${caption}`
+    : `\n          <rect x="${lx - labelW / 2}" y="${ly - 10}" width="${labelW}" height="14" rx="3" class="c-mask"/>
+          <text x="${lx}" y="${ly}" class="${variantAccent(edge.variant, { dashed: 't-database' })}" font-size="8" text-anchor="middle">${esc(edge.label)}</text>`;
+  const primary = Array.isArray(edge.links) && edge.links.length ? edge.links[0] : null;
+  const body = primary
+    ? `\n          <a href="${esc(primary.href)}" target="_blank" rel="noopener noreferrer" data-edge-link="${esc(primary.label)}" aria-label="${esc(primary.label + ' ' + edge.from + ' ' + edge.to)}">${chip}</a>`
+    : chip;
+  const detail = legStatesCost(edge) ? `<title>${esc(spoken)}</title>` : '';
+  return `        <g data-detail="context" ${focusEdgeAttrs(edge.from, edge.to, edge.label, index, edge.id)}>${detail}${body}
         </g>`;
 }
 
@@ -4241,14 +4893,1126 @@ function renderLegend() {
     entries: workflowLegendEntries,
     locale: workflow.meta.locale,
     layout: workflowLegendLayout(obstacles),
-    renderSwatch: (entry) => `<rect x="${entry.x}" y="${entry.baseline - 8}" width="14" height="9" rx="2" class="${componentFill[entry.kind] || 'c-external'}" stroke-width="1"/>`,
+    renderSwatch: (entry) => `<rect x="${entry.x}" y="${entry.baseline - 8}" width="14" height="9" rx="2" class="${typeFill(workflow, entry.kind) || 'c-external'}" stroke-width="1"/>`,
   });
 }
 
+// Reader state is opaque to the renderer. A document declares which slots a
+// reader may write, which view those slots drive, and which authored rule the
+// reader's own clock replays from the moment they say they are somewhere. The
+// artifact only keeps values; a document that declares none of it emits
+// nothing.
+function renderReaderRuntime() {
+  const declaration = readerDeclaration();
+  if (!declaration.active) return '';
+  const labels = (workflow.meta && workflow.meta.labels) || {};
+  const label = (key, fallback) => {
+    const value = labels[key];
+    return typeof value === 'string' && value.trim() !== '' ? value : fallback;
+  };
+  const config = {
+    store: declaration.store,
+    slots: declaration.slots.map(({ id, kind, label: slotLabel, cue, maxLength }) => ({ id, kind, label: slotLabel, cue, maxLength })),
+    view: declaration.view,
+    clock: declaration.clock ? { ...declaration.clock, data: readerClockBlob() } : null,
+    states: declaredEdgeStates().map(({ id, color, label: stateLabel }) => ({ id, color, label: stateLabel || id })),
+    lanes: declaration.needsLanes
+      ? workflow.lanes.map((lane) => {
+          const authored = lane.readerLabel || lane.label;
+          return { id: lane.id, label: authored.split(' · ')[0], full: lane.label };
+        })
+      : [],
+    labels: {
+      all: label('reader.all', 'All'),
+      solo: label('reader.solo', 'Read one lane alone'),
+      stow: label('reader.stow', 'Stow visited'),
+      restore: label('reader.restore', 'Show visited'),
+      save: label('reader.save', 'Save a copy'),
+      saveHint: label('reader.save.hint', 'the file with your moments and notes'),
+      saved: label('reader.saved', 'Saved a copy with your notes'),
+      noteAdd: label('reader.note.add', 'Write a line'),
+      noteEdit: label('reader.note.edit', 'Edit the line'),
+      noteSave: label('reader.note.save', 'Keep'),
+      noteCancel: label('reader.note.cancel', 'Cancel'),
+      notePlaceholder: label('reader.note.placeholder', 'One line about what actually happened'),
+      anchor: label('reader.anchor', 'I am here'),
+      clear: label('reader.clear', 'Back to plan'),
+      at: label('reader.at', 'Arrived at'),
+      dwell: label('reader.dwell', 'Reserve minutes'),
+      status: label('reader.status', '{count} stops left · done about {time}'),
+      over: label('reader.over', 'past the {time} ceiling'),
+    },
+  };
+  const walkSource = walkClock.toString();
+  return `
+        <script>
+(function () {
+  var config = ${JSON.stringify(config).replace(/</g, '\\u003c')};
+  // The same walk the generator used, so the reader's numbers cannot drift
+  // from the numbers this document was drawn with.
+  var walkClock = ${walkSource};
+  var ns = 'http://www.w3.org/2000/svg';
+  var STATE_ID = 'archify-reader-state';
+  var STYLE_ID = 'archify-reader-style';
+  var svg = null;
+  var candidates = document.querySelectorAll('svg');
+  for (var i = 0; i < candidates.length; i += 1) {
+    if (candidates[i].querySelector('[data-node-id]')) { svg = candidates[i]; break; }
+  }
+  if (!svg) return;
+
+  // Everything parsed before this script is source. Anything that shows up
+  // later is runtime chrome, and a saved copy must not carry it.
+  var sourceAttrs = {};
+  var sourceCount = 0;
+  Array.prototype.forEach.call(document.querySelectorAll('*'), function (element) {
+    var map = {};
+    Array.prototype.forEach.call(element.attributes, function (attr) { map[attr.name] = attr.value; });
+    sourceCount += 1;
+    sourceAttrs[String(sourceCount)] = map;
+    element.setAttribute('data-reader-known', String(sourceCount));
+  });
+
+  var key = 'archify-reader:' + (document.title || location.pathname);
+  var originalViewBox = svg.getAttribute('viewBox');
+  var state = {};
+  var expanded = {};
+  var soloLane = null;
+  var stowOn = true;
+  var bridgeLayer = null;
+  var soloButton = null;
+  var summaryElement = null;
+  var flashing = false;
+  var editing = null;
+  var renderedBlock = null;
+  var sourceLabels = {};
+
+  function readEnvelope(where) {
+    try {
+      var raw = where === 'baked'
+        ? (document.getElementById(STATE_ID) || {}).textContent
+        : localStorage.getItem(key);
+      var parsed = raw ? JSON.parse(raw) : null;
+      return parsed && typeof parsed === 'object' && parsed.data && typeof parsed.data === 'object' ? parsed : null;
+    } catch (error) { return null; }
+  }
+  var baked = readEnvelope('baked');
+  var draft = readEnvelope('draft');
+  function loadState() {
+    if (baked) state = baked.data;
+    if (draft && (!baked || (Number(draft.updatedAt) || 0) > (Number(baked.savedAt) || 0))) state = draft.data;
+  }
+  loadState();
+
+  function bucket(slotId, create) {
+    if (!state[slotId] || typeof state[slotId] !== 'object') {
+      if (!create) return null;
+      state[slotId] = {};
+    }
+    return state[slotId];
+  }
+  function valueOf(slotId, target) {
+    var values = bucket(slotId, false);
+    return values ? values[target] : undefined;
+  }
+  function marked(slotId, target) {
+    var value = valueOf(slotId, target);
+    return value === true || (typeof value === 'string' && value !== '') || (typeof value === 'number' && Number.isFinite(value));
+  }
+  function setValue(slotId, target, value) {
+    var values = bucket(slotId, true);
+    if (value === true || (typeof value === 'string' && value !== '') || (typeof value === 'number' && Number.isFinite(value))) {
+      values[target] = value;
+    } else {
+      delete values[target];
+    }
+    persist();
+    apply();
+  }
+  function persist() {
+    try {
+      localStorage.setItem(key, JSON.stringify({ v: 1, updatedAt: Date.now(), data: state }));
+    } catch (error) {}
+  }
+  function flag(element, name, on) {
+    if (on) element.setAttribute(name, '');
+    else element.removeAttribute(name);
+  }
+  function each(selector, handler) {
+    Array.prototype.forEach.call(svg.querySelectorAll(selector), handler);
+  }
+
+  var clock = config.clock && config.clock.data ? config.clock : null;
+  var declaredStates = config.states || [];
+  function stateById(id) {
+    for (var index = 0; index < declaredStates.length; index += 1) {
+      if (declaredStates[index].id === id) return declaredStates[index];
+    }
+    return null;
+  }
+  var clockData = clock ? clock.data : null;
+  var labelNodes = {};
+  var sourceLabels = {};
+  var laneTitles = [];
+
+  function pad(number) { return (number < 10 ? '0' : '') + number; }
+  function format(value) {
+    if (!clockData || !clockData.clock) return String(Math.round(value * 100) / 100);
+    var wrapAt = clockData.wrap ? clockData.wrap.at : null;
+    if (wrapAt !== null && value >= wrapAt) {
+      var rest = value - wrapAt;
+      return (clockData.wrap.label || '') + pad(Math.floor(rest / 60)) + ':' + pad(rest % 60);
+    }
+    return pad(Math.floor(value / 60)) + ':' + pad(value % 60);
+  }
+  function nowMinutes() {
+    var now = new Date();
+    return now.getHours() * 60 + now.getMinutes();
+  }
+  function adjacency() {
+    var out = {};
+    var incoming = {};
+    each('[data-edge-from][data-edge-to]', function (edge) {
+      if (String(edge.tagName).toLowerCase() !== 'path') return;
+      var from = edge.getAttribute('data-edge-from');
+      var to = edge.getAttribute('data-edge-to');
+      (out[from] || (out[from] = [])).push(to);
+      (incoming[to] || (incoming[to] = [])).push(from);
+    });
+    return { out: out, incoming: incoming };
+  }
+  function laneOf(nodeId) {
+    var node = svg.querySelector('[data-node-id="' + nodeId + '"]');
+    return node ? node.getAttribute('data-node-lane') : null;
+  }
+  function firstKey(slotId) {
+    var values = bucket(slotId, false);
+    if (!values) return null;
+    var ids = Object.keys(values);
+    return ids.length ? ids[0] : null;
+  }
+  // "Everything behind me" is the prefix of the day's own walk, never "every
+  // edge that happens to point here": a day that returns to its base is still a
+  // line with a beginning, and walking backwards through the return would hide
+  // the whole day.
+  function behind(slotId) {
+    var anchor = firstKey(slotId);
+    var set = {};
+    if (!anchor) return set;
+    var lane = laneOf(anchor);
+    var seed = clockData && lane ? clockData.lanes[lane] : null;
+    if (seed) {
+      var forward = {};
+      Object.keys(clockData.edges).forEach(function (key) {
+        var parts = key.split(' ');
+        forward[parts[0]] = parts[1];
+      });
+      var current = seed.start;
+      var guard = 0;
+      while (current && current !== anchor && guard < 64) {
+        guard += 1;
+        set[current] = true;
+        current = forward[current];
+      }
+      if (current === anchor) return set;
+      set = {};
+    }
+    var incoming = adjacency().incoming;
+    var queue = [anchor];
+    var guard = 0;
+    while (queue.length && guard < 256) {
+      guard += 1;
+      var node = queue.shift();
+      (incoming[node] || []).forEach(function (previous) {
+        if (previous === anchor || set[previous]) return;
+        if (laneOf(previous) !== lane) return;
+        set[previous] = true;
+        queue.push(previous);
+      });
+    }
+    return set;
+  }
+  function viewSet(entries) {
+    var sets = {};
+    entries.forEach(function (entry) {
+      if (entry.reach === 'before') sets[entry.slot] = behind(entry.slot);
+    });
+    return function (id) {
+      for (var index = 0; index < entries.length; index += 1) {
+        var entry = entries[index];
+        if (entry.reach === 'before') {
+          if (sets[entry.slot][id] === true) return true;
+        } else if (marked(entry.slot, id)) {
+          return true;
+        }
+      }
+      return false;
+    };
+  }
+  function dwellOf(nodeId, plan) {
+    if (!plan && clock && clock.dwell) {
+      var override = valueOf(clock.dwell, nodeId);
+      if (typeof override === 'number' && Number.isFinite(override)) return override;
+    }
+    return clockData && typeof clockData.nodes[nodeId] === 'number' ? clockData.nodes[nodeId] : 0;
+  }
+  function outgoingMap() {
+    var map = {};
+    if (!clockData) return map;
+    Object.keys(clockData.edges).forEach(function (key) {
+      var parts = key.split(' ');
+      map[parts[0]] = { to: parts[1], key: key, minutes: clockData.edges[key] };
+    });
+    return map;
+  }
+  function walk(laneId, options) {
+    if (!clockData) return null;
+    var plan = Boolean(options && options.plan);
+    var overrides = {};
+    if (!plan && clock && clock.dwell) {
+      var values = bucket(clock.dwell, false);
+      if (values) {
+        Object.keys(values).forEach(function (id) {
+          if (typeof values[id] === 'number') overrides[id] = values[id];
+        });
+      }
+    }
+    var anchor = options && options.anchor ? options.anchor : null;
+    return walkClock({
+      lanes: clockData.lanes,
+      nodes: clockData.nodes,
+      edges: clockData.edges,
+      dwells: overrides,
+      laneId: laneId,
+      anchor: anchor,
+      anchorLane: anchor ? laneOf(anchor) : null,
+      anchorTime: options ? options.time : null
+    });
+  }
+  function anchorNode() {
+    return clock ? firstKey(clock.anchor) : null;
+  }
+  function anchorTime(nodeId) {
+    if (!clock || !clock.at) return null;
+    var value = valueOf(clock.at, nodeId);
+    return typeof value === 'number' && Number.isFinite(value) ? value : null;
+  }
+  function captureLabels() {
+    each('[data-edge-from][data-edge-to]', function (group) {
+      if (String(group.tagName).toLowerCase() === 'path') return;
+      var labelKey = group.getAttribute('data-edge-from') + ' ' + group.getAttribute('data-edge-to');
+      if (!clockData || !(labelKey in clockData.edges) || labelNodes[labelKey]) return;
+      var text = group.querySelector('text');
+      if (!text) return;
+      var lines = group.querySelectorAll('text');
+      var path = null;
+      each('[data-edge-from][data-edge-to]', function (candidate) {
+        if (String(candidate.tagName).toLowerCase() !== 'path') return;
+        if (candidate.getAttribute('data-edge-from') + ' ' + candidate.getAttribute('data-edge-to') === labelKey) path = candidate;
+      });
+      labelNodes[labelKey] = {
+        text: text,
+        path: path,
+        caption: lines.length > 1 ? lines[1] : null,
+        textX: Number(text.getAttribute('x')) || 0,
+        sourceText: text.textContent,
+        sourceCaption: lines.length > 1 ? lines[1].textContent : null
+      };
+    });
+  }
+  function captureLaneTitles() {
+    Array.prototype.forEach.call(svg.querySelectorAll('[data-lane-label]'), function (element) {
+      laneTitles.push({ id: element.getAttribute('data-lane-label'), element: element, source: element.textContent });
+    });
+  }
+  function setLaneTitle(entry, value) {
+    var prefix = String(entry.source).split(' / ')[0];
+    var next = prefix + ' / ' + clockData.laneLabels[entry.id] + ' ' + clockData.laneFormat.replace('{value}', format(value));
+    if (entry.element.textContent !== next) entry.element.textContent = next;
+  }
+  function setEdgeLabel(labelKey, entry, value) {
+    // The browser renders with the rule's own template, and never widens the
+    // label: a longer line wraps onto the caption instead of pushing sideways.
+    var shown = format(value);
+    var prefix = clockData.edgeFormat ? clockData.edgeFormat.split('{value}').join(shown) : shown + ' ';
+    var first = prefix + (clockData.edgeLabels[labelKey] || '');
+    if (entry.text.textContent !== first) entry.text.textContent = first;
+    var over = clockData.limit !== null && value > clockData.limit;
+    flag(entry.text, 'data-reader-over', over);
+    if (entry.path) flag(entry.path, 'data-reader-over', over);
+    // The declared state rides on the line; the pack chose its colour and words.
+    var state = over && stateById('over') ? 'over' : null;
+    if (entry.state !== state) {
+      entry.state = state;
+      [entry.text, entry.path].forEach(function (element) {
+        if (!element) return;
+        if (state) element.setAttribute('data-edge-derived', state);
+        else element.removeAttribute('data-edge-derived');
+      });
+    }
+    if (!entry.caption) return;
+    var minutes = clockData.edges[labelKey];
+    var caption = typeof minutes === 'number' ? minutes + ' 分' : '';
+    if (entry.caption.textContent !== caption) entry.caption.textContent = caption;
+  }
+  // The reader's clock: walk every lane from its authored base, or from the
+  // stop the reader says they are at, and show what the plan said beside a
+  // moved time.
+  function renderClock() {
+    if (!clockData) return;
+    var anchor = anchorNode();
+    var time = anchor ? anchorTime(anchor) : null;
+    var anchored = anchor && time !== null ? { anchor: anchor, time: time } : null;
+    var summary = null;
+    Object.keys(clockData.lanes).forEach(function (laneId) {
+      var result = walk(laneId, anchored);
+      if (!result) return;
+      var seed = clockData.lanes[laneId];
+      var anchoredHere = anchored && laneOf(anchored.anchor) === laneId;
+      if (clockData.laneFormat && clockData.laneLabels[laneId]) {
+        laneTitles.forEach(function (entry) {
+          if (entry.id !== laneId) return;
+          var start = anchoredHere ? anchored.time : seed.base;
+          setLaneTitle(entry, start);
+        });
+      }
+      var legs = 0;
+      result.rows.forEach(function (row) {
+        if (!row.key) return;
+        legs += 1;
+        var entry = labelNodes[row.key];
+        if (entry) setEdgeLabel(row.key, entry, row.value);
+      });
+      if (anchored && laneOf(anchored.anchor) === laneId) {
+        summary = { remaining: legs, end: result.end, over: clockData.limit !== null && result.end > clockData.limit };
+      }
+    });
+    if (summaryElement && !flashing) {
+      summaryElement.textContent = summary
+        ? config.labels.status.replace('{count}', String(summary.remaining)).replace('{time}', format(summary.end))
+          + (summary.over ? ' · ' + config.labels.over.replace('{time}', format(clockData.limit)) : '')
+        : '';
+    }
+  }
+
+  function apply() {
+    var hidden = {};
+    var visible = [];
+    var isDimmed = viewSet(config.view.dim);
+    var isStowed = viewSet(config.view.stow);
+    each('[data-node-id]', function (node) {
+      var id = node.getAttribute('data-node-id');
+      var lane = node.getAttribute('data-node-lane');
+      var dim = isDimmed(id);
+      var stowed = stowOn && isStowed(id);
+      var offLane = soloLane !== null && lane !== soloLane;
+      var isHidden = stowed || offLane;
+      hidden[id] = isHidden;
+      flag(node, 'data-reader-dim', dim);
+      flag(node, 'data-reader-hidden', isHidden);
+      if (!isHidden) visible.push(node);
+    });
+    each('[data-lane-id]', function (frame) {
+      flag(frame, 'data-reader-hidden', soloLane !== null && frame.getAttribute('data-lane-id') !== soloLane);
+    });
+    each('[data-lane-label]', function (label) {
+      flag(label, 'data-reader-hidden', soloLane !== null && label.getAttribute('data-lane-label') !== soloLane);
+    });
+    var hiddenPaths = {};
+    each('[data-edge-from][data-edge-to]', function (edge) {
+      var off = hidden[edge.getAttribute('data-edge-from')] === true
+        || hidden[edge.getAttribute('data-edge-to')] === true;
+      flag(edge, 'data-reader-hidden', off);
+      if (off && String(edge.tagName).toLowerCase() === 'path') {
+        hiddenPaths[edge.getAttribute('d')] = true;
+      }
+    });
+    each('[data-edge-link-target]', function (anchor) {
+      var shape = anchor.querySelector('path');
+      flag(anchor, 'data-reader-hidden', Boolean(shape) && hiddenPaths[shape.getAttribute('d')] === true);
+    });
+    each('[data-relationship-from]', function (target) {
+      flag(target, 'data-reader-hidden',
+        hidden[target.getAttribute('data-relationship-from')] === true
+        || hidden[target.getAttribute('data-relationship-to')] === true);
+    });
+    paintBridges(hidden, visible);
+    renderClock();
+    syncChrome();
+  }
+
+  // A stowed run keeps its place in the chain: the visible neighbours are
+  // joined by a dashed span that reports how many stops it hides, and the span
+  // itself puts them back.
+  function paintBridges(hidden, visible) {
+    if (!bridgeLayer) return;
+    while (bridgeLayer.firstChild) bridgeLayer.removeChild(bridgeLayer.firstChild);
+    if (!stowOn) return;
+    var adjacencyMap = adjacency().out;
+    var drawn = {};
+    function drawBridge(fromNode, toNode, skipped) {
+      var key = fromNode.getAttribute('data-node-id') + ' ' + toNode.getAttribute('data-node-id');
+      if (drawn[key]) return;
+      drawn[key] = true;
+      var from = boxOf(fromNode);
+      var to = boxOf(toNode);
+      if (!from || !to) return;
+      var x1 = from.x + from.width;
+      var y1 = from.y + from.height / 2;
+      var x2 = to.x - 4;
+      var y2 = to.y + to.height / 2;
+      var sameRow = Math.abs(y1 - y2) < 2;
+      var middle = x2 > x1 + 24 ? (x1 + x2) / 2 : x1 + 12;
+      var d = sameRow
+        ? 'M ' + x1 + ' ' + y1 + ' H ' + x2
+        : 'M ' + x1 + ' ' + y1 + ' H ' + middle + ' V ' + y2 + ' H ' + x2;
+      var chipX = sameRow ? (x1 + x2) / 2 : middle;
+      var chipY = sameRow ? y1 : y2;
+      var group = document.createElementNS(ns, 'g');
+      group.setAttribute('class', 'reader-bridge');
+      group.setAttribute('data-reader-bridge', skipped.join(','));
+      group.setAttribute('role', 'button');
+      group.setAttribute('tabindex', '0');
+      group.setAttribute('aria-label', config.labels.restore + ' ' + skipped.length);
+      var path = document.createElementNS(ns, 'path');
+      path.setAttribute('d', d);
+      group.appendChild(path);
+      var hit = document.createElementNS(ns, 'rect');
+      hit.setAttribute('x', (chipX - 12).toFixed(1));
+      hit.setAttribute('y', (chipY - 12).toFixed(1));
+      hit.setAttribute('width', '24');
+      hit.setAttribute('height', '16');
+      hit.setAttribute('rx', '4');
+      hit.setAttribute('class', 'reader-bridge-hit');
+      group.appendChild(hit);
+      var count = document.createElementNS(ns, 'text');
+      count.setAttribute('x', chipX.toFixed(1));
+      count.setAttribute('y', (chipY - 1).toFixed(1));
+      count.setAttribute('text-anchor', 'middle');
+      count.setAttribute('class', 'reader-bridge-count');
+      count.textContent = '+' + skipped.length;
+      group.appendChild(count);
+      bridgeLayer.appendChild(group);
+    }
+    visible.forEach(function (node) {
+      var cursor = node.getAttribute('data-node-id');
+      var skipped = [];
+      for (var step = 0; step < 24; step += 1) {
+        var next = adjacencyMap[cursor];
+        if (!next || next.length !== 1) return;
+        cursor = next[0];
+        var target = svg.querySelector('[data-node-id="' + cursor + '"]');
+        if (!target || hidden[cursor] !== true) {
+          if (target && skipped.length) drawBridge(node, target, skipped);
+          return;
+        }
+        skipped.push(cursor);
+      }
+    });
+  }
+  function boxOf(node) {
+    var rect = node.querySelector('rect');
+    if (!rect) return null;
+    return {
+      x: Number(rect.getAttribute('x')) || 0,
+      y: Number(rect.getAttribute('y')) || 0,
+      width: Number(rect.getAttribute('width')) || 0,
+      height: Number(rect.getAttribute('height')) || 0
+    };
+  }
+  function expandBridge(bridge) {
+    (bridge.getAttribute('data-reader-bridge') || '').split(',').forEach(function (id) {
+      if (id) expanded[id] = true;
+    });
+    apply();
+  }
+  // Reading one lane alone gives the canvas to that lane: the others leave,
+  // and the canvas itself shrinks to the one that remains. The viewer reads
+  // the SVG viewBox live, so its camera follows the swap.
+  function setSolo(lane) {
+    soloLane = lane;
+    expanded = {};
+    apply();
+    frameLane(lane);
+  }
+  function frameLane(lane) {
+    var band = lane === null
+      ? null
+      : svg.querySelector('[data-lane-id="' + lane + '"][data-composition-frame-kind="lane"]');
+    if (band) {
+      var pad = 16;
+      var x = Number(band.getAttribute('x')) || 0;
+      var y = Number(band.getAttribute('y')) || 0;
+      var width = Number(band.getAttribute('width')) || 0;
+      var height = Number(band.getAttribute('height')) || 0;
+      svg.setAttribute('viewBox', [x - pad, y - pad, width + pad * 2, height + pad * 2].join(' '));
+      svg.style.height = 'auto';
+    } else {
+      svg.setAttribute('viewBox', originalViewBox);
+      svg.style.removeProperty('height');
+    }
+    var view = window.Archify && window.Archify.view;
+    if (view && typeof view.reset === 'function') view.reset({ automatic: true });
+  }
+
+  function chromeButton(text, handler, className) {
+    var element = document.createElement('button');
+    element.type = 'button';
+    element.className = className;
+    element.textContent = text;
+    element.addEventListener('click', handler);
+    return element;
+  }
+  // Where a control lives is part of the design: the day control joins the day
+  // list the viewer already draws, saving joins the exports, and nothing new
+  // floats above the diagram.
+  function activeLane() {
+    var lanes = {};
+    Array.prototype.forEach.call(document.querySelectorAll('[data-focus-selected][data-node-lane]'), function (node) {
+      lanes[node.getAttribute('data-node-lane')] = true;
+    });
+    var ids = Object.keys(lanes);
+    if (ids.length === 1) return ids[0];
+    if (soloLane) return soloLane;
+    var anchor = anchorNode();
+    return anchor ? laneOf(anchor) : null;
+  }
+  function syncChrome() {
+    if (!soloButton) return;
+    var soloed = soloLane !== null;
+    soloButton.textContent = soloed ? config.labels.all : config.labels.solo;
+    soloButton.disabled = !soloed && !activeLane();
+    soloButton.setAttribute('aria-pressed', String(soloed));
+    soloButton.title = soloed ? config.labels.all : config.labels.solo;
+  }
+  function flash(message) {
+    if (!summaryElement) return;
+    flashing = true;
+    summaryElement.textContent = message;
+    window.setTimeout(function () {
+      flashing = false;
+      renderClock();
+    }, 4000);
+  }
+  function buildChrome() {
+    // An embedded diagram is a figure inside another page: it gets no chrome.
+    if (document.documentElement.getAttribute('data-embed') === 'true') return;
+    var actions = document.querySelector('.guided-view-actions');
+    if (config.view.solo && actions) {
+      soloButton = chromeButton(config.labels.solo, function () {
+        setSolo(soloLane === null ? activeLane() : null);
+        syncChrome();
+      }, 'guided-view-all');
+      soloButton.setAttribute('data-reader-solo-toggle', '');
+      actions.appendChild(soloButton);
+    }
+    if (config.clock && actions) {
+      summaryElement = document.createElement('span');
+      summaryElement.className = 'guided-view-reader-summary';
+      summaryElement.setAttribute('aria-live', 'polite');
+      actions.appendChild(summaryElement);
+    }
+    if (config.store) {
+      var menu = document.getElementById('export-menu');
+      if (menu) {
+        var section = document.createElement('div');
+        section.className = 'export-menu-section';
+        section.setAttribute('role', 'group');
+        section.setAttribute('aria-label', config.labels.save);
+        var heading = document.createElement('span');
+        heading.className = 'export-menu-heading';
+        heading.setAttribute('aria-hidden', 'true');
+        heading.textContent = config.labels.save;
+        var item = document.createElement('button');
+        item.type = 'button';
+        item.setAttribute('role', 'menuitem');
+        item.setAttribute('tabindex', '-1');
+        item.setAttribute('data-reader-action', 'save');
+        var copy = document.createElement('span');
+        copy.className = 'export-item-copy';
+        var strong = document.createElement('strong');
+        strong.textContent = config.labels.save;
+        var hint = document.createElement('small');
+        hint.className = 'hint';
+        hint.textContent = config.labels.saveHint;
+        copy.appendChild(strong);
+        copy.appendChild(hint);
+        item.appendChild(copy);
+        item.addEventListener('click', function () { saveCopy(); });
+        section.appendChild(heading);
+        section.appendChild(item);
+        menu.appendChild(section);
+      }
+    }
+    syncChrome();
+  }
+  // Reader state lives in the passport the viewer already opens on a click:
+  // one row per declared slot, so a stop keeps a single detail surface.
+  function blockHost() {
+    var chip = document.getElementById('focus-chip');
+    if (!chip) return null;
+    var copy = chip.querySelector('.relationship-lens-copy') || chip;
+    var host = chip.querySelector('[data-reader-block]');
+    if (!host) {
+      host = document.createElement('div');
+      host.className = 'semantic-passport-reader';
+      host.setAttribute('data-reader-block', '');
+      copy.appendChild(host);
+    }
+    return host;
+  }
+  function selectedTarget() {
+    var active = window.Archify && Archify.focus && typeof Archify.focus.active === 'function'
+      ? Archify.focus.active()
+      : null;
+    if (typeof active === 'string') return active;
+    if (Object.prototype.toString.call(active) === '[object Array]' && active.length === 1) return active[0];
+    return null;
+  }
+  function blockSignature() {
+    var target = selectedTarget();
+    return String(target) + '|' + config.slots.map(function (slot) {
+      var value = target ? valueOf(slot.id, target) : undefined;
+      return slot.id + '=' + (value === undefined ? '' : String(value));
+    }).join('&') + '|' + String(anchorNode()) + '|' + String(anchorNode() ? anchorTime(anchorNode()) : '');
+  }
+  function minutesToClock(minutes) {
+    var shown = ((minutes % 1440) + 1440) % 1440;
+    return pad(Math.floor(shown / 60)) + ':' + pad(shown % 60);
+  }
+  function clockToMinutes(text) {
+    var parts = String(text || '').split(':');
+    if (parts.length !== 2) return null;
+    var hours = Number(parts[0]);
+    var minutes = Number(parts[1]);
+    if (!Number.isFinite(hours) || !Number.isFinite(minutes)) return null;
+    return hours * 60 + minutes;
+  }
+  // A press is not "done": it says "I am still here, count from now", and it
+  // can be pressed again whenever the estimate turns out wrong.
+  function anchorHere(target) {
+    if (!clock) return;
+    var values = bucket(clock.anchor, true);
+    Object.keys(values).forEach(function (id) { delete values[id]; });
+    values[target] = true;
+    if (clock.at) bucket(clock.at, true)[target] = nowMinutes();
+    persist();
+    renderedBlock = null;
+    apply();
+    renderBlock();
+  }
+  function clearAnchor() {
+    if (!clock) return;
+    var values = bucket(clock.anchor, true);
+    Object.keys(values).forEach(function (id) { delete values[id]; });
+    var times = bucket(clock.at, true);
+    Object.keys(times).forEach(function (id) { delete times[id]; });
+    persist();
+    renderedBlock = null;
+    apply();
+    renderBlock();
+  }
+  function fieldRow(slot, target, kind) {
+    var row = document.createElement('div');
+    row.className = 'reader-slot-row';
+    var label = document.createElement('span');
+    label.className = 'reader-slot-label';
+    label.textContent = slot.label;
+    var input = document.createElement('input');
+    input.className = 'reader-slot-input';
+    if (kind === 'time') {
+      input.type = 'time';
+      var at = anchorTime(target);
+      input.value = minutesToClock(typeof at === 'number' ? at : nowMinutes());
+      input.addEventListener('change', function () {
+        var minutes = clockToMinutes(input.value);
+        if (minutes === null) return;
+        setValue(slot.id, target, minutes);
+        renderedBlock = null;
+        renderBlock();
+      });
+    } else {
+      input.type = 'number';
+      input.min = '0';
+      input.step = '5';
+      input.value = String(Math.round(dwellOf(target, false)));
+      input.addEventListener('change', function () {
+        var minutes = Number(input.value);
+        if (!Number.isFinite(minutes) || minutes < 0) return;
+        var plan = dwellOf(target, true);
+        setValue(slot.id, target, Math.abs(minutes - plan) < 0.001 ? null : minutes);
+      });
+    }
+    row.appendChild(label);
+    row.appendChild(input);
+    return row;
+  }
+  function renderBlock() {
+    var host = blockHost();
+    if (!host) return;
+    if (editing) return;
+    var signature = blockSignature();
+    if (signature === renderedBlock) return;
+    renderedBlock = signature;
+    while (host.firstChild) host.removeChild(host.firstChild);
+    var target = selectedTarget();
+    if (!target || !config.slots.length) return;
+    config.slots.forEach(function (slot) {
+      var value = valueOf(slot.id, target);
+      if (slot.kind === 'text') {
+        var row = document.createElement('div');
+        row.className = 'reader-slot-row';
+        var field = document.createElement('span');
+        field.className = 'reader-slot-label';
+        field.textContent = slot.label;
+        row.appendChild(field);
+        var control = document.createElement('button');
+        control.type = 'button';
+        control.className = 'reader-slot-control';
+        var text = typeof value === 'string' ? value : '';
+        control.textContent = text ? config.labels.noteEdit : config.labels.noteAdd;
+        control.addEventListener('click', function () { openEditor(host, row, slot, target, text); });
+        row.appendChild(control);
+        if (text) {
+          var note = document.createElement('p');
+          note.className = 'reader-slot-note';
+          note.textContent = text;
+          row.appendChild(note);
+        }
+        host.appendChild(row);
+        return;
+      }
+      if (slot.kind === 'time') {
+        if (clock && clock.at === slot.id && anchorNode() === target) host.appendChild(fieldRow(slot, target, 'time'));
+        return;
+      }
+      if (slot.kind === 'minutes') {
+        host.appendChild(fieldRow(slot, target, 'minutes'));
+        return;
+      }
+      var control = document.createElement('button');
+      control.type = 'button';
+      control.className = 'reader-slot-control';
+      if (slot.kind === 'point') {
+        var here = anchorNode() === target;
+        control.textContent = slot.label;
+        control.setAttribute('aria-pressed', String(here));
+        control.addEventListener('click', function () { anchorHere(target); });
+        var reset = document.createElement('button');
+        reset.type = 'button';
+        reset.className = 'reader-slot-control';
+        reset.textContent = config.labels.clear;
+        reset.addEventListener('click', function () { clearAnchor(); });
+        var pair = document.createElement('div');
+        pair.className = 'reader-slot-row';
+        pair.setAttribute('data-reader-actions', '');
+        pair.appendChild(control);
+        if (here) pair.appendChild(reset);
+        host.appendChild(pair);
+        return;
+      }
+      {
+        var on = value === true;
+        control.textContent = slot.label;
+        control.setAttribute('aria-pressed', String(on));
+        control.addEventListener('click', function () { setValue(slot.id, target, on ? null : true); });
+      }
+      var line = document.createElement('div');
+      line.className = 'reader-slot-row';
+      line.appendChild(control);
+      host.appendChild(line);
+    });
+  }
+  function openEditor(host, row, slot, target, existing) {
+    editing = slot.id;
+    while (host.firstChild) host.removeChild(host.firstChild);
+    var input = document.createElement('textarea');
+    input.className = 'reader-slot-input reader-slot-textarea';
+    input.maxLength = slot.maxLength;
+    input.placeholder = config.labels.notePlaceholder;
+    input.value = existing || '';
+    var actions = document.createElement('div');
+    actions.className = 'reader-slot-actions';
+    var keep = document.createElement('button');
+    keep.type = 'button';
+    keep.textContent = config.labels.noteSave;
+    keep.addEventListener('click', function () {
+      var text = input.value.trim();
+      editing = null;
+      setValue(slot.id, target, text ? text : null);
+      renderedBlock = null;
+      renderBlock();
+    });
+    var cancel = document.createElement('button');
+    cancel.type = 'button';
+    cancel.textContent = config.labels.noteCancel;
+    cancel.addEventListener('click', function () {
+      editing = null;
+      renderedBlock = null;
+      renderBlock();
+    });
+    actions.appendChild(keep);
+    actions.appendChild(cancel);
+    row.appendChild(input);
+    row.appendChild(actions);
+    host.appendChild(row);
+    row.addEventListener('keydown', function (event) {
+      event.stopPropagation();
+      if (event.key === 'Escape') {
+        editing = null;
+        renderedBlock = null;
+        renderBlock();
+      }
+    });
+    input.focus();
+  }
+  function watchPassport() {
+    var chip = document.getElementById('focus-chip');
+    if (!chip) return;
+    var scheduled = false;
+    function schedule() {
+      if (scheduled) return;
+      scheduled = true;
+      window.setTimeout(function () {
+        scheduled = false;
+        renderBlock();
+        syncChrome();
+      }, 0);
+    }
+    var observer = new MutationObserver(schedule);
+    observer.observe(chip, { childList: true, subtree: true, attributes: true, attributeFilter: ['hidden'] });
+    observer.observe(svg, { subtree: true, attributes: true, attributeFilter: ['data-focus-selected'] });
+    window.addEventListener('hashchange', schedule);
+    renderBlock();
+  }
+
+  function restoreAttrs(element, map) {
+    if (!element || !map) return;
+    Array.prototype.slice.call(element.attributes).forEach(function (attr) {
+      element.removeAttribute(attr.name);
+    });
+    Object.keys(map).forEach(function (name) { element.setAttribute(name, map[name]); });
+  }
+  function targetName() {
+    var name = location.pathname.split('/').pop() || 'diagram.html';
+    var dot = name.toLowerCase().lastIndexOf('.html');
+    if (dot > 0) name = name.slice(0, dot);
+    return name + '.notes.html';
+  }
+  function snapshot(envelope) {
+    var clone = document.documentElement.cloneNode(true);
+    // querySelectorAll never returns the root, so the <html> element's own
+    // source attributes are restored by hand.
+    var rootIndex = clone.getAttribute('data-reader-known');
+    var stale = [];
+    Array.prototype.forEach.call(clone.querySelectorAll('*'), function (element) {
+      var index = element.getAttribute('data-reader-known');
+      if (!index) { stale.push(element); return; }
+      restoreAttrs(element, sourceAttrs[index]);
+    });
+    if (rootIndex) restoreAttrs(clone, sourceAttrs[rootIndex]);
+    stale.forEach(function (element) {
+      // The parser reaches the viewer's own scripts after this runtime runs, so
+      // they carry no marker either. A script belongs to the source wherever it
+      // sits; everything else without a marker was built at runtime.
+      if (element.tagName === 'SCRIPT') return;
+      if (element.parentNode) element.parentNode.removeChild(element);
+    });
+    // A saved copy carries the authored plan; the reader's moment travels in
+    // the state block and is replayed when the copy opens.
+    Array.prototype.forEach.call(clone.querySelectorAll('[data-edge-from][data-edge-to]'), function (group) {
+      if (String(group.tagName).toLowerCase() === 'path') return;
+      var source = sourceLabels[group.getAttribute('data-edge-from') + ' ' + group.getAttribute('data-edge-to')];
+      if (!source) return;
+      var lines = group.querySelectorAll('text');
+      if (lines.length > 0 && source.text !== undefined) lines[0].textContent = source.text;
+      if (lines.length > 1 && source.caption !== undefined && source.caption !== null) lines[1].textContent = source.caption;
+    });
+    Array.prototype.forEach.call(clone.querySelectorAll('[data-lane-label]'), function (element) {
+      var entry = laneTitles.filter(function (candidate) {
+        return candidate.id === element.getAttribute('data-lane-label');
+      })[0];
+      if (entry) element.textContent = entry.source;
+    });
+    var block = clone.querySelector('script#' + STATE_ID);
+    if (!block) {
+      block = document.createElement('script');
+      block.setAttribute('type', 'application/json');
+      block.id = STATE_ID;
+      clone.querySelector('body').appendChild(block);
+    }
+    block.textContent = JSON.stringify(envelope).replace(/</g, '\\u003c');
+    return '<!DOCTYPE html>' + clone.outerHTML;
+  }
+  function saveCopy() {
+    var envelope = { v: 1, savedAt: Date.now(), data: state };
+    var blob = new Blob([snapshot(envelope)], { type: 'text/html;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = targetName();
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+    window.setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    flash(config.labels.saved);
+  }
+
+  // Web Animations outrank even important declarations, and the viewer starts
+  // them from its own click handler, so a mark cancels again after the event
+  // and whenever the reader points at a marked node.
+  function stopAnimations(node) {
+    if (typeof node.getAnimations !== 'function') return;
+    var cancel = function () {
+      node.getAnimations().forEach(function (animation) { animation.cancel(); });
+    };
+    cancel();
+    window.setTimeout(cancel, 0);
+    window.setTimeout(cancel, 160);
+  }
+  ['pointerover', 'focusin'].forEach(function (type) {
+    document.addEventListener(type, function (event) {
+      var markedNode = event.target.closest && event.target.closest('[data-node-id][data-reader-dim]');
+      if (markedNode) stopAnimations(markedNode);
+    }, true);
+  });
+
+  // At zoom the diagram pans on pointerdown, which would swallow an authored
+  // link's click; a link stops that one event before the pan can start.
+  svg.addEventListener('pointerdown', function (event) {
+    var link = event.target.closest && event.target.closest('a[data-edge-link-target], a[data-edge-link]');
+    if (link) event.stopPropagation();
+  }, true);
+
+  bridgeLayer = document.createElementNS(ns, 'g');
+  bridgeLayer.setAttribute('class', 'reader-bridges');
+  bridgeLayer.setAttribute('data-reader-bridges', '');
+  var firstNode = svg.querySelector('[data-node-id]');
+  var nodeLayer = firstNode;
+  while (nodeLayer && nodeLayer.parentNode && nodeLayer.parentNode !== svg) nodeLayer = nodeLayer.parentNode;
+  if (nodeLayer && nodeLayer.parentNode === svg) svg.insertBefore(bridgeLayer, nodeLayer);
+  else svg.appendChild(bridgeLayer);
+  bridgeLayer.addEventListener('click', function (event) {
+    var bridge = event.target.closest && event.target.closest('[data-reader-bridge]');
+    if (!bridge) return;
+    event.preventDefault();
+    event.stopPropagation();
+    expandBridge(bridge);
+  });
+  bridgeLayer.addEventListener('keydown', function (event) {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    var bridge = event.target.closest && event.target.closest('[data-reader-bridge]');
+    if (!bridge) return;
+    event.preventDefault();
+    event.stopPropagation();
+    expandBridge(bridge);
+  });
+
+  var style = document.createElement('style');
+  style.id = STYLE_ID;
+  // The viewer writes inline opacity for focus states, so the reader marks
+  // have to win explicitly; a running CSS animation outranks an important
+  // declaration, and nodes carry the authored trace animation, so a mark
+  // stops that too. A stowed or off-lane node leaves the canvas outright.
+  style.textContent = '[data-reader-dim]{opacity:.34!important;animation:none!important}'
+    + '[data-reader-dim] text[data-node-label]{text-decoration:line-through}'
+    + '[data-reader-hidden]{display:none!important}'
+    + '.reader-bridge{cursor:pointer;outline:none}'
+    + '.reader-bridge path{fill:none;stroke:var(--text-muted,#94a3b8);stroke-width:1.1;stroke-dasharray:3 3}'
+    + '.reader-bridge-hit{fill:transparent}'
+    + '.reader-bridge-count{fill:var(--text-muted,#94a3b8);font-size:8px;font-weight:600}'
+    + '.reader-bridge:hover path,.reader-bridge:focus-visible path{stroke:#34d399;stroke-dasharray:none}'
+    + '.guided-view-reader-summary{font-size:.72rem;opacity:.85;white-space:nowrap;padding:0 6px}'
+    + '.semantic-passport-reader{margin-top:12px;padding-top:10px;border-top:1px solid rgba(148,163,184,.22);display:grid;grid-template-columns:3.5rem 1fr;gap:7px 10px;align-items:center}'
+    + '.reader-slot-row{display:contents}'
+    + '.reader-slot-row[data-reader-actions]{grid-column:1 / -1;display:flex;gap:6px}'
+    + '.reader-slot-label{font-size:.72rem;line-height:1.2;opacity:.7;text-align:right;justify-self:end}'
+    + '.reader-slot-control{justify-self:start;font-size:.78rem;line-height:1.3;padding:3px 10px}'
+    + '.reader-slot-control[aria-pressed="true"]{color:#34d399}'
+    + '.reader-slot-note{grid-column:1 / -1;margin:0;font-size:.75rem;line-height:1.5;color:#94a3b8;overflow-wrap:anywhere}'
+    + '.reader-slot-input{justify-self:start;font-size:.78rem;padding:3px 6px;background:rgba(148,163,184,.12);border:1px solid rgba(148,163,184,.35);border-radius:6px;color:inherit;font:inherit;padding:4px 6px}'
+    + '.reader-slot-input:focus{outline:none;border-color:#34d399}'
+    + '.reader-slot-input[type="time"]{width:6.4rem}'
+    + '.reader-slot-input[type="number"]{width:4.2rem}'
+    + '.reader-slot-textarea{grid-column:1 / -1;width:100%;min-height:3.2rem;resize:vertical}'
+    + '.reader-slot-actions{grid-column:1 / -1;display:flex;justify-content:flex-end;gap:6px}'
+    + '@media print{.semantic-passport-reader{display:none}}';
+  document.head.appendChild(style);
+
+  captureLabels();
+  captureLaneTitles();
+  buildChrome();
+  apply();
+  watchPassport();
+  function settle() {
+    // A saved copy keeps its state block after this script in the file, so the
+    // block may not exist yet while parsing: read it once the document is done.
+    if (!baked) {
+      baked = readEnvelope('baked');
+      if (baked) loadState();
+    }
+    apply();
+    renderBlock();
+  }
+  if (document.readyState === 'complete') window.setTimeout(settle, 0);
+  else window.addEventListener('load', function () { window.setTimeout(settle, 0); });
+  window.setTimeout(settle, 400);
+})();
+        </script>`;
+}
+
+function suppressedAttr() {
+  const suppress = readerDeclaration().suppress;
+  return suppress.length ? ` data-suppressed="${esc(suppress.join(' '))}"` : '';
+}
+
+function declaredEdgeStates() {
+  return asArray(workflow.meta && workflow.meta.edgeStates).filter((state) => state && typeof state.id === 'string');
+}
+
+// A line state is the pack's: it names the colour slot and the words. The core
+// only knows which condition it can report (today: a day past its ceiling).
+// The paint belongs to the authored line alone. Viewer chrome clones edge
+// geometry into its own overlays (hit rails, focus rails, flow pulses), and a
+// clone keeps whatever attributes it was not told to drop while its class is
+// replaced, so every selector names the arrow class the line was drawn with:
+// a state paints the line and its words, never a copy of them. Stroke only —
+// a leg is a line, and filling one would paint the channel it routes through.
+function renderEdgeStateStyles() {
+  const states = declaredEdgeStates();
+  if (!states.length) return '';
+  const lineClasses = Object.keys(arrowClassMap).map((variant) => arrowClassMap[variant][0]);
+  const emitted = [];
+  for (const state of states) {
+    const slot = PALETTE_STROKE_VAR[state.color] || 'external';
+    for (const attribute of ['data-edge-state', 'data-edge-derived']) {
+      const key = `[${attribute}="${esc(state.id)}"]`;
+      const line = lineClasses.map((cls) => `svg path.${cls}${key}`).join(",\n          ");
+      emitted.push(`          ${line} { stroke: var(--${slot}-stroke) !important; }`);
+      // Authored words keep their own accent; only a state the reader's replay
+      // derived paints the leg's words as well, so a moved leg reads as moved.
+      if (attribute === 'data-edge-derived') {
+        emitted.push(`          svg text${key} { fill: var(--${slot}-stroke) !important; }`);
+      }
+      if (state.dash === true) {
+        emitted.push(`          ${line} { stroke-dasharray: 10 8 !important; }`);
+      }
+    }
+  }
+  return `
+        <style>
+${emitted.join('\n')}
+        </style>`;
+}
+
+function declaredEdgeStateMap() {
+  return new Map(declaredEdgeStates().map((state) => [state.id, state]));
+}
+
 function renderSvg() {
-  return `      <svg viewBox="0 0 ${viewBox[0]} ${viewBox[1]}" ${svgRootAttrs(workflow.meta, resolvedQualityProfile)}>
-${svgAccessibleText(workflow.meta, 'workflow')}
-${renderDefinitions()}
+  return `      <svg viewBox="0 0 ${viewBox[0]} ${viewBox[1]}" ${svgRootAttrs(workflow.meta, resolvedQualityProfile)}${suppressedAttr()}>
+${svgAccessibleText(workflow.meta, 'workflow')}${renderLinkStyles()}${renderEdgeStateStyles()}
+${renderDefinitions()}${renderMediaClip()}
 
         <!-- Background Grid -->
         <rect width="100%" height="100%" fill="url(#grid)" />
@@ -4269,7 +6033,7 @@ ${workflow.edges.map(renderEdgePath).join('\n')}
 ${[...nodes.values()].map(renderNode).join('\n\n')}
 
         <!-- Edge labels -->
-${workflow.edges.map(renderEdgeLabel).join('\n')}
+${workflow.edges.map(renderEdgeLabel).join('\n')}${renderEdgeLinkHits()}
 
         <!-- Legend -->
 ${renderLegend()}
@@ -4282,7 +6046,11 @@ ${renderLegend()}
     validateReadablePinnedGeometry();
     validateWorkflow();
     finalizeReadableViewBox();
+    renderProblems.length = 0;
     const svg = renderSvg();
+    if (renderProblems.length) {
+      return compilerFailure(layout.contract, renderProblems.map((problem) => ({ ...problem })));
+    }
     const receipt = {
       contract: layout.contract,
       viewBox: [...viewBox],
@@ -4306,11 +6074,13 @@ ${renderLegend()}
       labels: workflow.edges.flatMap((edge) => {
         if (!edge.label || !nodes.has(edge.from) || !nodes.has(edge.to)) return [];
         const [x, y] = workflowEdgeLabelPoint(edge, pathFor(edge).points);
-        return [{ edge: edge.id ?? null, label: edge.label, x, y, width: workflowLabelWidth(edge.label), height: 14 }];
+        return [{ edge: edge.id ?? null, label: edge.label, x, y, width: workflowLabelWidth(edge.label), height: edgeLabelHeight(edge) }];
       }),
       diagnostics: [],
     };
-    return { ok: true, svg, receipt };
+    const suppressed = readerDeclaration().suppress;
+    if (suppressed.length) receipt.suppressed = [...suppressed];
+    return { ok: true, svg, receipt, runtime: renderReaderRuntime() };
   } catch (error) {
     if (!Array.isArray(error?.archifyDiagnostics)) throw error;
     const diagnostics = error.archifyDiagnostics.map((diagnostic) => ({ ...diagnostic }));
