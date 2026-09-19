@@ -73,6 +73,18 @@ test('two rules writing one lane title report the same way', () => {
   assert.ok(codes(spec).includes('derive/render-slot-conflict'));
 });
 
+test('two rules writing one caption report a conflict in either order', () => {
+  const first = { ...BASE_RULE, render: { edge: '{value} ', caption: 'FIRST {value}' } };
+  const second = { ...BASE_RULE, id: 'second', render: { caption: 'SECOND {value}' } };
+  for (const rules of [[first, second], [second, first]]) {
+    const spec = document({ meta: { rules } });
+    const result = validate(spec);
+    assert.notEqual(result.status, 0, 'a claimed caption must not silently discard another rule');
+    assert.match(result.output, /derive\/render-slot-conflict/);
+    assert.match(result.output, /caption/);
+  }
+});
+
 test('a missing fact errors only when the rule asks it to', () => {
   // A field exists only once declared: the node simply never declares it.
   const undeclared = (spec) => {

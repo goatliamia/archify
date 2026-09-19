@@ -1,7 +1,6 @@
-// One walk, two hosts. The compiler derives a document's plan with it; the
-// artifact embeds this same function's source and replays it from the reader's
-// own moment. One implementation means the numbers a reader sees can be
-// checked from the document alone, instead of trusted because someone looked.
+// The artifact replays the compiler's selected edges from the reader's own
+// moment. The walk is also callable from Node to check its arithmetic against
+// the compiled plan.
 //
 // Self-contained by contract: the compiler stringifies this function into the
 // artifact, so it may not import, close over a scope, or use syntax that does
@@ -49,4 +48,26 @@ export function walkClock(input) {
     if (anchored && current === seed.start) { stop = 'base'; break; }
   }
   return { rows: rows, end: value, last: current, stop: stop, anchored: anchored };
+}
+
+// Both hosts use this formatter. Keep it self-contained so the artifact can
+// embed it alongside the walk without importing any runtime dependencies.
+export function renderClockTemplate(template, value, options = {}) {
+  let shown = String(Math.round(value * 100) / 100);
+  if (options.clock) {
+    const wrap = options.wrap;
+    const wrapped = wrap && wrap.at && value >= wrap.at;
+    const minutes = wrapped ? value - wrap.at : value;
+    shown = (wrapped ? wrap.label || '' : '')
+      + String(Math.floor(minutes / 60)).padStart(2, '0') + ':'
+      + String(minutes % 60).padStart(2, '0');
+  }
+  const band = (options.bands || []).find(entry => (
+    value >= entry.from && value <= (entry.wraps ? 1440 + entry.to : entry.to)
+  ));
+  return String(template)
+    .replace('{value}', shown)
+    .replace('{band}', band ? band.entry.label : '')
+    .replace('{minutes}', typeof options.minutes === 'number' && Number.isFinite(options.minutes)
+      ? String(options.minutes) : '');
 }

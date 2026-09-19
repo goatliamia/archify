@@ -140,6 +140,7 @@ test('a declared clock carries the rule inputs the browser replays', () => {
   assert.deepEqual(clock.data.lanes, { l1: { start: 'a', base: 540 }, l2: { start: 'd', base: 600 } });
   assert.equal(clock.data.nodes.b, 20);
   assert.equal(clock.data.edges['a b'], 30);
+  assert.deepEqual(clock.data.routes, { l1: { 'a b': 30, 'b c': 30 }, l2: {} });
   assert.equal(clock.data.edgeLabels['a b'], 'one');
   assert.equal(clock.data.edgeFormat, '{value} ');
   assert.equal(clock.data.clock, true);

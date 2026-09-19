@@ -1,5 +1,5 @@
 import { esc, renderDefinitions, renderSemanticSigil, textUnits } from '../shared/utils.mjs';
-import { walkClock } from '../shared/clock-walk.mjs';
+import { renderClockTemplate, walkClock } from '../shared/clock-walk.mjs';
 import { animateAttr, focusEdgeAttrs, focusNodeAttrs, focusNodeTitle, svgAccessibleText, svgRootAttrs } from '../shared/cli.mjs';
 import {
   throwDiagnosticError,
@@ -788,12 +788,18 @@ function ruleSeedValue(base) {
 }
 
 function ruleRenderValue(value, isClock, rule) {
-  if (!isClock) return String(Math.round(value * 100) / 100);
-  const wrapAt = rule.wrap && Number.isFinite(rule.wrap.at) ? rule.wrap.at : null;
-  const shown = wrapAt && value >= wrapAt
-    ? `${rule.wrap.label || ''}${String(Math.floor((value - wrapAt) / 60)).padStart(2, '0')}:${String((value - wrapAt) % 60).padStart(2, '0')}`
-    : `${String(Math.floor(value / 60)).padStart(2, '0')}:${String(value % 60).padStart(2, '0')}`;
-  return shown;
+  return renderClockTemplate('{value}', value, { clock: isClock, wrap: rule.wrap });
+}
+
+// Select once by the rule's contract, for both compilation and reader replay.
+// A lane rule cannot consume a cross-lane edge; an explicit chain can.
+function ruleOutgoingEdges(nodes, edges, laneId, scope) {
+  const inLane = new Set(nodes.filter(node => node.lane === laneId).map(node => node.id));
+  const outgoing = new Map();
+  for (const edge of edges) {
+    if (scope === 'chain' || (inLane.has(edge.from) && inLane.has(edge.to))) outgoing.set(edge.from, edge);
+  }
+  return outgoing;
 }
 
 // The core keeps seven palette slots; the vocabulary of kinds is the
@@ -1044,18 +1050,15 @@ function applyRules(workflow) {
       // A chain usually stays inside one lane, but real processes cross lanes.
       // scope=chain follows the authored edges wherever they go; the default
       // keeps the walk inside the seeded lane.
-      const outgoing = new Map();
-      for (const edge of edges) {
-        if (crossLane ? true : (laneIds.has(edge.from) && laneIds.has(edge.to))) outgoing.set(edge.from, edge);
-      }
+      const outgoing = ruleOutgoingEdges(nodes, edges, laneId, rule.scope);
       const isClock = typeof seed.base === 'string';
       if (isClock) clockValuesDerived = true;
       // {value} is the derived number, {band} the word its stretch of the clock
       // carries. A template asking for a band the document never declared, or a
       // value no band covers, is reported rather than left blank.
-      const renderTemplate = (template, value) => {
-        let next = String(template).replace('{value}', ruleRenderValue(value, isClock, rule));
-        if (!next.includes('{band}')) return next;
+      const renderTemplate = (template, value, minutes) => {
+        const render = () => renderClockTemplate(template, value, { clock: isClock, wrap: rule.wrap, bands: bandWords, minutes });
+        if (!String(template).includes('{band}')) return render();
         if (!bandWords.length) {
           if (!bandWarning.missing) {
             bandWarning.missing = true;
@@ -1068,7 +1071,7 @@ function applyRules(workflow) {
               supportedFixes: ['declare meta.bands with a label and two clock ends', 'or render the value alone'],
             });
           }
-          return next.replace('{band}', '');
+          return render();
         }
         const band = clockBandAt(bandWords, value);
         if (!band) {
@@ -1084,9 +1087,9 @@ function applyRules(workflow) {
               supportedFixes: ['widen a band to cover this value', 'or declare the band it belongs to'],
             });
           }
-          return next.replace('{band}', '');
+          return render();
         }
-        return next.replace('{band}', band.entry.label);
+        return render();
       };
       let value = ruleSeedValue(seed.base);
       let current = nodeById.get(seed.start);
@@ -1159,10 +1162,20 @@ function applyRules(workflow) {
         }
         if (rule.render && rule.render.caption) {
           const claimed = renderSlots.get('caption:' + leg.id);
+          if (claimed && claimed !== rule.id) {
+            diagnostics.push({
+              code: 'derive/render-slot-conflict',
+              severity: 'error',
+              message: `Edge "${leg.id || `${leg.from}->${leg.to}`}" already renders caption "${claimed}"; rule "${rule.id}" cannot also write its caption.`,
+              subject: { diagramType: 'workflow', rule: rule.id, edge: leg.id, lane: laneId },
+              evidence: { claimedBy: claimed, slot: 'caption', edge: leg.id, from: leg.from, to: leg.to },
+              supportedFixes: [`drop render.caption from rule "${rule.id}"`, 'or merge both quantities into one rule'],
+            });
+            break;
+          }
           if (!claimed) {
             renderSlots.set('caption:' + leg.id, rule.id);
-            const minutes = typeof edgeFact === 'number' && Number.isFinite(edgeFact) ? String(edgeFact) : '';
-            edgeCaptionText.set(leg.id, renderTemplate(rule.render.caption, value).replace('{minutes}', minutes).trim());
+            edgeCaptionText.set(leg.id, renderTemplate(rule.render.caption, value, edgeFact).trim());
           }
         }
         if (isClock && !nodeArrivalValues.has(leg.to)) nodeArrivalValues.set(leg.to, value);
@@ -5012,7 +5025,7 @@ function readerDeclaration() {
     slots,
     view: { dim, stow, solo },
     clock,
-    needsLanes: solo || [...dim, ...stow].some((entry) => entry.reach === 'before'),
+    needsLanes: Boolean(clock) || solo || [...dim, ...stow].some((entry) => entry.reach === 'before'),
     suppress: asArray(reader.suppress),
   };
 }
@@ -5033,8 +5046,13 @@ function readerClockBlob() {
   const nodes = {};
   const edges = {};
   const edgeLabels = {};
+  const routes = {};
   for (const [laneId, seed] of Object.entries(rule.seeds || {})) {
     lanes[laneId] = { start: seed.start, base: ruleSeedValue(seed.base) };
+    const outgoing = ruleOutgoingEdges(asArray(workflow.nodes), asArray(workflow.edges), laneId, rule.scope);
+    routes[laneId] = Object.fromEntries([...outgoing.values()].map(edge => [
+      edge.from + ' ' + edge.to, edgeFact ? ruleFactValue(edge, edgeFact) : 0,
+    ]));
   }
   for (const lane of asArray(workflow.lanes)) {
     if (lanes[lane.id]) laneLabels[lane.id] = lane.readerLabel || lane.label;
@@ -5056,9 +5074,13 @@ function readerClockBlob() {
     laneLabels,
     nodes,
     edges,
+    routes,
     edgeLabels,
     edgeFormat: (rule.render && rule.render.edge) || null,
     laneFormat: (rule.render && rule.render.lane) || null,
+    captionFormat: (rule.render && rule.render.caption)
+      || i18nText(workflow.meta.locale, 'workflow.leg.cost', { value: '{minutes}' }, workflow.meta.labels),
+    bands: clockBandList((workflow.meta && workflow.meta.bands) || []).bands,
     wrap: rule.wrap && Number.isFinite(rule.wrap.at) ? { at: rule.wrap.at, label: rule.wrap.label || '' } : null,
     clock: typeof (first && first.base) === 'string',
   };
@@ -5328,9 +5350,9 @@ function renderReaderRuntime() {
         <script>
 (function () {
   var config = ${JSON.stringify(config).replace(/</g, '\\u003c')};
-  // The same walk the generator used, so the reader's numbers cannot drift
-  // from the numbers this document was drawn with.
+  // Replay the compiler-selected routes with the shared template formatter.
   var walkClock = ${walkSource};
+  var renderClockTemplate = ${renderClockTemplate.toString()};
   var ns = 'http://www.w3.org/2000/svg';
   var STATE_ID = 'archify-reader-state';
   var STYLE_ID = 'archify-reader-style';
@@ -5439,13 +5461,7 @@ function renderReaderRuntime() {
 
   function pad(number) { return (number < 10 ? '0' : '') + number; }
   function format(value) {
-    if (!clockData || !clockData.clock) return String(Math.round(value * 100) / 100);
-    var wrapAt = clockData.wrap ? clockData.wrap.at : null;
-    if (wrapAt !== null && value >= wrapAt) {
-      var rest = value - wrapAt;
-      return (clockData.wrap.label || '') + pad(Math.floor(rest / 60)) + ':' + pad(rest % 60);
-    }
-    return pad(Math.floor(value / 60)) + ':' + pad(value % 60);
+    return renderClockTemplate('{value}', value, clockData || {});
   }
   function nowMinutes() {
     var now = new Date();
@@ -5485,7 +5501,7 @@ function renderReaderRuntime() {
     var seed = clockData && lane ? clockData.lanes[lane] : null;
     if (seed) {
       var forward = {};
-      Object.keys(clockData.edges).forEach(function (key) {
+      Object.keys(clockData.routes[lane]).forEach(function (key) {
         var parts = key.split(' ');
         forward[parts[0]] = parts[1];
       });
@@ -5563,7 +5579,7 @@ function renderReaderRuntime() {
     return walkClock({
       lanes: clockData.lanes,
       nodes: clockData.nodes,
-      edges: clockData.edges,
+      edges: clockData.routes[laneId],
       dwells: overrides,
       laneId: laneId,
       anchor: anchor,
@@ -5609,14 +5625,13 @@ function renderReaderRuntime() {
   }
   function setLaneTitle(entry, value) {
     var prefix = String(entry.source).split(' / ')[0];
-    var next = prefix + ' / ' + clockData.laneLabels[entry.id] + ' ' + clockData.laneFormat.replace('{value}', format(value));
+    var next = prefix + ' / ' + clockData.laneLabels[entry.id] + ' ' + renderClockTemplate(clockData.laneFormat, value, clockData);
     if (entry.element.textContent !== next) entry.element.textContent = next;
   }
   function setEdgeLabel(labelKey, entry, value) {
     // The browser renders with the rule's own template, and never widens the
     // label: a longer line wraps onto the caption instead of pushing sideways.
-    var shown = format(value);
-    var prefix = clockData.edgeFormat ? clockData.edgeFormat.split('{value}').join(shown) : shown + ' ';
+    var prefix = clockData.edgeFormat ? renderClockTemplate(clockData.edgeFormat, value, clockData) : '';
     var first = prefix + (clockData.edgeLabels[labelKey] || '');
     if (entry.text.textContent !== first) entry.text.textContent = first;
     var over = clockData.limit !== null && value > clockData.limit;
@@ -5634,7 +5649,9 @@ function renderReaderRuntime() {
     }
     if (!entry.caption) return;
     var minutes = clockData.edges[labelKey];
-    var caption = typeof minutes === 'number' ? minutes + ' 分' : '';
+    var caption = renderClockTemplate(clockData.captionFormat, value, {
+      clock: clockData.clock, wrap: clockData.wrap, bands: clockData.bands, minutes: minutes
+    }).trim();
     if (entry.caption.textContent !== caption) entry.caption.textContent = caption;
   }
   // The reader's clock: walk every lane from its authored base, or from the
