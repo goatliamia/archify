@@ -63,6 +63,34 @@ const DOCUMENT = {
   cards: [],
 };
 
+test('a node named after an inherited member is still just a node', () => {
+  const result = walkClock({
+    // The host parses a clock string before the walk; this case feeds it minutes.
+    lanes: { l1: { start: 'constructor', base: 9 * 60 } },
+    nodes: { constructor: 10, toString: 5 },
+    edges: { 'constructor toString': 20 },
+    laneId: 'l1',
+  });
+  assert.equal(result.stop, 'end', 'a plain object would read Object.prototype.constructor as already seen');
+  assert.equal(result.rows.length, 2);
+  assert.equal(result.rows[0].node, 'constructor');
+  assert.equal(result.rows[0].to, 'toString');
+  assert.equal(result.rows[1].node, 'toString');
+  assert.equal(result.end, 9 * 60 + 10 + 20 + 5);
+});
+
+test('a chain longer than any fixed guard still reports every stop', () => {
+  const nodes = {};
+  const edges = {};
+  const count = 80;
+  for (let index = 0; index < count; index += 1) nodes['n' + index] = 1;
+  for (let index = 0; index < count - 1; index += 1) edges['n' + index + ' n' + (index + 1)] = 2;
+  const result = walkClock({ lanes: { l1: { start: 'n0', base: 0 } }, nodes, edges, laneId: 'l1' });
+  assert.equal(result.stop, 'end', 'a fixed cap would report a normal end for a truncated walk');
+  assert.equal(result.rows.length, count);
+  assert.equal(result.end, count * 1 + (count - 1) * 2);
+});
+
 function fixtureFile(document) {
   const file = path.join(tmp, 'clock-' + Math.random().toString(36).slice(2) + '.workflow.json');
   fs.writeFileSync(file, JSON.stringify(document, null, 2));
@@ -82,7 +110,11 @@ function render(document) {
 function clockInput(document, laneId) {
   const rule = document.meta.rules[0];
   const nodes = {};
-  document.nodes.forEach((node) => { nodes[node.id] = node.facts[rule.add.node]; });
+  // Absent facts are no contribution, exactly as the compiler reads them.
+  document.nodes.forEach((node) => {
+    const bag = node.facts || {};
+    if (typeof bag[rule.add.node] === 'number') nodes[node.id] = bag[rule.add.node];
+  });
   // A lane walk stays inside its lane unless the rule declares scope "chain",
   // which is the same restriction the compiler applies when it derives.
   const inLane = new Set(document.nodes.filter((node) => node.lane === laneId).map((node) => node.id));

@@ -61,13 +61,20 @@ test('a declared effect leaves the drawing and is recorded in the receipt', () =
 });
 
 test('the chrome that owns the effect is the one that reads the declaration', () => {
-  // One creation site, one consumer, both guarded: an unstated document builds
-  // the chrome exactly as before, and a declared one builds everything else.
-  assert.equal((template.match(/effectSuppressed\('chapter_delta'\)/g) || []).length, 1);
+  // Two consumers — the index is built and then kept in sync — and both consult
+  // the declaration, so a suppressed effect writes no delta output at all: not
+  // the span, not the counts, not the aria label, not the tooltip.
+  assert.equal((template.match(/effectSuppressed\('chapter_delta'\)/g) || []).length, 2);
   assert.match(template, /if \(!effectSuppressed\('chapter_delta'\)\) \{/);
+  assert.match(template, /\} else if \(effectSuppressed\('chapter_delta'\)\) \{/);
   assert.match(template, /if \(delta\) button\.appendChild\(delta\);/);
   assert.match(template, /if \(deltaLabel\) \{/);
   assert.equal((template.match(/var suppressedEffects = /g) || []).length, 1);
+  const suppressedBranch = /\} else if \(effectSuppressed\('chapter_delta'\)\) \{([\s\S]*?)\n          \} else \{/.exec(template);
+  assert.ok(suppressedBranch, 'the sync path must branch on the declaration');
+  assert.doesNotMatch(suppressedBranch[1], /setAttribute\('data-chapter-delta'/);
+  assert.match(suppressedBranch[1], /removeAttribute\('data-chapter-delta'\)/);
+  assert.match(suppressedBranch[1], /viewer\.guided\.chapter\.open/);
 });
 
 test('the delivery receipt says what the delivered file left out', () => {

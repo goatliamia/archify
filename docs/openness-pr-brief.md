@@ -27,7 +27,7 @@ The delivery receipt gains one optional field: `suppressed: [...]` — read back
 ## What is *not* added
 
 - **No domain noun in the core.** The core learns verbs (`accumulate`, `compare`, `require`, "place by value", "name by value"), never "hotel", "morning" or "deadline". Every word an artifact shows comes from the document (`meta.types`, `meta.labels`, `meta.bands`, node/edge copy) or from the renderer's own `en`/`zh-CN` catalog, which already existed. This branch even moved two hardcoded cost strings out of the compiler and into that catalog (`workflow.leg.cost`, `workflow.leg.spoken`), where `meta.labels` can restate them.
-- **No new rendering path** for documents that declare nothing: they take the same code path, statement for statement.
+- **No new rendering path** for documents that declare nothing: every added branch is guarded by a declaration, so the rendered output is unchanged — the byte comparisons below are what establish that, and the guard table only shows where those branches return.
 
 ## Does anything that existed change?
 

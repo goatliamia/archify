@@ -400,12 +400,12 @@
           "fromCol": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 63
+            "maximum": 5
           },
           "toCol": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 63
+            "maximum": 5
           },
           "from": {
             "type": "string",

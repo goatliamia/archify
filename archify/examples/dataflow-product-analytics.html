@@ -9678,6 +9678,21 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
               label: views[index].label,
               count: views[index].focus.length
             });
+          } else if (effectSuppressed('chapter_delta')) {
+            // The document asked for no chapter delta: the button keeps the copy
+            // it was built with, and nothing derived from the delta reaches the
+            // DOM, aria or a tooltip. A suppressed effect owns all of its output.
+            stops.hidden = false;
+            button.removeAttribute('data-chapter-delta');
+            button.setAttribute('aria-label', viewerText('viewer.guided.chapter.open', {
+              index: index + 1,
+              total: views.length,
+              label: views[index].label,
+              count: views[index].focus.length
+            }));
+            button.title = views[index].label + ' \u2014 ' + (views[index].note || viewerText('viewer.guided.chapter.selectedNodes', {
+              count: views[index].focus.length
+            }));
           } else {
             var delta = chapterDelta(activeIndex >= 0 ? views[activeIndex] : null, views[index]);
             var compact = '=' + delta.stay.length + ' +' + delta.enter.length + ' \u2212' + delta.leave.length;

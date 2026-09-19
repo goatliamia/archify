@@ -13,7 +13,9 @@ export function walkClock(input) {
   var overrides = input.dwells || null;
   var seed = lanes[input.laneId];
   if (!seed) return null;
-  var outgoing = {};
+  // A document may name a node "constructor" or "toString"; a plain object would
+  // answer with the inherited member instead of the document's own entry.
+  var outgoing = Object.create(null);
   Object.keys(edges).forEach(function (key) {
     var parts = key.split(' ');
     outgoing[parts[0]] = { to: parts[1], key: key, minutes: edges[key] };
@@ -22,13 +24,13 @@ export function walkClock(input) {
   var current = anchored ? input.anchor : seed.start;
   var value = anchored ? input.anchorTime : seed.base;
   var rows = [];
-  var seen = {};
-  var guard = 0;
+  var seen = Object.create(null);
   var stop = 'end';
-  while (current && guard < 64) {
+  // A chain has no length limit and needs none: a cycle is what stops it, and
+  // the schema does not cap a lane's node count.
+  while (current) {
     if (seen[current]) { stop = 'cycle'; break; }
     seen[current] = true;
-    guard += 1;
     var authored = typeof nodes[current] === 'number' ? nodes[current] : null;
     var nodeFact = overrides && typeof overrides[current] === 'number' ? overrides[current] : authored;
     value += nodeFact === null ? 0 : nodeFact;

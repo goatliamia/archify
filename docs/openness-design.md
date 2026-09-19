@@ -16,7 +16,7 @@ What gets opened is **extension points and a check protocol**, not a domain voca
 | Vocabulary | whether a document names its own kinds and wording | done |
 | Provenance | whether a fact names its origin and collection time | rejected as a reader-facing field, see §7 |
 
-The other half is subtraction: **the core collects defaults and hands out seams.** Nothing is checked, nothing is required, and a document that declares nothing renders byte-for-byte as before.
+The other half is subtraction: **the core collects defaults and hands out seams.** Nothing a document does not declare is required or acted on — a rule checks only the fields it names, a seam is inert until it is filled — and a document that declares nothing renders byte-for-byte as before.
 
 ## 2. Elegant change versus heavy change
 
@@ -109,7 +109,7 @@ Judgement for anything new: **is it a noun or a verb?** A noun must answer what 
 
 ## 8. Facts and rules
 
-The core knows no domain field names. A document declares **facts** (numbers on nodes, edges, or lanes) and **rules**; the compiler derives and checks.
+The core knows no domain field names. A document declares **facts** (numbers on nodes and edges) and **rules**; the compiler derives and checks.
 
 - `accumulate` — one declared start and base value per chain, adding named facts along authored edges, rendered through a template. `scope: "chain"` follows edges across lanes.
 - `window`, `sum`, `compare`, `require` — range, balancing total, two-field relation, coverage.

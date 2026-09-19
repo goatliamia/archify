@@ -320,4 +320,20 @@ test('a frame that declares no extent at all is reported', () => {
   assert.ok(codes(document({ phases: BANDS, groups }), 'frame-extent').includes('workflow/group-extent-missing'));
 });
 
+test('a schema-v1 node with no column is named too', () => {
+  const legacy = {
+    schema_version: 1,
+    diagram_type: 'workflow',
+    meta: { title: 'Legacy fixture', viewBox: [720, 400] },
+    lanes: [{ id: 'l1', label: 'Lane' }],
+    nodes: [
+      { id: 'a', lane: 'l1', type: 'frontend', label: 'A' },
+      { id: 'b', lane: 'l1', col: 1, type: 'backend', label: 'B' },
+    ],
+    edges: [{ id: 'ab', from: 'a', to: 'b', label: 'go' }],
+    cards: [],
+  };
+  assert.ok(codes(legacy, 'legacy-col').includes('workflow/node-col-missing'));
+});
+
 process.on('exit', () => fs.rmSync(tmp, { recursive: true, force: true }));

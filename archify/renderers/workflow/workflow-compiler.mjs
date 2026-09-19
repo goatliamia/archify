@@ -1349,16 +1349,18 @@ function placePhases(workflow) {
 // value for has to say where it stands; leaving it out of the canvas silently
 // would be the one thing a diagram must not do.
 function missingColumnDiagnostics(workflow) {
-  if (workflow.schema_version !== 2) return [];
+  const readable = workflow.schema_version === 2;
   return asArray(workflow.nodes)
     .filter((node) => !Number.isInteger(node.col))
     .map((node) => ({
       code: 'workflow/node-col-missing',
       severity: 'error',
-      message: `Node "${node.id}" authors no column and no rule reaches it, so nothing places it.`,
+      message: `Node "${node.id}" authors no column, so nothing places it.`,
       subject: { diagramType: 'workflow', path: '/nodes', node: node.id },
-      evidence: { lane: node.lane },
-      supportedFixes: ['author col on the node', 'or let a clock rule reach it through a declared phase band'],
+      evidence: { lane: node.lane, schemaVersion: workflow.schema_version },
+      supportedFixes: readable
+        ? ['author col on the node', 'or let a clock rule reach it through a declared phase band']
+        : ['author col on the node'],
     }));
 }
 
@@ -1583,7 +1585,7 @@ const LEGEND_CATALOG = declaredLegendTypes.length
   'database',
   'cloud',
   'external',
-].map((kind) => ({ kind, label: i18nText(workflow.meta.locale, `legend.workflow.${kind}`) }));
+].map((kind) => ({ kind, label: i18nText(workflow.meta.locale, `legend.workflow.${kind}`, {}, workflow.meta.labels) }));
 const presentLegendKinds = new Set(asArray(workflow.nodes).map((node) => node.type));
 const workflowLegendEntries = resolveLegend(
   workflow.meta?.legend,
@@ -1633,7 +1635,7 @@ function nodeContext(node) {
     node.col >= candidate.fromCol && node.col <= candidate.toCol
   ));
   return [laneLabels.get(node.lane), group?.label, phase?.label].filter(Boolean).join(' › ')
-    || i18nText(workflow.meta.locale, 'node.context.workflow');
+    || i18nText(workflow.meta.locale, 'node.context.workflow', {}, workflow.meta.labels);
 }
 
 function laneHeight(idOrIndex) {
@@ -5353,8 +5355,10 @@ function renderReaderRuntime() {
 
   var key = 'archify-reader:' + (document.title || location.pathname);
   var originalViewBox = svg.getAttribute('viewBox');
-  var state = {};
-  var expanded = {};
+  // Ids come from the document, so the reader's own maps must not inherit
+  // members for a node or slot named "constructor".
+  var state = Object.create(null);
+  var expanded = Object.create(null);
   var soloLane = null;
   var stowOn = true;
   var bridgeLayer = null;
@@ -5475,7 +5479,7 @@ function renderReaderRuntime() {
   // the whole day.
   function behind(slotId) {
     var anchor = firstKey(slotId);
-    var set = {};
+    var set = Object.create(null);
     if (!anchor) return set;
     var lane = laneOf(anchor);
     var seed = clockData && lane ? clockData.lanes[lane] : null;
@@ -5674,7 +5678,7 @@ function renderReaderRuntime() {
   }
 
   function apply() {
-    var hidden = {};
+    var hidden = Object.create(null);
     var visible = [];
     var isDimmed = viewSet(config.view.dim);
     var isStowed = viewSet(config.view.stow);

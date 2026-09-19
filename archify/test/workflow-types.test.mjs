@@ -51,8 +51,12 @@ test('a document may declare its own kind vocabulary and palette slot', () => {
   ));
   assert.match(html, /点名的店/);
   assert.match(html, /到了再选/);
-  assert.match(html, /c-database/);
-  assert.match(html, /c-messagebus/);
+  // The legend carries these class names itself, so read the drawn nodes: n0 is
+  // "venue" (violet → c-database), n1 is "open" (orange → c-messagebus).
+  const groups = new Map([...html.matchAll(/<g[^>]*data-node-id="([^"]+)"[^>]*>([\s\S]*?)<\/g>/g)]
+    .map((match) => [match[1], match[2]]));
+  assert.match(groups.get('n0') || '', /class="[^"]*c-database/);
+  assert.match(groups.get('n1') || '', /class="[^"]*c-messagebus/);
 });
 
 test('legacy kind names stay available beside declared ones', () => {
