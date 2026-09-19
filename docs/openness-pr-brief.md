@@ -62,6 +62,15 @@ Measured, not asserted:
 
 We read your note as **"the core must not accumulate domain vocabulary or domain rules"**, and this branch agrees with it: the core grows resolvers, checkers and aggregations — computing capability — and refuses nouns. The seams are positions, and a position is not knowledge. If any field here looks like a noun that belongs to a domain, that is exactly the kind of review we want on it.
 
+## The authoring surface
+
+The core can now be declared open, so the branch also publishes what a document may fill, at the same layer the other references live:
+
+- [`archify/references/positions-contract.md`](../archify/references/positions-contract.md) — one page: what may be declared, what each declaration decides, what stays untouched when it is absent, and how to re-run both invariants.
+- [`archify/references/creation-guide.md`](../archify/references/creation-guide.md) — the situational half: which position a given situation is worth, and the three questions that decide whether something belongs in a pack or in the core.
+
+Nothing here tells a pack author how much of that page to put in front of an AI. That is the pack's own optimization; the core owes a bounded contract and a router, which is what `SKILL.md` (141 lines) keeps being.
+
 ## All diagrams, not just ours
 
 Two runs over the whole repository, not over the one example that motivated the work:
