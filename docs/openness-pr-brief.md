@@ -62,6 +62,36 @@ Measured, not asserted:
 
 We read your note as **"the core must not accumulate domain vocabulary or domain rules"**, and this branch agrees with it: the core grows resolvers, checkers and aggregations — computing capability — and refuses nouns. The seams are positions, and a position is not knowledge. If any field here looks like a noun that belongs to a domain, that is exactly the kind of review we want on it.
 
+## All diagrams, not just ours
+
+Two runs over the whole repository, not over the one example that motivated the work:
+
+| Run | What it compares | Result |
+| --- | --- | --- |
+| Compiler against compiler | every `*.workflow.json` in the repository (15 documents: examples, gallery sources, issue fixtures, v1 baselines, one generated) compiled once with the base commit's compiler and once with this branch's, comparing SVG bytes, runtime bytes and diagnostic codes | **15 / 15 byte-identical** |
+| Drawing against drawing | every checked-in artifact of the other four renderers that can be re-rendered here (five `archify/examples`, four root `examples`, one generated) re-rendered and its `<svg>` compared byte for byte with the base commit's checked-in artifact | **10 / 10 identical** |
+
+Two `mco-runtime` cases pin source evidence to a repository revision and cannot verify in a shallow clone — the same limitation the repository's own pinned-evidence tests hit in this environment.
+
+The repository's own byte locks cover the rest: `test/golden.mjs` renders all five modes (plain and packaged), the gallery test regenerates and compares eleven artifacts, and the delta test compares the checkout pair.
+
+## Undeclared means not computed
+
+Every new path returns before it can touch anything. First line of each:
+
+| Where | Guard |
+| --- | --- |
+| `applyRules` | `if (!rules.length) return [];` |
+| `renderEdgeStateStyles` | `if (!states.length) return '';` |
+| `placePhases` | `if (!phases.length) return [];` then, for the column form, one extent check and out |
+| `placeGroupFrames` | only groups that declare a clock range are read |
+| `renderReaderRuntime` | `if (!declaration.active) return '';` |
+| `suppressedAttr` | `suppress.length ? … : ''` |
+| viewer chrome | `data-suppressed` absent → the split yields a list that matches no effect id |
+| delivery receipt | the `suppressed` key is added only when the attribute exists |
+
+Byte equality and inert code are the same claim seen twice: the guards show the paths return early, the comparisons show the bytes do not move.
+
 ## How to review in three commands
 
 ```sh
