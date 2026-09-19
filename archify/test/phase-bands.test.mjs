@@ -315,4 +315,9 @@ test('a rule can write the caption under a label, and the minutes stay available
   assert.match(rendered.html, /band-two · 120 分/);
 });
 
+test('a frame that declares no extent at all is reported', () => {
+  const groups = [{ id: 'bare', label: 'frame', lane: 'l1' }];
+  assert.ok(codes(document({ phases: BANDS, groups }), 'frame-extent').includes('workflow/group-extent-missing'));
+});
+
 process.on('exit', () => fs.rmSync(tmp, { recursive: true, force: true }));

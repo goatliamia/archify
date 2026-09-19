@@ -1370,7 +1370,21 @@ function placeGroupFrames(workflow) {
   const diagnostics = [];
   for (const group of groups) {
     const declared = typeof group.from === 'string' || typeof group.to === 'string';
-    if (!declared) continue;
+    if (!declared) {
+      // A frame with no extent at all cannot be drawn either way; leaving it out
+      // of the canvas without a word is the one thing a diagram must not do.
+      if (!Number.isInteger(group.fromCol) && !Number.isInteger(group.toCol)) {
+        diagnostics.push({
+          code: 'workflow/group-extent-missing',
+          severity: 'error',
+          message: `Group "${group.id}" declares no extent; a frame needs either fromCol/toCol or from/to.`,
+          subject: { diagramType: 'workflow', path: '/groups', group: group.id },
+          evidence: { lane: group.lane },
+          supportedFixes: ['declare fromCol/toCol', 'or declare a clock range with from/to'],
+        });
+      }
+      continue;
+    }
     const from = clockMinutes(group.from);
     const to = clockMinutes(group.to);
     if (from === null || to === null) {
@@ -5222,10 +5236,14 @@ function renderEdgeLabel(edge, index) {
   // The line is the leg: what it costs sits as a caption under the mode, so the
   // chip keeps its width and the journey is still what the middle reads.
   const minutes = edge.id !== undefined && edge.id !== null ? edgeStepMinutes.get(edge.id) : undefined;
-  const spoken = typeof minutes === 'number' ? `${edge.label} · 这段 ${minutes} 分` : edge.label;
+  const spoken = typeof minutes === 'number'
+    ? i18nText(workflow.meta.locale, 'workflow.leg.spoken', { label: edge.label, value: minutes }, workflow.meta.labels)
+    : edge.label;
   const captionText = edge.id !== undefined && edge.id !== null && edgeCaptionText.has(edge.id)
     ? edgeCaptionText.get(edge.id)
-    : (typeof minutes === 'number' ? `${minutes} 分` : '');
+    : (typeof minutes === 'number'
+      ? i18nText(workflow.meta.locale, 'workflow.leg.cost', { value: minutes }, workflow.meta.labels)
+      : '');
   const caption = captionText
     ? `\n          <text x="${lx}" y="${ly - 3}" class="t-muted" font-size="7" text-anchor="middle">${esc(captionText)}</text>`
     : '';

@@ -41,6 +41,10 @@ const MESSAGE_PAIRS = {
   'legend.workflow.database': ['Context / trace', '上下文 / 追踪'],
   'legend.workflow.cloud': ['Cloud service', '云服务'],
   'legend.workflow.external': ['External system', '外部系统'],
+  // The cost caption under a leg label and the tooltip that spells it out. A
+  // document may restate both through meta.labels, like any other renderer copy.
+  'workflow.leg.cost': ['{value} min', '{value} 分'],
+  'workflow.leg.spoken': ['{label} · {value} min', '{label} · 这段 {value} 分'],
   'legend.sequence.emphasis': ['request', '请求'],
   'legend.sequence.return': ['return', '返回'],
   'legend.sequence.security': ['security', '安全'],
