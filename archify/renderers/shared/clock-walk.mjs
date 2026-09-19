@@ -65,9 +65,11 @@ export function renderClockTemplate(template, value, options = {}) {
   const band = (options.bands || []).find(entry => (
     value >= entry.from && value <= (entry.wraps ? 1440 + entry.to : entry.to)
   ));
+  // Every occurrence, not the first: an authored template may use a token more
+  // than once, and a half-substituted line is worse than an unresolved one.
   return String(template)
-    .replace('{value}', shown)
-    .replace('{band}', band ? band.entry.label : '')
-    .replace('{minutes}', typeof options.minutes === 'number' && Number.isFinite(options.minutes)
+    .replaceAll('{value}', shown)
+    .replaceAll('{band}', band ? band.entry.label : '')
+    .replaceAll('{minutes}', typeof options.minutes === 'number' && Number.isFinite(options.minutes)
       ? String(options.minutes) : '');
 }

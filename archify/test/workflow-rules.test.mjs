@@ -96,4 +96,11 @@ test('two rules cannot write one render slot', () => {
   assert.match(result.stdout + result.stderr, /derive\/render-slot-conflict/);
 });
 
+test('a template that repeats a token renders it everywhere', () => {
+  const repeated = [{ ...clockRule[0], render: { edge: '{value} · {value} · ' } }];
+  const html = render(documentWith(repeated));
+  // 09:00 + 30 hold + 12 span = 09:42, in both places.
+  assert.match(html, /09:42 · 09:42 · go/);
+});
+
 process.on('exit', () => fs.rmSync(tmp, { recursive: true, force: true }));
