@@ -168,7 +168,10 @@ function verticalIntervalsOverlap(a, b, clearance = 0) {
 }
 
 function createReadableLayout(workflow, layoutFeedback = {}) {
-  const columnCount = 6;
+  // A document that declares its phases as clock ranges owns its axis: the
+  // columns are those bands, in the order they were declared. Every other
+  // document keeps the six columns it always had.
+  const columnCount = phaseAxisColumns(workflow);
   const baselinePitch = 120;
   const columnStart = 94;
   const maxLayoutIterations = 3;
@@ -628,10 +631,15 @@ function canonicalReadableWorkflow(workflow) {
     || stableCompare(left.route, right.route)
     || stableCompare(stableValueKey(left), stableValueKey(right))
   ));
-  const phases = workflow.phases === undefined ? undefined : [...asArray(workflow.phases)].sort((left, right) => (
-    left.fromCol - right.fromCol || left.toCol - right.toCol
-    || stableCompare(left.id, right.id)
-  ));
+  // A phase that declares its extent in columns is ordered by those columns. A
+  // phase that declares a clock range keeps the order the document wrote,
+  // because that order is the axis.
+  const phases = workflow.phases === undefined ? undefined : [...asArray(workflow.phases)].sort((left, right) => {
+    if (typeof left.from === 'string' || typeof left.to === 'string'
+      || typeof right.from === 'string' || typeof right.to === 'string') return 0;
+    return left.fromCol - right.fromCol || left.toCol - right.toCol
+      || stableCompare(left.id, right.id);
+  });
   const groups = workflow.groups === undefined ? undefined : [...asArray(workflow.groups)].sort((left, right) => (
     (laneOrder.get(left.lane) ?? Number.MAX_SAFE_INTEGER) - (laneOrder.get(right.lane) ?? Number.MAX_SAFE_INTEGER)
     || left.fromCol - right.fromCol || left.toCol - right.toCol
@@ -880,11 +888,19 @@ const renderProblems = [];
 const authoredEdgeLabels = new Map();
 // What each leg costs, as the rule computed it, for the caption under its label.
 const edgeStepMinutes = new Map();
+// When the rule reaches each stop, as it derived it. A stop the rule derives no
+// value for takes part in nothing, so a value-axis phase cannot claim it.
+const nodeArrivalValues = new Map();
+// Whether any rule derives clock values at all: a band written as a clock range
+// has nothing to compare against without one.
+let clockValuesDerived = false;
 
 function applyRules(workflow) {
   const rules = asArray(workflow.meta && workflow.meta.rules);
   authoredEdgeLabels.clear();
   edgeStepMinutes.clear();
+  nodeArrivalValues.clear();
+  clockValuesDerived = false;
   if (!rules.length) return [];
   const renderSlots = new Map();
   const diagnostics = [];
@@ -1024,9 +1040,14 @@ function applyRules(workflow) {
         if (crossLane ? true : (laneIds.has(edge.from) && laneIds.has(edge.to))) outgoing.set(edge.from, edge);
       }
       const isClock = typeof seed.base === 'string';
+      if (isClock) clockValuesDerived = true;
       let value = ruleSeedValue(seed.base);
       let current = nodeById.get(seed.start);
       const seen = new Set();
+      // A stop's own value is the value it is reached at, not the one it is left
+      // at: the seed is reached at its base, and every later stop at the value
+      // standing on the leg that arrives there.
+      if (isClock && !nodeArrivalValues.has(seed.start)) nodeArrivalValues.set(seed.start, value);
       while (current && !seen.has(current.id)) {
         seen.add(current.id);
         const nodeFact = ruleFactValue(current, rule.add && rule.add.node);
@@ -1089,6 +1110,7 @@ function applyRules(workflow) {
           if (typeof edgeFact === 'number' && Number.isFinite(edgeFact)) edgeStepMinutes.set(leg.id, edgeFact);
           leg.label = `${rule.render.edge.replace('{value}', ruleRenderValue(value, isClock, rule))}${leg.label || ''}`;
         }
+        if (isClock && !nodeArrivalValues.has(leg.to)) nodeArrivalValues.set(leg.to, value);
         current = nodeById.get(leg.to);
       }
       if (rule.render && rule.render.lane) {
@@ -1115,6 +1137,206 @@ function applyRules(workflow) {
     }
   }
   return diagnostics;
+}
+
+// A phase may declare its extent the way it always could — in columns — or in
+// the value the document derives. The second form makes the column a result: a
+// stop stands where its own number falls, and a number that falls in no band is
+// named instead of quietly keeping whatever column the author typed. A document
+// that declares no such band is untouched, byte for byte.
+function phaseAxisColumns(workflow) {
+  const phases = asArray(workflow.phases);
+  const valueBands = phases.length > 0
+    && phases.every((phase) => typeof phase.from === 'string' && typeof phase.to === 'string');
+  if (!valueBands) return 6;
+  // The bands were packed into columns by placePhases; the axis is as wide as
+  // the widest resolved band reaches.
+  const last = Math.max(...phases.map((phase) => (Number.isInteger(phase.toCol) ? phase.toCol : 0)));
+  return Math.max(1, last + 1);
+}
+
+function clockMinutes(text) {
+  const match = /^([01][0-9]|2[0-3]):([0-5][0-9])$/.exec(String(text));
+  return match ? Number(match[1]) * 60 + Number(match[2]) : null;
+}
+
+function showClock(minutes) {
+  const within = ((minutes % 1440) + 1440) % 1440;
+  const shown = `${String(Math.floor(within / 60)).padStart(2, '0')}:${String(within % 60).padStart(2, '0')}`;
+  return minutes >= 1440 ? `${shown} next day` : shown;
+}
+
+function placePhases(workflow) {
+  const phases = asArray(workflow.phases);
+  if (!phases.length) return [];
+  const declaresValue = (phase) => typeof phase.from === 'string' || typeof phase.to === 'string';
+  const declaresColumn = (phase) => Number.isInteger(phase.fromCol) || Number.isInteger(phase.toCol);
+  if (!phases.some(declaresValue)) {
+    // The column form, the shape this pipeline has always spoken. A phase that
+    // declares no extent at all cannot be drawn either way, and silence would
+    // leave the axis to whatever the author happened to type.
+    const incomplete = phases.filter((phase) => !declaresColumn(phase));
+    return incomplete.length ? [{
+      code: 'workflow/phase-extent-missing',
+      severity: 'error',
+      message: `Phase "${incomplete[0].id}" declares no extent; a phase needs either fromCol/toCol or from/to.`,
+      subject: { diagramType: 'workflow', path: '/phases', phase: incomplete[0].id },
+      evidence: { phases: incomplete.map((phase) => phase.id) },
+      supportedFixes: ['declare fromCol/toCol', 'or declare a clock range with from/to'],
+    }] : [];
+  }
+  const diagnostics = [];
+  if (!phases.every((phase) => typeof phase.from === 'string' && typeof phase.to === 'string')) {
+    diagnostics.push({
+      code: 'workflow/phase-extent-mixed',
+      severity: 'error',
+      message: 'Phases must declare their extent one way: either fromCol/toCol or from/to.',
+      subject: { diagramType: 'workflow', path: '/phases' },
+      evidence: {
+        values: phases.filter(declaresValue).map((phase) => phase.id),
+        columns: phases.filter((phase) => !declaresValue(phase)).map((phase) => phase.id),
+      },
+      supportedFixes: ['give every phase a from/to pair', 'or keep every phase on fromCol/toCol'],
+    });
+    return diagnostics;
+  }
+  if (!clockValuesDerived) {
+    diagnostics.push({
+      code: 'workflow/phase-band-source',
+      severity: 'error',
+      message: 'A phase declared as a clock range needs a rule that derives clock values; this document derives none.',
+      subject: { diagramType: 'workflow', path: '/phases' },
+      evidence: { phases: phases.map((phase) => phase.id) },
+      supportedFixes: [
+        'seed an accumulate rule with a clock base, for example { "start": "<node>", "base": "09:00" }',
+        'or declare every phase extent in columns',
+      ],
+    });
+    return diagnostics;
+  }
+  const bands = [];
+  for (const [index, phase] of phases.entries()) {
+    const from = clockMinutes(phase.from);
+    const to = clockMinutes(phase.to);
+    if (from === null || to === null) {
+      diagnostics.push({
+        code: 'workflow/phase-band-clock',
+        severity: 'error',
+        message: `Phase "${phase.id}" declares from/to that are not clock times.`,
+        subject: { diagramType: 'workflow', path: '/phases', phase: phase.id },
+        evidence: { from: phase.from, to: phase.to },
+        supportedFixes: ['write both ends as HH:MM', 'or declare the phase extent in columns'],
+      });
+      continue;
+    }
+    bands.push({ phase, index, from, to, wraps: from > to });
+  }
+  if (diagnostics.length) return diagnostics;
+  for (let i = 1; i < bands.length; i += 1) {
+    const previous = bands[i - 1];
+    const current = bands[i];
+    // Ends are inclusive and the axis is the declared order; a band that crosses
+    // midnight can only be the last one, or the day it belongs to is ambiguous.
+    const ordered = current.wraps
+      ? i === bands.length - 1 && current.from > previous.to
+      : current.from > previous.to;
+    if (ordered) continue;
+    diagnostics.push({
+      code: 'workflow/phase-band-order',
+      severity: 'error',
+      message: `Phase "${current.phase.id}" must start after phase "${previous.phase.id}" ends; only the last band may cross midnight.`,
+      subject: { diagramType: 'workflow', path: '/phases', phase: current.phase.id },
+      evidence: { from: current.phase.from, previousTo: previous.phase.to, last: i === bands.length - 1 },
+      supportedFixes: ['order the bands by the clock', 'or move the band that crosses midnight to the end'],
+    });
+    return diagnostics;
+  }
+  // Every stop the rule reaches belongs to the band its own number falls in.
+  const window = (band) => (band.wraps ? [band.from, 1440 + band.to] : [band.from, band.to]);
+  const reached = [];
+  const demand = bands.map(() => new Map());
+  for (const node of asArray(workflow.nodes)) {
+    const value = nodeArrivalValues.get(node.id);
+    if (typeof value !== 'number' || !Number.isFinite(value)) continue;
+    const found = bands.findIndex((band) => {
+      const [low, high] = window(band);
+      return value >= low && value <= high;
+    });
+    if (found === -1) {
+      // Never clamped: a stop the axis cannot place is named, not jammed into the
+      // first or the last band.
+      diagnostics.push({
+        code: 'workflow/phase-out-of-range',
+        severity: 'error',
+        message: `Node "${node.id}" reaches ${showClock(value)}, which falls in no declared phase band.`,
+        subject: { diagramType: 'workflow', path: '/nodes', node: node.id },
+        evidence: {
+          value,
+          bands: bands.map((band) => `${band.phase.from}-${band.phase.to}${band.wraps ? ' (crosses midnight)' : ''}`),
+        },
+        supportedFixes: ['widen a band to cover this stop', 'or declare the band this stop belongs to'],
+      });
+      continue;
+    }
+    reached.push({ node, band: found, value, order: reached.length });
+    const lane = demand[found];
+    lane.set(node.lane, (lane.get(node.lane) || 0) + 1);
+  }
+  // The axis is as wide as the schedule needs: a band holds as many columns as
+  // the busiest lane puts stops in it — never fewer than one, so a band the day
+  // skipped still shows that it was skipped. The width follows the times; the
+  // times do not bend to a width fixed in advance.
+  let cursor = 0;
+  const starts = [];
+  bands.forEach((band, index) => {
+    const width = Math.max(1, ...demand[index].values());
+    starts.push(cursor);
+    cursor += width;
+    band.phase.fromCol = starts[index];
+    band.phase.toCol = starts[index] + width - 1;
+  });
+  // Inside a band the columns are handed out in the order the clock reaches the
+  // stops, lane by lane, so equal times keep the order they were authored in.
+  const taken = new Map();
+  reached
+    .sort((left, right) => left.band - right.band || left.value - right.value || left.order - right.order)
+    .forEach((entry) => {
+      const key = `${entry.band}:${entry.node.lane}`;
+      const offset = taken.get(key) || 0;
+      taken.set(key, offset + 1);
+      const column = starts[entry.band] + offset;
+      const authored = entry.node.col;
+      if (Number.isInteger(authored) && authored !== column) {
+        diagnostics.push({
+          code: 'workflow/phase-col-conflict',
+          severity: 'error',
+          message: `Node "${entry.node.id}" authors col ${authored} while its derived value places it in phase "${bands[entry.band].phase.id}".`,
+          subject: { diagramType: 'workflow', path: '/nodes', node: entry.node.id },
+          evidence: { authored, derived: column, phase: bands[entry.band].phase.id },
+          supportedFixes: ['drop node.col and let the value place the stop', 'or move the stop into the band its value falls in'],
+        });
+        return;
+      }
+      entry.node.col = column;
+    });
+  return diagnostics;
+}
+
+// A readable workflow places every stop in a column. A stop the rule derives no
+// value for has to say where it stands; leaving it out of the canvas silently
+// would be the one thing a diagram must not do.
+function missingColumnDiagnostics(workflow) {
+  if (workflow.schema_version !== 2) return [];
+  return asArray(workflow.nodes)
+    .filter((node) => !Number.isInteger(node.col))
+    .map((node) => ({
+      code: 'workflow/node-col-missing',
+      severity: 'error',
+      message: `Node "${node.id}" authors no column and no rule reaches it, so nothing places it.`,
+      subject: { diagramType: 'workflow', path: '/nodes', node: node.id },
+      evidence: { lane: node.lane },
+      supportedFixes: ['author col on the node', 'or let a clock rule reach it through a declared phase band'],
+    }));
 }
 
 function compileWorkflowInternal({
@@ -1169,6 +1391,16 @@ function compileWorkflowInternal({
     return compilerFailure(
       workflow.schema_version === 2 ? 'readable-v2' : 'fixed-v1',
       ruleDiagnostics,
+    );
+  }
+  const phaseDiagnostics = placePhases(workflow);
+  // A placement that did not resolve is the one defect worth naming: the stops
+  // it could not place would otherwise each report a missing column on top.
+  const placementDiagnostics = phaseDiagnostics.length ? phaseDiagnostics : missingColumnDiagnostics(workflow);
+  if (placementDiagnostics.length) {
+    return compilerFailure(
+      workflow.schema_version === 2 ? 'readable-v2' : 'fixed-v1',
+      placementDiagnostics,
     );
   }
   const typeDiagnostics = typeVocabularyDiagnostics(workflow);

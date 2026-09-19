@@ -62,6 +62,7 @@ What we have already decided, and where it landed:
 | Let the reader's own moment move the numbers | `meta.reader.clock` names a declared rule and three declared slots (anchor, at, dwell); the compiler ships the rule's inputs and embeds the one shared walk, and a test re-derives every drawn time from the document | done |
 | Suppress framework chrome a domain does not need | `meta.reader.suppress`: the effect id belongs to the chrome that owns it, a suppressed effect is never built, and the delivery receipt records what was left out | done |
 | Let a line carry a declared state | `meta.edgeStates` names the states a pack may author on an edge and the colour slot each one uses; the core owns only the condition it can report (today: a day past its ceiling), and the paint reaches the authored line, its arrow class, and nothing else | done |
+| Let the axis follow the clock instead of pre-empting it | a phase may declare its extent as a clock range (`from`/`to`) instead of columns: the derived value places each stop, a band is as wide as the busiest lane needs, a band the day skipped still shows, and a number no band covers is named rather than clamped into the nearest one | done |
 
 ## 4. Orthogonality between seams
 
@@ -69,6 +70,7 @@ What we have already decided, and where it landed:
 
 - **Single owner.** One place decides each observable result — one display string, one derived value, one rendered element.
 - **Declared effects.** A seam's effect is the effect it declares. An action row also spends node width; that budget is an effect, and an undeclared effect cannot be checked.
+- **A declaration names the thing, not its residue.** A phase band is a range of the derived value. Declaring that range in the columns the value produced puts the geometry before the meaning, and the two drift as soon as the clock moves; the column is a result of the band, not its definition. A stop the rule never reaches declares no value and takes part in nothing, and a number no band covers is reported — never pushed into the first or the last band.
 - **A copy is not the thing.** Viewer chrome clones authored geometry into its own overlays (hit rails, focus rails, flow pulses), and a clone keeps the attributes it was not told to drop while its class is replaced. A state therefore paints the arrow class the authored line was drawn with, never a bare attribute a copy also carries — the alternative turned a 24 px transparent hit rail into a solid line.
 - **Composition-checkable.** Conflicts are found by the compiler, not by author care.
 
