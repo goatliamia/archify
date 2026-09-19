@@ -57,7 +57,8 @@ compiles every combination of the declarations above and asserts that a feature
 appears if and only if it was declared. From a repository checkout,
 `node scripts/fuzz-legacy-equivalence.mjs --base <rev>` compiles generated
 documents that declare none of them against a base revision's compiler, byte for
-byte. `node test/golden.mjs` stays the lock on every checked-in document.
+byte. `node archify/test/golden.mjs`, run from the repository root, stays the lock
+on every checked-in document.
 
 Commands, receipt fields, and repair stages are documented once in
 [the delivery contract](delivery-contract.md). The reader's own interface is in

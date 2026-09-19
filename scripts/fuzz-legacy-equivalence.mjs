@@ -11,6 +11,7 @@
 // Usage: node scripts/fuzz-legacy-equivalence.mjs [--base <rev>] [--count N] [--seed N]
 
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -104,16 +105,22 @@ const outcome = (module, spec) => {
   return { ok: Boolean(compiled.ok), svg: compiled.svg || '', runtime: compiled.runtime || '', codes: diagnostics.map((d) => d.code).join(',') };
 };
 
-// The base compiler has to sit beside the current one so its relative imports
-// resolve; it is removed again whatever happens.
-const staging = path.join(skillRoot, 'renderers', 'workflow', '__fuzz-base-compiler.mjs');
-execFileSync('git', ['show', base + ':archify/renderers/workflow/workflow-compiler.mjs'], {
-  cwd: repoRoot,
-  stdio: ['ignore', fs.openSync(staging, 'w'), 'inherit'],
-});
+// The base compiler is the oracle, so it runs against the base revision's own
+// dependency tree: staged alone it would import this branch's ../shared modules,
+// which could move both compilers and hide the difference the run exists to find.
+// A detached worktree gives it its own imports; it is removed again whatever happens.
+const baseTree = fs.mkdtempSync(path.join(os.tmpdir(), 'archify-fuzz-base-'));
+try {
+  execFileSync('git', ['worktree', 'add', '--detach', baseTree, base], { cwd: repoRoot, stdio: ['ignore', 'inherit', 'inherit'] });
+} catch (error) {
+  fs.rmSync(baseTree, { recursive: true, force: true });
+  console.error('cannot check out base revision ' + base + ' as a worktree: ' + (error && error.message ? error.message : error));
+  process.exit(1);
+}
+const baseCompiler = path.join(baseTree, 'archify', 'renderers', 'workflow', 'workflow-compiler.mjs');
 let differing = 0;
 try {
-  const upstream = await import(pathToFileURL(staging).href + '?v=' + Date.now());
+  const upstream = await import(pathToFileURL(baseCompiler).href + '?v=' + Date.now());
   const current = await import(pathToFileURL(path.join(skillRoot, 'renderers', 'workflow', 'workflow-compiler.mjs')).href);
   const random = rng(seed);
   let accepted = 0;
@@ -153,5 +160,10 @@ try {
   if (firstDifferences.length) console.log('  first differences        : ' + JSON.stringify(firstDifferences));
   process.exitCode = differing === 0 && unstable === 0 ? 0 : 1;
 } finally {
-  fs.rmSync(staging, { force: true });
+  try {
+    execFileSync('git', ['worktree', 'remove', '--force', baseTree], { cwd: repoRoot, stdio: ['ignore', 'ignore', 'inherit'] });
+  } catch {
+    execFileSync('git', ['worktree', 'prune'], { cwd: repoRoot, stdio: ['ignore', 'ignore', 'inherit'] });
+  }
+  fs.rmSync(baseTree, { recursive: true, force: true });
 }
