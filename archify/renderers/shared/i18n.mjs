@@ -45,6 +45,7 @@ const MESSAGE_PAIRS = {
   // document may restate both through meta.labels, like any other renderer copy.
   'workflow.leg.cost': ['{value} min', '{value} 分'],
   'workflow.leg.spoken': ['{label} · {value} min', '{label} · 这段 {value} 分'],
+  'workflow.clock.pastMidnight': ['next day ', '次日 '],
   'legend.sequence.emphasis': ['request', '请求'],
   'legend.sequence.return': ['return', '返回'],
   'legend.sequence.security': ['security', '安全'],

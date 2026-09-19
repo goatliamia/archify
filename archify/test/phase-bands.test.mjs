@@ -336,4 +336,30 @@ test('a schema-v1 node with no column is named too', () => {
   assert.ok(codes(legacy, 'legacy-col').includes('workflow/node-col-missing'));
 });
 
+function validate(spec, name) {
+  const result = spawnSync(process.execPath, [
+    path.join(skillRoot, 'bin', 'archify.mjs'), 'validate', 'workflow', write(spec, name), '--json',
+  ], { cwd: skillRoot, encoding: 'utf8' });
+  return result.stdout + result.stderr;
+}
+
+// The word for "past midnight" belongs to the document, not to this file: the
+// diagnostic and the drawn label read the same catalogue entry, so one edit
+// moves both and no second mechanism can drift.
+test('a stop past midnight is named by the catalogue, in the document locale', () => {
+  const bands = [
+    { id: 'day', label: 'band-day', from: '05:00', to: '21:59' },
+    { id: 'late', label: 'band-late', from: '22:00', to: '22:59' },
+  ];
+  const nodes = [
+    { id: 'a', lane: 'l1', col: 1, type: 'frontend', label: 'A', width: 120, facts: { stay: 90 } },
+    { id: 'b', lane: 'l1', col: 2, type: 'backend', label: 'B', width: 120, facts: { stay: 60 } },
+  ];
+  const edges = [{ id: 'ab', from: 'a', to: 'b', label: 'go', facts: { ride: 120 } }];
+  assert.match(validate(document({ phases: bands, nodes, edges, base: '22:00' }), 'past-midnight-en'), /reaches next day \d{2}:\d{2}/);
+  const chinese = document({ phases: bands, nodes, edges, base: '22:00' });
+  chinese.meta.locale = 'zh-CN';
+  assert.match(validate(chinese, 'past-midnight-zh'), /次日 \d{2}:\d{2}/);
+});
+
 process.on('exit', () => fs.rmSync(tmp, { recursive: true, force: true }));

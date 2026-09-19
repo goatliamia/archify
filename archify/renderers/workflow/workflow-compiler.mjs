@@ -1081,7 +1081,7 @@ function applyRules(workflow) {
             diagnostics.push({
               code: 'derive/band-out-of-range',
               severity: 'error',
-              message: `Rule "${rule.id}" reaches ${showClock(value)}, which falls in no declared band.`,
+              message: `Rule "${rule.id}" reaches ${showClock(value, workflow)}, which falls in no declared band.`,
               subject: { diagramType: 'workflow', rule: rule.id, value },
               evidence: { value, bands: bandWords.map((entry) => `${entry.entry.from}-${entry.entry.to}`) },
               supportedFixes: ['widen a band to cover this value', 'or declare the band it belongs to'],
@@ -1228,10 +1228,17 @@ function clockMinutes(text) {
   return match ? Number(match[1]) * 60 + Number(match[2]) : null;
 }
 
-function showClock(minutes) {
+function showClock(minutes, workflow) {
+  // One formatter for the text a person reads. The shape comes from the shared
+  // template, the word comes from the catalogue, so a diagnostic and the
+  // artifact it explains cannot disagree about what "past midnight" is called.
+  const wrapped = minutes >= 1440;
   const within = ((minutes % 1440) + 1440) % 1440;
-  const shown = `${String(Math.floor(within / 60)).padStart(2, '0')}:${String(within % 60).padStart(2, '0')}`;
-  return minutes >= 1440 ? `${shown} next day` : shown;
+  const label = i18nText(workflow.meta.locale, 'workflow.clock.pastMidnight', {}, workflow.meta.labels);
+  return renderClockTemplate('{value}', wrapped ? 1440 + within : within, {
+    clock: true,
+    wrap: { at: 1440, label },
+  });
 }
 
 function placePhases(workflow) {
@@ -1304,7 +1311,7 @@ function placePhases(workflow) {
       diagnostics.push({
         code: 'workflow/phase-out-of-range',
         severity: 'error',
-        message: `Node "${node.id}" reaches ${showClock(value)}, which falls in no declared phase band.`,
+        message: `Node "${node.id}" reaches ${showClock(value, workflow)}, which falls in no declared phase band.`,
         subject: { diagramType: 'workflow', path: '/nodes', node: node.id },
         evidence: {
           value,
