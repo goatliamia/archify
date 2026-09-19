@@ -1395,6 +1395,8 @@ async function commandDoctor(args) {
 
   const authoringReferences = [
     path.join(skillRoot, 'references', 'authoring-contract.md'),
+    path.join(skillRoot, 'references', 'positions-contract.md'),
+    path.join(skillRoot, 'references', 'creation-guide.md'),
     path.join(skillRoot, 'references', 'viewer-runtime.md'),
     path.join(skillRoot, 'references', 'delivery-contract.md'),
   ];
