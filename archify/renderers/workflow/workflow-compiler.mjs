@@ -888,6 +888,9 @@ const renderProblems = [];
 const authoredEdgeLabels = new Map();
 // What each leg costs, as the rule computed it, for the caption under its label.
 const edgeStepMinutes = new Map();
+// A rule may write that caption itself ({band} and {minutes}); a leg it does not
+// write keeps the minutes it always showed.
+const edgeCaptionText = new Map();
 // When the rule reaches each stop, as it derived it. A stop the rule derives no
 // value for takes part in nothing, so a value-axis phase cannot claim it.
 const nodeArrivalValues = new Map();
@@ -899,11 +902,17 @@ function applyRules(workflow) {
   const rules = asArray(workflow.meta && workflow.meta.rules);
   authoredEdgeLabels.clear();
   edgeStepMinutes.clear();
+  edgeCaptionText.clear();
   nodeArrivalValues.clear();
   clockValuesDerived = false;
   if (!rules.length) return [];
   const renderSlots = new Map();
   const diagnostics = [];
+  // The words for a stretch of the clock, used by {band} in a render template.
+  const banding = clockBandList((workflow.meta && workflow.meta.bands) || []);
+  diagnostics.push(...banding.diagnostics);
+  const bandWords = banding.bands;
+  const bandWarning = { missing: false, outside: new Set() };
   const nodes = asArray(workflow.nodes);
   const edges = asArray(workflow.edges);
   const nodeById = new Map(nodes.map((node) => [node.id, node]));
@@ -1041,6 +1050,44 @@ function applyRules(workflow) {
       }
       const isClock = typeof seed.base === 'string';
       if (isClock) clockValuesDerived = true;
+      // {value} is the derived number, {band} the word its stretch of the clock
+      // carries. A template asking for a band the document never declared, or a
+      // value no band covers, is reported rather than left blank.
+      const renderTemplate = (template, value) => {
+        let next = String(template).replace('{value}', ruleRenderValue(value, isClock, rule));
+        if (!next.includes('{band}')) return next;
+        if (!bandWords.length) {
+          if (!bandWarning.missing) {
+            bandWarning.missing = true;
+            diagnostics.push({
+              code: 'derive/band-not-declared',
+              severity: 'error',
+              message: `Rule "${rule.id}" renders {band}, but the document declares no meta.bands.`,
+              subject: { diagramType: 'workflow', rule: rule.id, path: '/meta/bands' },
+              evidence: { template: String(template) },
+              supportedFixes: ['declare meta.bands with a label and two clock ends', 'or render the value alone'],
+            });
+          }
+          return next.replace('{band}', '');
+        }
+        const band = clockBandAt(bandWords, value);
+        if (!band) {
+          const key = `${rule.id}:${value}`;
+          if (!bandWarning.outside.has(key)) {
+            bandWarning.outside.add(key);
+            diagnostics.push({
+              code: 'derive/band-out-of-range',
+              severity: 'error',
+              message: `Rule "${rule.id}" reaches ${showClock(value)}, which falls in no declared band.`,
+              subject: { diagramType: 'workflow', rule: rule.id, value },
+              evidence: { value, bands: bandWords.map((entry) => `${entry.entry.from}-${entry.entry.to}`) },
+              supportedFixes: ['widen a band to cover this value', 'or declare the band it belongs to'],
+            });
+          }
+          return next.replace('{band}', '');
+        }
+        return next.replace('{band}', band.entry.label);
+      };
       let value = ruleSeedValue(seed.base);
       let current = nodeById.get(seed.start);
       const seen = new Set();
@@ -1108,7 +1155,15 @@ function applyRules(workflow) {
           if (!claimed) renderSlots.set(leg.id, rule.id);
           if (!authoredEdgeLabels.has(leg.id)) authoredEdgeLabels.set(leg.id, leg.label || '');
           if (typeof edgeFact === 'number' && Number.isFinite(edgeFact)) edgeStepMinutes.set(leg.id, edgeFact);
-          leg.label = `${rule.render.edge.replace('{value}', ruleRenderValue(value, isClock, rule))}${leg.label || ''}`;
+          leg.label = `${renderTemplate(rule.render.edge, value)}${leg.label || ''}`;
+        }
+        if (rule.render && rule.render.caption) {
+          const claimed = renderSlots.get('caption:' + leg.id);
+          if (!claimed) {
+            renderSlots.set('caption:' + leg.id, rule.id);
+            const minutes = typeof edgeFact === 'number' && Number.isFinite(edgeFact) ? String(edgeFact) : '';
+            edgeCaptionText.set(leg.id, renderTemplate(rule.render.caption, value).replace('{minutes}', minutes).trim());
+          }
         }
         if (isClock && !nodeArrivalValues.has(leg.to)) nodeArrivalValues.set(leg.to, value);
         current = nodeById.get(leg.to);
@@ -1131,7 +1186,7 @@ function applyRules(workflow) {
           // The authored name keeps its identity; a derived clock is status that
           // the reader controls must not swallow.
           if (lane.readerLabel === undefined) lane.readerLabel = lane.label;
-          lane.label = `${lane.label} ${rule.render.lane.replace('{value}', ruleRenderValue(ruleSeedValue(seed.base), isClock, rule))}`;
+          lane.label = `${lane.label} ${renderTemplate(rule.render.lane, ruleSeedValue(seed.base))}`;
         }
       }
     }
@@ -1214,43 +1269,11 @@ function placePhases(workflow) {
     });
     return diagnostics;
   }
-  const bands = [];
-  for (const [index, phase] of phases.entries()) {
-    const from = clockMinutes(phase.from);
-    const to = clockMinutes(phase.to);
-    if (from === null || to === null) {
-      diagnostics.push({
-        code: 'workflow/phase-band-clock',
-        severity: 'error',
-        message: `Phase "${phase.id}" declares from/to that are not clock times.`,
-        subject: { diagramType: 'workflow', path: '/phases', phase: phase.id },
-        evidence: { from: phase.from, to: phase.to },
-        supportedFixes: ['write both ends as HH:MM', 'or declare the phase extent in columns'],
-      });
-      continue;
-    }
-    bands.push({ phase, index, from, to, wraps: from > to });
-  }
-  if (diagnostics.length) return diagnostics;
-  for (let i = 1; i < bands.length; i += 1) {
-    const previous = bands[i - 1];
-    const current = bands[i];
-    // Ends are inclusive and the axis is the declared order; a band that crosses
-    // midnight can only be the last one, or the day it belongs to is ambiguous.
-    const ordered = current.wraps
-      ? i === bands.length - 1 && current.from > previous.to
-      : current.from > previous.to;
-    if (ordered) continue;
-    diagnostics.push({
-      code: 'workflow/phase-band-order',
-      severity: 'error',
-      message: `Phase "${current.phase.id}" must start after phase "${previous.phase.id}" ends; only the last band may cross midnight.`,
-      subject: { diagramType: 'workflow', path: '/phases', phase: current.phase.id },
-      evidence: { from: current.phase.from, previousTo: previous.phase.to, last: i === bands.length - 1 },
-      supportedFixes: ['order the bands by the clock', 'or move the band that crosses midnight to the end'],
-    });
-    return diagnostics;
-  }
+  const listed = clockBandList(phases);
+  if (listed.diagnostics.length) return listed.diagnostics;
+  const bands = listed.bands.map((band, index) => ({
+    phase: band.entry, index, from: band.from, to: band.to, wraps: band.wraps,
+  }));
   // Every stop the rule reaches belongs to the band its own number falls in.
   const window = (band) => (band.wraps ? [band.from, 1440 + band.to] : [band.from, band.to]);
   const reached = [];
@@ -1339,6 +1362,108 @@ function missingColumnDiagnostics(workflow) {
     }));
 }
 
+// A group frame says "this stretch of the day has a name". Declared as a clock
+// range it covers the stops the clock put inside it, so the frame keeps its
+// meaning when the schedule moves; declared in columns it stays authored.
+function placeGroupFrames(workflow) {
+  const groups = asArray(workflow.groups);
+  const diagnostics = [];
+  for (const group of groups) {
+    const declared = typeof group.from === 'string' || typeof group.to === 'string';
+    if (!declared) continue;
+    const from = clockMinutes(group.from);
+    const to = clockMinutes(group.to);
+    if (from === null || to === null) {
+      diagnostics.push({
+        code: 'workflow/group-band-clock',
+        severity: 'error',
+        message: `Group "${group.id}" declares from/to that are not clock times.`,
+        subject: { diagramType: 'workflow', path: '/groups', group: group.id },
+        evidence: { from: group.from, to: group.to },
+        supportedFixes: ['write both ends as HH:MM', 'or declare the frame in columns'],
+      });
+      continue;
+    }
+    const wraps = from > to;
+    const inside = asArray(workflow.nodes).filter((node) => {
+      if (node.lane !== group.lane || !Number.isInteger(node.col)) return false;
+      const value = nodeArrivalValues.get(node.id);
+      if (typeof value !== 'number' || !Number.isFinite(value)) return false;
+      return wraps
+        ? value >= from && value <= 1440 + to
+        : value >= from && value <= to;
+    });
+    if (!inside.length) {
+      diagnostics.push({
+        code: 'workflow/group-band-empty',
+        severity: 'error',
+        message: `Group "${group.id}" covers no stop of lane "${group.lane}" between ${group.from} and ${group.to}.`,
+        subject: { diagramType: 'workflow', path: '/groups', group: group.id },
+        evidence: { lane: group.lane, from: group.from, to: group.to },
+        supportedFixes: ['widen the range to the stretch it names', 'or move the frame to the lane it describes'],
+      });
+      continue;
+    }
+    const columns = inside.map((node) => node.col);
+    group.fromCol = Math.min(...columns);
+    group.toCol = Math.max(...columns);
+  }
+  return diagnostics;
+}
+
+// A band is a word for a stretch of the clock: a label and two ends. Declared
+// under meta.bands it only names values, in the rule's own templates ({band});
+// declared as phases it is also the axis. Both read the same way, so one place
+// decides what a band means.
+function clockBandList(entries) {
+  const bands = [];
+  const diagnostics = [];
+  for (const entry of asArray(entries)) {
+    const from = clockMinutes(entry.from);
+    const to = clockMinutes(entry.to);
+    if (from === null || to === null) {
+      diagnostics.push({
+        code: 'workflow/band-clock',
+        severity: 'error',
+        message: `Band "${entry.id || entry.label}" declares from/to that are not clock times.`,
+        subject: { diagramType: 'workflow', band: entry.id || entry.label },
+        evidence: { from: entry.from, to: entry.to },
+        supportedFixes: ['write both ends as HH:MM', 'or leave the band out'],
+      });
+      continue;
+    }
+    bands.push({ entry, from, to, wraps: from > to });
+  }
+  if (diagnostics.length) return { bands: [], diagnostics };
+  for (let i = 1; i < bands.length; i += 1) {
+    const previous = bands[i - 1];
+    const current = bands[i];
+    // Ends are inclusive and the list is the order; a band that crosses midnight
+    // can only be the last one, or the day it belongs to is ambiguous.
+    const ordered = current.wraps
+      ? i === bands.length - 1 && current.from > previous.to
+      : current.from > previous.to;
+    if (ordered) continue;
+    diagnostics.push({
+      code: 'workflow/band-order',
+      severity: 'error',
+      message: `Band "${current.entry.id || current.entry.label}" must start after "${previous.entry.id || previous.entry.label}" ends; only the last band may cross midnight.`,
+      subject: { diagramType: 'workflow', band: current.entry.id || current.entry.label },
+      evidence: { from: current.entry.from, previousTo: previous.entry.to, last: i === bands.length - 1 },
+      supportedFixes: ['order the bands by the clock', 'or move the band that crosses midnight to the end'],
+    });
+    return { bands, diagnostics };
+  }
+  return { bands, diagnostics };
+}
+
+function clockBandAt(bands, value) {
+  const found = bands.find((band) => (band.wraps
+    ? value >= band.from && value <= 1440 + band.to
+    : value >= band.from && value <= band.to));
+  return found || null;
+}
+
 function compileWorkflowInternal({
   workflow: inputWorkflow,
   qualityProfile,
@@ -1393,7 +1518,7 @@ function compileWorkflowInternal({
       ruleDiagnostics,
     );
   }
-  const phaseDiagnostics = placePhases(workflow);
+  const phaseDiagnostics = [...placePhases(workflow), ...placeGroupFrames(workflow)];
   // A placement that did not resolve is the one defect worth naming: the stops
   // it could not place would otherwise each report a missing column on top.
   const placementDiagnostics = phaseDiagnostics.length ? phaseDiagnostics : missingColumnDiagnostics(workflow);
@@ -5098,8 +5223,11 @@ function renderEdgeLabel(edge, index) {
   // chip keeps its width and the journey is still what the middle reads.
   const minutes = edge.id !== undefined && edge.id !== null ? edgeStepMinutes.get(edge.id) : undefined;
   const spoken = typeof minutes === 'number' ? `${edge.label} · 这段 ${minutes} 分` : edge.label;
-  const caption = typeof minutes === 'number'
-    ? `\n          <text x="${lx}" y="${ly - 3}" class="t-muted" font-size="7" text-anchor="middle">${esc(`${minutes} 分`)}</text>`
+  const captionText = edge.id !== undefined && edge.id !== null && edgeCaptionText.has(edge.id)
+    ? edgeCaptionText.get(edge.id)
+    : (typeof minutes === 'number' ? `${minutes} 分` : '');
+  const caption = captionText
+    ? `\n          <text x="${lx}" y="${ly - 3}" class="t-muted" font-size="7" text-anchor="middle">${esc(captionText)}</text>`
     : '';
   const chip = legStatesCost(edge)
     ? `\n          <text x="${lx}" y="${ly - 13}" class="${variantAccent(edge.variant, { dashed: 't-database' })}" font-size="8" text-anchor="middle">${esc(edge.label)}</text>${caption}`

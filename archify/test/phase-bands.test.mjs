@@ -25,7 +25,7 @@ const BANDS = [
 
 const LANES = [{ id: 'l1', label: 'Lane' }];
 
-function document({ phases, nodes, edges, lanes, base = '09:00', rules } = {}) {
+function document({ phases, bands, groups, nodes, edges, lanes, base = '09:00', rules } = {}) {
   const spec = {
     schema_version: 2,
     diagram_type: 'workflow',
@@ -53,6 +53,8 @@ function document({ phases, nodes, edges, lanes, base = '09:00', rules } = {}) {
     cards: [],
   };
   if (phases) spec.phases = phases;
+  if (bands) spec.meta.bands = bands;
+  if (groups) spec.groups = groups;
   return spec;
 }
 
@@ -202,7 +204,7 @@ test('a band that starts before the previous one ends is reported', () => {
     { id: 'b1', label: 'band-1', from: '12:00', to: '16:59' },
     { id: 'b2', label: 'band-2', from: '05:00', to: '11:59' },
   ];
-  assert.ok(codes(document({ phases }), 'band-order').includes('workflow/phase-band-order'));
+  assert.ok(codes(document({ phases }), 'band-order').includes('workflow/band-order'));
 });
 
 test('a stop a clock rule reaches needs no authored column', () => {
@@ -228,6 +230,89 @@ test('a stop nothing places is named instead of leaving the canvas quietly', () 
   ];
   const spec = document({ phases: BANDS, nodes, lanes: [...LANES, { id: 'l2', label: 'Second lane' }] });
   assert.ok(codes(spec, 'no-place').includes('workflow/node-col-missing'));
+});
+
+test('a frame declared as a clock range covers exactly the stops inside it', () => {
+  const groups = [{ id: 'midday', label: 'frame', lane: 'l1', from: '11:00', to: '13:00' }];
+  const spec = document({ phases: BANDS, groups });
+  assert.deepEqual(codes(spec, 'frame'), []);
+  const rendered = render(spec, 'frame');
+  assert.equal(rendered.status, 0, rendered.output);
+  // The drawn frame carries rx; the composition marker does not.
+  const tag = /<rect[^>]*data-composition-frame-kind="group"[^>]*rx="9"[^>]*>/.exec(rendered.html);
+  const x = nodeX(rendered.html);
+  assert.ok(tag && Number.isFinite(x.b), 'frame and stops are drawn: ' + JSON.stringify({ tag: tag && tag[0], x }));
+  const left = / x="(-?[\d.]+)"/.exec(tag[0]);
+  const width = /width="(-?[\d.]+)"/.exec(tag[0]);
+  const frame = { from: Number(left[1]), to: Number(left[1]) + Number(width[1]) };
+  assert.ok(frame.from <= x.b && x.b + 120 <= frame.to + 8, 'the frame holds the 12:00 stop: ' + JSON.stringify(frame) + ' vs ' + JSON.stringify(x));
+  assert.ok(frame.to - frame.from < x.c - x.a + 120, 'and it is narrower than the whole lane');
+});
+
+test('a frame that covers no stop of its lane is reported', () => {
+  const groups = [{ id: 'empty', label: 'frame', lane: 'l1', from: '02:00', to: '03:00' }];
+  assert.ok(codes(document({ phases: BANDS, groups }), 'frame-empty').includes('workflow/group-band-empty'));
+});
+
+test('a rule can name the stretch of the clock a value falls in', () => {
+  const bands = [
+    { id: 'early', label: 'band-one', from: '05:00', to: '11:59' },
+    { id: 'late', label: 'band-two', from: '12:00', to: '23:59' },
+  ];
+  const rules = [{
+    id: 'clock',
+    kind: 'accumulate',
+    seeds: { l1: { start: 'a', base: '09:00' } },
+    add: { node: 'stay', edge: 'ride' },
+    render: { edge: '{band} {value} ' },
+  }];
+  const spec = document({ bands, rules });
+  assert.deepEqual(codes(spec, 'band-word'), []);
+  const rendered = render(spec, 'band-word');
+  assert.equal(rendered.status, 0, rendered.output);
+  // The 12:00 arrival wears the word its own clock falls in, and the label still
+  // reads as before around it.
+  assert.match(rendered.html, /band-two 12:00 go/);
+});
+
+test('a template asking for a band the document never declared is reported', () => {
+  const rules = [{
+    id: 'clock',
+    kind: 'accumulate',
+    seeds: { l1: { start: 'a', base: '09:00' } },
+    add: { node: 'stay', edge: 'ride' },
+    render: { edge: '{band} {value} ' },
+  }];
+  assert.ok(codes(document({ rules }), 'band-missing').includes('derive/band-not-declared'));
+});
+
+test('a value no declared band covers is reported where it is rendered', () => {
+  const bands = [{ id: 'early', label: 'band-one', from: '05:00', to: '11:59' }];
+  const rules = [{
+    id: 'clock',
+    kind: 'accumulate',
+    seeds: { l1: { start: 'a', base: '09:00' } },
+    add: { node: 'stay', edge: 'ride' },
+    render: { edge: '{band} {value} ' },
+  }];
+  assert.ok(codes(document({ bands, rules }), 'band-outside').includes('derive/band-out-of-range'));
+});
+
+test('a rule can write the caption under a label, and the minutes stay available', () => {
+  const bands = [{ id: 'late', label: 'band-two', from: '12:00', to: '23:59' }];
+  const rules = [{
+    id: 'clock',
+    kind: 'accumulate',
+    seeds: { l1: { start: 'a', base: '09:00' } },
+    add: { node: 'stay', edge: 'ride' },
+    render: { edge: '{value} ', caption: '{band} · {minutes} 分' },
+  }];
+  const spec = document({ bands, rules });
+  assert.deepEqual(codes(spec, 'caption'), []);
+  const rendered = render(spec, 'caption');
+  assert.equal(rendered.status, 0, rendered.output);
+  // the 12:00 arrival is a 120 minute leg, named by the band it lands in
+  assert.match(rendered.html, /band-two · 120 分/);
 });
 
 process.on('exit', () => fs.rmSync(tmp, { recursive: true, force: true }));

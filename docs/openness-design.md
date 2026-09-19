@@ -62,7 +62,8 @@ What we have already decided, and where it landed:
 | Let the reader's own moment move the numbers | `meta.reader.clock` names a declared rule and three declared slots (anchor, at, dwell); the compiler ships the rule's inputs and embeds the one shared walk, and a test re-derives every drawn time from the document | done |
 | Suppress framework chrome a domain does not need | `meta.reader.suppress`: the effect id belongs to the chrome that owns it, a suppressed effect is never built, and the delivery receipt records what was left out | done |
 | Let a line carry a declared state | `meta.edgeStates` names the states a pack may author on an edge and the colour slot each one uses; the core owns only the condition it can report (today: a day past its ceiling), and the paint reaches the authored line, its arrow class, and nothing else | done |
-| Let the axis follow the clock instead of pre-empting it | a phase may declare its extent as a clock range (`from`/`to`) instead of columns: the derived value places each stop, a band is as wide as the busiest lane needs, a band the day skipped still shows, and a number no band covers is named rather than clamped into the nearest one | done |
+| Let the axis follow the clock instead of pre-empting it | a phase may declare its extent as a clock range (`from`/`to`) instead of columns: the derived value places each stop, a band is as wide as the busiest lane needs, a band the day skipped still shows, and a number no band covers is named rather than clamped into the nearest one | done, with a measured cost — see §8 |
+| Let a value carry the word for its own stretch of the clock | `meta.bands` names the vocabulary (label + two ends); `{band}` in a rule's render template, including the caption line under a label, writes the word beside the value it describes. The word rides with the moment, so it costs no width | done |
 
 ## 4. Orthogonality between seams
 
@@ -116,6 +117,13 @@ The core knows no domain field names. A document declares **facts** (numbers on 
 - **A field exists only once declared**: an element that never declares a fact takes part in nothing and reports nothing. Strictness is opt-in via `missing: "error"`.
 - **Naming something that does not exist is an error**, never a silent skip.
 - **One operator upstream, free field names downstream**: a pack names its facts and slots however it likes, and the same document with different names draws the same schedule. What a pack may not do is redefine the operator — pointing the reader's clock at a rule that is not a forward walk reports `workflow/unreplayable-rule` instead of guessing.
+
+**Bands place or they name.** The same clock range serves two jobs, and a document picks one:
+
+- As a **phase** (clock form) it is the axis: the value places each stop, and the band words are true by construction. Measured on the Shanghai pack this needs nine columns — 1719px — against the 930px a 960px-wide reader offers, so every stop's text would project 4.3px. Honest, and unreadable at the promise.
+- As `meta.bands` it is a vocabulary: `{band}` writes the word where the value already is (the caption line under a leg label is the cheapest place, since the mask width is set by the line above it). The pack keeps its six compact columns, the canvas stays at 1223px, and 6.1px of projected text survives the same gate.
+
+The lesson is not "prefer one"; it is that alignment is worth its width only when the days actually share a clock, and five stops a day over four days do not.
 
 ## 9. Verified samples
 
