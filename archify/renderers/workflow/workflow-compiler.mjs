@@ -1411,6 +1411,50 @@ function workflowLegendRects() {
 
 const { measureNode, nodeTextFit, nodes } = measureWorkflowNodes(workflow, layout, laneGeometry);
 
+// Obstacles of the routing search are queried through a uniform grid instead of
+// scanned: a candidate can only fail an obstacle its own box can reach.
+const OBSTACLE_CELL = 160;
+function createObstacleGrid() {
+  const buckets = new Map();
+  const rangeOf = (box) => ({
+    x0: Math.floor(box.minX / OBSTACLE_CELL), x1: Math.floor(box.maxX / OBSTACLE_CELL),
+    y0: Math.floor(box.minY / OBSTACLE_CELL), y1: Math.floor(box.maxY / OBSTACLE_CELL),
+  });
+  return {
+    insert(box, item) {
+      const range = rangeOf(box);
+      for (let x = range.x0; x <= range.x1; x += 1) {
+        for (let y = range.y0; y <= range.y1; y += 1) {
+          const key = x + ':' + y;
+          let bucket = buckets.get(key);
+          if (!bucket) { bucket = []; buckets.set(key, bucket); }
+          bucket.push(item);
+        }
+      }
+    },
+    query(box) {
+      const range = rangeOf(box);
+      const seen = new Set();
+      const found = [];
+      for (let x = range.x0; x <= range.x1; x += 1) {
+        for (let y = range.y0; y <= range.y1; y += 1) {
+          const bucket = buckets.get(x + ':' + y);
+          if (!bucket) continue;
+          for (const item of bucket) {
+            if (seen.has(item)) continue;
+            seen.add(item);
+            found.push(item);
+          }
+        }
+      }
+      return found;
+    },
+  };
+}
+
+const obstacleGrid = createObstacleGrid();
+for (const node of nodes.values()) obstacleGrid.insert(rectToBounds(node), { kind: 'node', node });
+
 function workflowCompositionFrames() {
   const frames = [];
   for (const [index, lane] of asArray(workflow.lanes).entries()) {
@@ -3107,12 +3151,15 @@ function boundsOverlap(a, b, margin) {
 function routeClearsUnrelatedNodes(edge, points, clearance = 2) {
   const endpointIds = new Set([edge.from, edge.to]);
   const routeExtent = routeBounds(points);
-  for (const node of nodes.values()) {
+  const queryBox = {
+    minX: routeExtent.minX - clearance, minY: routeExtent.minY - clearance,
+    maxX: routeExtent.maxX + clearance, maxY: routeExtent.maxY + clearance,
+  };
+  for (const item of obstacleGrid.query(queryBox)) {
+    if (item.kind !== 'node') continue;
+    const node = item.node;
     if (endpointIds.has(node.id)) continue;
-    // A node whose box cannot touch the route box cannot be hit by any segment.
-    if (!boundsOverlap(routeExtent, {
-      minX: node.x, minY: node.y, maxX: node.x + node.width, maxY: node.y + node.height,
-    }, clearance)) continue;
+    if (!boundsOverlap(routeExtent, rectToBounds(node), clearance)) continue;
     for (let index = 0; index < points.length - 1; index += 1) {
       if (segmentIntersectsRect({ start: points[index], end: points[index + 1] }, node, clearance)) {
         return false;
@@ -3283,34 +3330,34 @@ function labelRouteClearanceDeficit(edge, points, threshold = 8) {
 function routeClearsPlacedLabels(edge, points) {
   const candidateLabel = candidateLabelRect(edge, points);
   const candidateExtent = routeBounds(points);
-  for (const [otherEdge, routed] of pathCache) {
-    const otherIndex = edgeIndexByEdge.get(otherEdge) ?? workflow.edges.indexOf(otherEdge);
-    const otherLabel = labelRectFor(otherEdge, otherIndex);
-    // Skip only when the candidate route and label are both out of reach of the
-    // other route and its label; a label may sit far from the route it annotates.
-    const otherExtent = routeBounds(routed.points);
-    const candidateLabelExtent = candidateLabel ? rectToBounds(candidateLabel) : null;
-    const otherLabelExtent = otherLabel ? rectToBounds(otherLabel) : null;
-    if (!boundsOverlap(candidateExtent, otherExtent, 4)
-      && (!candidateLabelExtent || !boundsOverlap(candidateLabelExtent, otherExtent, 4))
-      && (!otherLabelExtent || !boundsOverlap(candidateExtent, otherLabelExtent, 4))
-      && (!candidateLabelExtent || !otherLabelExtent || !boundsOverlap(candidateLabelExtent, otherLabelExtent, 4))) continue;
-    if (candidateLabel && otherLabel && rectsOverlap(candidateLabel, otherLabel, -2)) return false;
-    if (candidateLabel) {
-      for (let index = 0; index < routed.points.length - 1; index += 1) {
-        const clearance = segmentRectClearance({
-          start: routed.points[index],
-          end: routed.points[index + 1],
-        }, candidateLabel);
-        if (clearance != null && clearance + 0.0001 < 4) return false;
-      }
-    }
-    if (otherLabel) {
+  const queryBox = {
+    minX: candidateExtent.minX - 4, minY: candidateExtent.minY - 4,
+    maxX: candidateExtent.maxX + 4, maxY: candidateExtent.maxY + 4,
+  };
+  if (candidateLabel) {
+    queryBox.minX = Math.min(queryBox.minX, candidateLabel.x - 4);
+    queryBox.minY = Math.min(queryBox.minY, candidateLabel.y - 4);
+    queryBox.maxX = Math.max(queryBox.maxX, candidateLabel.x + candidateLabel.width + 4);
+    queryBox.maxY = Math.max(queryBox.maxY, candidateLabel.y + candidateLabel.height + 4);
+  }
+  for (const item of obstacleGrid.query(queryBox)) {
+    // A label may sit far from the route it annotates, so both boxes are queried.
+    if (item.kind === 'label') {
+      if (candidateLabel && rectsOverlap(candidateLabel, item.rect, -2)) return false;
       for (let index = 0; index < points.length - 1; index += 1) {
         const clearance = segmentRectClearance({
           start: points[index],
           end: points[index + 1],
-        }, otherLabel);
+        }, item.rect);
+        if (clearance != null && clearance + 0.0001 < 4) return false;
+      }
+    } else if (item.kind === 'route' && candidateLabel) {
+      const otherPoints = item.routed.points;
+      for (let index = 0; index < otherPoints.length - 1; index += 1) {
+        const clearance = segmentRectClearance({
+          start: otherPoints[index],
+          end: otherPoints[index + 1],
+        }, candidateLabel);
         if (clearance != null && clearance + 0.0001 < 4) return false;
       }
     }
@@ -4326,6 +4373,16 @@ function readableControlledRoute(edge, from, to) {
   };
 }
 
+// Registering a routed path also publishes it (and its label box) to the grid.
+function registerRouted(edge, routed) {
+  pathCache.set(edge, routed);
+  obstacleGrid.insert(routeBounds(routed.points), { kind: 'route', edge, routed });
+  const index = edgeIndexByEdge.get(edge);
+  const label = index === undefined ? null : labelRectFor(edge, index);
+  if (label) obstacleGrid.insert(rectToBounds(label), { kind: 'label', edge, rect: label });
+  return routed;
+}
+
 function pathFor(edge) {
   if (pathCache.has(edge)) return pathCache.get(edge);
   const from = nodes.get(edge.from);
@@ -4338,8 +4395,7 @@ function pathFor(edge) {
         toSide: planned.toSide,
       });
       const routed = { d: polylinePath(planned.points), points: planned.points };
-      pathCache.set(edge, routed);
-      return routed;
+      return registerRouted(edge, routed);
     }
   }
   const ports = automaticPorts.get(edge);
@@ -4362,8 +4418,7 @@ function pathFor(edge) {
       toSide: planned.toSide,
     });
     const routed = { d: polylinePath(planned.points), points: planned.points };
-    pathCache.set(edge, routed);
-    return routed;
+    return registerRouted(edge, routed);
   }
   const start = ports?.from || anchor(from, fromSide);
   const end = ports?.to || anchor(to, toSide);
@@ -4375,8 +4430,7 @@ function pathFor(edge) {
     ? normalizeRoutePoints(authoredPoints)
     : authoredPoints;
   const routed = { d: polylinePath(points), points };
-  pathCache.set(edge, routed);
-  return routed;
+  return registerRouted(edge, routed);
 }
 
 // The label rectangle follows from the routed path, which is fixed once it is
