@@ -1,4 +1,4 @@
-import { normalizeRoutePoints, rectsOverlap, segmentRectClearance } from '../shared/geometry.mjs';
+import { normalizeRoutePoints, rectsOverlap, segmentRectClearanceWithin } from '../shared/geometry.mjs';
 
 // A bounded fallback for an unpinned label whose usual position collides.
 // It never routes an edge, moves a node, expands the canvas, or rewrites input.
@@ -16,7 +16,7 @@ export function placeAutomaticLabels({
     && rect.x + rect.width <= viewBox[0] && rect.y + rect.height <= viewBox[1]
   );
   const masksRoute = rect => segments.some(segment => segment.relationIndex !== rect.relationIndex
-    && segmentRectClearance(segment, rect) + 0.0001 < 4);
+    && segmentRectClearanceWithin(segment, rect, 4) + 0.0001 < 4);
   const overlapsLabel = (rect, index, gap = 0) => placed.some((other, otherIndex) => (
     otherIndex !== index && rectsOverlap(rect, other, gap)
   ));
@@ -100,7 +100,7 @@ export function placeAutomaticLabels({
     const fallback = baseAnchors.flatMap(([baseX, baseY]) => (
       ringOffsets.map(([dx, dy]) => rectAt(label, baseX + dx, baseY + dy))
     )).find(rect => clear(rect, index) && (!keepFallbackNearRoute || ownSegments.some(segment => (
-      segmentRectClearance(segment, rect) <= label.height * 2
+      segmentRectClearanceWithin(segment, rect, label.height * 2) <= label.height * 2
     ))));
     if (fallback) placed[index] = fallback;
   }

@@ -55,21 +55,39 @@ export function segmentRectClearance(segment, rect) {
   if (!segment || !rect) return null;
   const { start, end } = segment;
   if (!Array.isArray(start) || !Array.isArray(end) || start.length !== 2 || end.length !== 2) return null;
-  if (!isFinitePoint(...start, ...end, rect.x, rect.y, rect.width, rect.height)) return null;
+  if (!isFinitePoint(start[0], start[1], end[0], end[1], rect.x, rect.y, rect.width, rect.height)) return null;
   if (rect.width < 0 || rect.height < 0) return null;
   if (segmentIntersectsRect(segment, rect)) return 0;
 
-  const corners = [
-    [rect.x, rect.y],
-    [rect.x + rect.width, rect.y],
-    [rect.x + rect.width, rect.y + rect.height],
-    [rect.x, rect.y + rect.height],
-  ];
-  return Math.min(
-    pointRectDistance(start, rect),
-    pointRectDistance(end, rect),
-    ...corners.map((corner) => pointSegmentDistance(corner, start, end)),
-  );
+  const right = rect.x + rect.width;
+  const bottom = rect.y + rect.height;
+  let clearance = Math.min(pointRectDistance(start, rect), pointRectDistance(end, rect));
+  const corners = [rect.x, rect.y, right, rect.y, right, bottom, rect.x, bottom];
+  for (let index = 0; index < 8; index += 2) {
+    const distance = pointSegmentDistanceXY(corners[index], corners[index + 1], start, end);
+    if (distance < clearance) clearance = distance;
+  }
+  return clearance;
+}
+
+// The same clearance, but the caller already knows the threshold it compares
+// against: when an axis gap alone proves the distance cannot be smaller, the
+// exact distance is never computed and Infinity is returned.
+export function segmentRectClearanceWithin(segment, rect, limit) {
+  if (!segment || !rect) return segmentRectClearance(segment, rect);
+  const { start, end } = segment;
+  if (!Array.isArray(start) || !Array.isArray(end) || start.length !== 2 || end.length !== 2) return null;
+  if (!isFinitePoint(start[0], start[1], end[0], end[1], rect.x, rect.y, rect.width, rect.height)) return null;
+  if (rect.width < 0 || rect.height < 0) return null;
+  if (segmentIntersectsRect(segment, rect)) return 0;
+  const minX = Math.min(start[0], end[0]);
+  const maxX = Math.max(start[0], end[0]);
+  const minY = Math.min(start[1], end[1]);
+  const maxY = Math.max(start[1], end[1]);
+  const gapX = Math.max(rect.x - maxX, minX - (rect.x + rect.width));
+  const gapY = Math.max(rect.y - maxY, minY - (rect.y + rect.height));
+  if (Math.max(gapX, gapY) > limit) return Number.POSITIVE_INFINITY;
+  return segmentRectClearance(segment, rect);
 }
 
 export function segmentRectIntersectionLength(segment, rect) {
@@ -1300,6 +1318,14 @@ function pointRectDistance(point, rect) {
   const dx = Math.max(rect.x - point[0], 0, point[0] - (rect.x + rect.width));
   const dy = Math.max(rect.y - point[1], 0, point[1] - (rect.y + rect.height));
   return Math.hypot(dx, dy);
+}
+
+function pointSegmentDistanceXY(px, py, start, end) {
+  const dx = end[0] - start[0];
+  const dy = end[1] - start[1];
+  if (dx === 0 && dy === 0) return Math.hypot(px - start[0], py - start[1]);
+  const t = Math.max(0, Math.min(1, ((px - start[0]) * dx + (py - start[1]) * dy) / (dx * dx + dy * dy)));
+  return Math.hypot(px - (start[0] + t * dx), py - (start[1] + t * dy));
 }
 
 function pointSegmentDistance(point, start, end) {
