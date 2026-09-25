@@ -30,6 +30,7 @@ import {
   planningWorkflow,
 } from './workflow-migration-geometry.mjs';
 import {
+  joinRoutePoints,
   asArray,
   isFinitePoint,
   rectsOverlap,
@@ -2175,7 +2176,7 @@ function corridorTopologyMatches(points, axis, coordinate) {
   const via = axis === 'x'
     ? [[coordinate, start[1]], [coordinate, end[1]]]
     : [[start[0], coordinate], [end[0], coordinate]];
-  const expected = normalizeRoutePoints([start, ...via, end]);
+  const expected = joinRoutePoints(start, via, end);
   const actualPattern = routeSegments(collapsed).map(({ orientation }) => orientation);
   const expectedPattern = routeSegments(expected).map(({ orientation }) => orientation);
   return actualPattern.length === expectedPattern.length
@@ -3659,7 +3660,7 @@ function readableAutomaticCandidateSet(
   const candidates = rawCandidates.map((candidate, ordinal) => ({
     ...candidate,
     ordinal: ordinalOffset + ordinal,
-    points: normalizeRoutePoints([start, ...candidate.via, end]),
+    points: joinRoutePoints(start, candidate.via, end),
   })).filter(({ points }) => (
     readableCandidateIsFeasible(edge, points, from, to, fromSide, toSide)
   )).map((candidate) => ({
@@ -3873,7 +3874,7 @@ function readablePresetVia(edge, from, to, start, end, fromSide, toSide) {
     default:
       return readableAutomaticVia(edge, from, to, start, end, fromSide, toSide);
   }
-  const points = normalizeRoutePoints([start, ...via, end]);
+  const points = joinRoutePoints(start, via, end);
   if (readableCandidateIsFeasible(edge, points, from, to, fromSide, toSide)
     && routeMatchesPresetFamily(preset, points, from, to)) {
     return points.slice(1, -1);
@@ -4164,7 +4165,7 @@ function readableAutomaticRoute(edge, from, to, primarySides, primaryPorts) {
             const via = withDiagnosticRecordingSuppressed(() => readableAutomaticVia(
               edge, from, to, alternativeStart, alternativeEnd, candidateSides.fromSide, candidateSides.toSide,
             ));
-            const points = normalizeRoutePoints([alternativeStart, ...via, alternativeEnd]);
+            const points = joinRoutePoints(alternativeStart, via, alternativeEnd);
             plans.push({
               points, ...candidateSides,
               cost: readableCandidateCost(edge, points, pairOrdinal * 9 + portOrdinal * 144 + 6, naturalFromSide, naturalToSide),
@@ -4187,7 +4188,7 @@ function readableAutomaticRoute(edge, from, to, primarySides, primaryPorts) {
         candidateSides.fromSide,
         candidateSides.toSide,
       ));
-      const expandedPoints = normalizeRoutePoints([start, ...expandedVia, end]);
+      const expandedPoints = joinRoutePoints(start, expandedVia, end);
       const outsideRightOrdinal = planned.rawCandidates.findIndex(({ family }) => (
         family === 'outside-right'
       ));

@@ -352,7 +352,6 @@ export function routeHonorsEndpointSides(points, fromSide, toSide) {
   return !endpointSideIssue(points, 'source', fromSide)
     && !endpointSideIssue(points, 'target', toSide);
 }
-
 // Explicit fromSide/toSide are authored geometry, so a tangent or backwards
 // endpoint segment changes their meaning. Fail this universally instead of
 // leaving a malformed arrow for visual review to discover. Named routes and
@@ -1256,6 +1255,27 @@ function segmentPosition(index, segmentCount) {
 // every predicate that inspects it. Keyed by the array itself, so a rebuilt
 // route simply gets a new entry.
 const NORMALIZED_ROUTE_POINTS = new WeakMap();
+
+// Assembling a route from an anchor, corridor points and an anchor is the same
+// normalization without the intermediate array, and the result is seeded in the
+// cache so later predicates do not normalize it again.
+export function joinRoutePoints(start, via, end) {
+  const normalized = [];
+  const accept = (point) => {
+    if (!Array.isArray(point) || point.length !== 2 || !isFinitePoint(point[0], point[1])) return;
+    const previous = normalized.at(-1);
+    if (previous
+      && Math.abs(point[0] - previous[0]) <= 0.0001
+      && Math.abs(point[1] - previous[1]) <= 0.0001) return;
+    while (normalized.length >= 2 && collinearForward(normalized.at(-2), normalized.at(-1), point)) normalized.pop();
+    normalized.push(point);
+  };
+  accept(start);
+  for (const point of Array.isArray(via) ? via : []) accept(point);
+  accept(end);
+  NORMALIZED_ROUTE_POINTS.set(normalized, normalized);
+  return normalized;
+}
 
 export function normalizeRoutePoints(points) {
   if (Array.isArray(points)) {
