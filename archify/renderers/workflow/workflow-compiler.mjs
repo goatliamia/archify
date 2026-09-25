@@ -1487,6 +1487,7 @@ function workflowSceneLabelObstacles() {
 }
 
 const { mainPathSteps, edgeSteps, nodeStep } = createWorkflowStepIndexes(workflow);
+const edgeIndexByEdge = new Map(asArray(workflow.edges).map((edge, index) => [edge, index]));
 
   function acceptsFix(mutator) {
     if (!discoverFixes) return false;
@@ -3083,10 +3084,35 @@ function sameLaneAutoVia(start, end) {
   return [[midX, start[1]], [midX, end[1]]];
 }
 
+function routeBounds(points) {
+  let minX = Infinity; let minY = Infinity; let maxX = -Infinity; let maxY = -Infinity;
+  for (const point of points) {
+    if (point[0] < minX) minX = point[0];
+    if (point[0] > maxX) maxX = point[0];
+    if (point[1] < minY) minY = point[1];
+    if (point[1] > maxY) maxY = point[1];
+  }
+  return { minX, minY, maxX, maxY };
+}
+
+function rectToBounds(rect) {
+  return { minX: rect.x, minY: rect.y, maxX: rect.x + rect.width, maxY: rect.y + rect.height };
+}
+
+function boundsOverlap(a, b, margin) {
+  return a.minX <= b.maxX + margin && b.minX <= a.maxX + margin
+    && a.minY <= b.maxY + margin && b.minY <= a.maxY + margin;
+}
+
 function routeClearsUnrelatedNodes(edge, points, clearance = 2) {
   const endpointIds = new Set([edge.from, edge.to]);
+  const routeExtent = routeBounds(points);
   for (const node of nodes.values()) {
     if (endpointIds.has(node.id)) continue;
+    // A node whose box cannot touch the route box cannot be hit by any segment.
+    if (!boundsOverlap(routeExtent, {
+      minX: node.x, minY: node.y, maxX: node.x + node.width, maxY: node.y + node.height,
+    }, clearance)) continue;
     for (let index = 0; index < points.length - 1; index += 1) {
       if (segmentIntersectsRect({ start: points[index], end: points[index + 1] }, node, clearance)) {
         return false;
@@ -3247,9 +3273,19 @@ function labelRouteClearanceDeficit(edge, points, threshold = 8) {
 
 function routeClearsPlacedLabels(edge, points) {
   const candidateLabel = candidateLabelRect(edge, points);
+  const candidateExtent = routeBounds(points);
   for (const [otherEdge, routed] of pathCache) {
-    const otherIndex = workflow.edges.indexOf(otherEdge);
+    const otherIndex = edgeIndexByEdge.get(otherEdge) ?? workflow.edges.indexOf(otherEdge);
     const otherLabel = labelRectFor(otherEdge, otherIndex);
+    // Skip only when the candidate route and label are both out of reach of the
+    // other route and its label; a label may sit far from the route it annotates.
+    const otherExtent = routeBounds(routed.points);
+    const candidateLabelExtent = candidateLabel ? rectToBounds(candidateLabel) : null;
+    const otherLabelExtent = otherLabel ? rectToBounds(otherLabel) : null;
+    if (!boundsOverlap(candidateExtent, otherExtent, 4)
+      && (!candidateLabelExtent || !boundsOverlap(candidateLabelExtent, otherExtent, 4))
+      && (!otherLabelExtent || !boundsOverlap(candidateExtent, otherLabelExtent, 4))
+      && (!candidateLabelExtent || !otherLabelExtent || !boundsOverlap(candidateLabelExtent, otherLabelExtent, 4))) continue;
     if (candidateLabel && otherLabel && rectsOverlap(candidateLabel, otherLabel, -2)) return false;
     if (candidateLabel) {
       for (let index = 0; index < routed.points.length - 1; index += 1) {
