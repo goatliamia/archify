@@ -3274,13 +3274,19 @@ function routeMeetsHardRhythm(points) {
 function routeLabelClearsNodes(edge, points) {
   if (!edge.label || edge.labelAt) return true;
   const [lx, ly] = workflowEdgeLabelPoint(edge, points);
-  const rect = {
-    x: lx - workflowLabelWidth(edge.label) / 2,
-    y: ly - 10,
-    width: workflowLabelWidth(edge.label),
-    height: 14,
+  const width = workflowLabelWidth(edge.label);
+  const rect = { x: lx - width / 2, y: ly - 10, width, height: 14 };
+  // The comparison shrinks the rect by two pixels, so only nodes inside the
+  // shrunk box can fail it.
+  const queryBox = {
+    minX: rect.x + 2, minY: rect.y + 2,
+    maxX: rect.x + rect.width - 2, maxY: rect.y + rect.height - 2,
   };
-  return [...nodes.values()].every((node) => !rectsOverlap(rect, node, -2));
+  for (const item of obstacleGrid.query(queryBox)) {
+    if (item.kind !== 'node') continue;
+    if (rectsOverlap(rect, item.node, -2)) return false;
+  }
+  return true;
 }
 
 function candidateLabelRect(edge, points) {
@@ -3293,33 +3299,40 @@ function candidateLabelRect(edge, points) {
 function labelRouteClearanceDeficit(edge, points, threshold = 8) {
   const candidateLabel = candidateLabelRect(edge, points);
   const candidateExtent = routeBounds(points);
-  const candidateLabelExtent = candidateLabel ? rectToBounds(candidateLabel) : null;
+  if (candidateLabel) {
+    const labelExtent = rectToBounds(candidateLabel);
+    candidateExtent.minX = Math.min(candidateExtent.minX, labelExtent.minX);
+    candidateExtent.minY = Math.min(candidateExtent.minY, labelExtent.minY);
+    candidateExtent.maxX = Math.max(candidateExtent.maxX, labelExtent.maxX);
+    candidateExtent.maxY = Math.max(candidateExtent.maxY, labelExtent.maxY);
+  }
+  const queryBox = {
+    minX: candidateExtent.minX - threshold, minY: candidateExtent.minY - threshold,
+    maxX: candidateExtent.maxX + threshold, maxY: candidateExtent.maxY + threshold,
+  };
+  // Accumulate in the order the routes were registered, which is the order the
+  // previous full scan used, so the floating-point sum is identical.
+  const items = obstacleGrid.query(queryBox)
+    .filter((item) => item.kind === 'route' || item.kind === 'label')
+    .sort((left, right) => left.sequence - right.sequence || (left.kind === right.kind ? 0 : left.kind === 'route' ? -1 : 1));
   let deficit = 0;
-  for (const [otherEdge, routed] of pathCache) {
-    const otherIndex = edgeIndexByEdge.get(otherEdge) ?? workflow.edges.indexOf(otherEdge);
-    const otherLabel = labelRectFor(otherEdge, otherIndex);
-    // Nothing outside the threshold can contribute to the deficit.
-    const otherExtent = routeBounds(routed.points);
-    const otherLabelExtent = otherLabel ? rectToBounds(otherLabel) : null;
-    if (!boundsOverlap(candidateExtent, otherExtent, threshold)
-      && (!candidateLabelExtent || !boundsOverlap(candidateLabelExtent, otherExtent, threshold))
-      && (!otherLabelExtent || !boundsOverlap(candidateExtent, otherLabelExtent, threshold))
-      && (!candidateLabelExtent || !otherLabelExtent || !boundsOverlap(candidateLabelExtent, otherLabelExtent, threshold))) continue;
-    if (candidateLabel) {
-      for (let index = 0; index < routed.points.length - 1; index += 1) {
+  for (const item of items) {
+    if (item.kind === 'route') {
+      if (!candidateLabel) continue;
+      const otherPoints = item.routed.points;
+      for (let index = 0; index < otherPoints.length - 1; index += 1) {
         const clearance = segmentRectClearance({
-          start: routed.points[index],
-          end: routed.points[index + 1],
+          start: otherPoints[index],
+          end: otherPoints[index + 1],
         }, candidateLabel);
         if (clearance != null) deficit += Math.max(0, threshold - clearance);
       }
-    }
-    if (otherLabel) {
+    } else if (candidateLabel || !edge.label) {
       for (let index = 0; index < points.length - 1; index += 1) {
         const clearance = segmentRectClearance({
           start: points[index],
           end: points[index + 1],
-        }, otherLabel);
+        }, item.rect);
         if (clearance != null) deficit += Math.max(0, threshold - clearance);
       }
     }
@@ -3378,9 +3391,16 @@ function routeClearsLegend(edge, points) {
   return true;
 }
 
+// Scene label obstacles are a pure function of the document and the layout.
+let cachedSceneLabelObstacles = null;
+function sceneLabelObstacles() {
+  if (!cachedSceneLabelObstacles) cachedSceneLabelObstacles = workflowSceneLabelObstacles();
+  return cachedSceneLabelObstacles;
+}
+
 function routeClearsSceneLabelObstacles(edge, points) {
   const label = candidateLabelRect(edge, points);
-  for (const obstacle of workflowSceneLabelObstacles()) {
+  for (const obstacle of sceneLabelObstacles()) {
     for (let index = 0; index < points.length - 1; index += 1) {
       if (segmentIntersectsRect({ start: points[index], end: points[index + 1] }, obstacle)) {
         return false;
@@ -3391,10 +3411,21 @@ function routeClearsSceneLabelObstacles(edge, points) {
   return true;
 }
 
+// Composition frames are pure as well; only a frame that reaches the candidate
+// can share a border line with it.
+let cachedCompositionFrames = null;
+function compositionFrames() {
+  if (!cachedCompositionFrames) cachedCompositionFrames = workflowCompositionFrames();
+  return cachedCompositionFrames;
+}
+
 function routeClearsFrameBorders(points) {
+  const extent = routeBounds(points);
+  const nearFrames = compositionFrames().filter((frame) => boundsOverlap(rectToBounds(frame), extent, 0));
+  if (!nearFrames.length) return true;
   return collectBorderRuns({
     routedRelations: [{ points }],
-    frames: workflowCompositionFrames(),
+    frames: nearFrames,
   }).length === 0;
 }
 
@@ -4374,12 +4405,14 @@ function readableControlledRoute(edge, from, to) {
 }
 
 // Registering a routed path also publishes it (and its label box) to the grid.
+let obstacleSequence = 0;
 function registerRouted(edge, routed) {
   pathCache.set(edge, routed);
-  obstacleGrid.insert(routeBounds(routed.points), { kind: 'route', edge, routed });
+  const sequence = obstacleSequence++;
+  obstacleGrid.insert(routeBounds(routed.points), { kind: 'route', edge, routed, sequence });
   const index = edgeIndexByEdge.get(edge);
   const label = index === undefined ? null : labelRectFor(edge, index);
-  if (label) obstacleGrid.insert(rectToBounds(label), { kind: 'label', edge, rect: label });
+  if (label) obstacleGrid.insert(rectToBounds(label), { kind: 'label', edge, rect: label, sequence });
   return routed;
 }
 
