@@ -3468,19 +3468,22 @@ function routeFitsCanvasOrigin(edge, points) {
   return routeExtentCoordinates(edge, points).every(([x, y]) => x >= 0 && y >= 0);
 }
 
+// Predicates are pure, so their order does not change the result; they are
+// ordered by "cheap and selective first" so the expensive clearance work runs
+// on fewer candidates.
 function readableCandidateIsFeasible(edge, points, from, to, fromSide, toSide) {
   return points.length >= 2
     && orthogonalRoute(points)
-    && routeHonorsEndpointSides(points, fromSide, toSide)
     && routeMeetsHardRhythm(points)
+    && routeHonorsEndpointSides(points, fromSide, toSide)
     && routeClearsEndpointNodes(points, from, to)
-    && routeClearsUnrelatedNodes(edge, points)
     && routeLabelClearsNodes(edge, points)
-    && routeClearsPlacedLabels(edge, points)
-    && routeClearsLegend(edge, points)
     && routeClearsSceneLabelObstacles(edge, points)
+    && routeClearsUnrelatedNodes(edge, points)
+    && routeClearsPlacedLabels(edge, points)
+    && routeFitsCanvasOrigin(edge, points)
     && routeClearsFrameBorders(points)
-    && routeFitsCanvasOrigin(edge, points);
+    && routeClearsLegend(edge, points);
 }
 
 function corridorViaY(start, end, fromSide, toSide, y) {
