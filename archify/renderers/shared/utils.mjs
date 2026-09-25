@@ -226,8 +226,15 @@ const VARIATION_SELECTOR_FIRST = 0xfe00;
 const VARIATION_SELECTOR_LAST = 0xfe0f;
 const VARIATION_SELECTOR_EMOJI = 0xfe0f;
 
+// Width measurement is pure and the same labels are measured many times per
+// compile, so the unit count is memoized by its input string.
+const TEXT_UNITS_CACHE = new Map();
+
 export function textUnits(text) {
-  const chars = Array.from(String(text ?? ''));
+  const cacheKey = String(text ?? '');
+  const cachedUnits = TEXT_UNITS_CACHE.get(cacheKey);
+  if (cachedUnits !== undefined) return cachedUnits;
+  const chars = Array.from(cacheKey);
   let units = 0;
   for (let i = 0; i < chars.length; i += 1) {
     const codePoint = chars[i].codePointAt(0);
@@ -236,5 +243,6 @@ export function textUnits(text) {
     if (next === VARIATION_SELECTOR_EMOJI) units += 2;
     else units += FULLWIDTH_RE.test(chars[i]) ? 2 : 1;
   }
+  TEXT_UNITS_CACHE.set(cacheKey, units);
   return units;
 }

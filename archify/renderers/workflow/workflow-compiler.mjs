@@ -4379,11 +4379,18 @@ function pathFor(edge) {
   return routed;
 }
 
+// The label rectangle follows from the routed path, which is fixed once it is
+// cached; keying on that object means a re-routed edge gets a fresh rectangle.
+const LABEL_RECT_CACHE = new WeakMap();
+
 function labelRectFor(edge, relationIndex) {
   if (!edge.label || !nodes.has(edge.from) || !nodes.has(edge.to)) return null;
-  const [lx, ly] = workflowEdgeLabelPoint(edge, pathFor(edge).points);
+  const routed = pathFor(edge);
+  const cached = LABEL_RECT_CACHE.get(routed);
+  if (cached) return cached;
+  const [lx, ly] = workflowEdgeLabelPoint(edge, routed.points);
   const width = workflowLabelWidth(edge.label);
-  return {
+  const rect = {
     relation: edge,
     relationIndex,
     label: edge.label,
@@ -4394,6 +4401,8 @@ function labelRectFor(edge, relationIndex) {
     lx,
     ly,
   };
+  LABEL_RECT_CACHE.set(routed, rect);
+  return rect;
 }
 
 function measuredContentBounds() {
