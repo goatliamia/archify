@@ -32,6 +32,37 @@ function runGit(repoRoot, args) {
   return result;
 }
 
+// One `git cat-file --batch` session answers every object the document cites;
+// the alternative was two processes per citation (type, then content), which on
+// a sixty-citation document dominated the whole render.
+function prefetchBlobs(repoRoot, objects) {
+  if (!objects.length) return new Map();
+  const result = spawnSync('git', ['--no-replace-objects', '-C', repoRoot, 'cat-file', '--batch'], {
+    input: objects.join('\n') + '\n',
+    maxBuffer: 64 * 1024 * 1024,
+  });
+  if (result.error || result.status !== 0 || !Buffer.isBuffer(result.stdout)) return null;
+  const buffer = result.stdout;
+  const blobs = new Map();
+  let cursor = 0;
+  for (const object of objects) {
+    const newline = buffer.indexOf(0x0a, cursor);
+    if (newline < 0) return null;
+    const header = buffer.toString('utf8', cursor, newline);
+    cursor = newline + 1;
+    if (header.endsWith(' missing')) {
+      blobs.set(object, { missing: true });
+      continue;
+    }
+    const parts = header.split(' ');
+    const size = Number(parts[2]);
+    if (parts.length !== 3 || !Number.isFinite(size) || cursor + size > buffer.length) return null;
+    blobs.set(object, { type: parts[1], content: buffer.toString('utf8', cursor, cursor + size) });
+    cursor += size + 1;
+  }
+  return blobs;
+}
+
 function gitValue(repoRoot, args, failure) {
   const result = runGit(repoRoot, args);
   if (result.status !== 0) evidenceFailure('repository-evidence/git-command', failure, {
@@ -187,6 +218,16 @@ export function verifyRepositoryEvidence(diagramType, diagram, repoRootInput) {
     });
   }
 
+  const citedObjects = [];
+  for (const [nodeIndex, node] of authoredNodes.entries()) {
+    if (!Array.isArray(node.sources) || node.sources.length === 0) continue;
+    for (const [sourceIndex, authored] of node.sources.entries()) {
+      const at = `/${collection}/${nodeIndex}/sources/${sourceIndex}`;
+      citedObjects.push(`${revision}:${verifiedSourcePath(authored.path, `${at}/path`)}`);
+    }
+  }
+  const prefetchedBlobs = prefetchBlobs(realRoot, [...new Set(citedObjects)]);
+
   const nodes = Object.create(null);
   let referenceCount = 0;
   for (const [nodeIndex, node] of authoredNodes.entries()) {
@@ -220,8 +261,14 @@ export function verifyRepositoryEvidence(diagramType, diagram, repoRootInput) {
         });
       }
       const object = `${revision}:${source.path}`;
-      const type = runGit(realRoot, ['cat-file', '-t', object]);
-      if (type.status !== 0 || type.stdout.trim() !== 'blob') {
+      const prefetched = prefetchedBlobs ? prefetchedBlobs.get(object) : undefined;
+      const objectIsBlob = prefetched
+        ? !prefetched.missing && prefetched.type === 'blob'
+        : (() => {
+          const type = runGit(realRoot, ['cat-file', '-t', object]);
+          return type.status === 0 && type.stdout.trim() === 'blob';
+        })();
+      if (!objectIsBlob) {
         evidenceFailure('repository-evidence/file-missing', `${where} does not identify a file at revision ${revision}.`, {
           subject: { path: where, ...nodeSubject },
           evidence: { sourcePath: source.path, revision },
@@ -229,7 +276,9 @@ export function verifyRepositoryEvidence(diagramType, diagram, repoRootInput) {
         });
       }
       if (source.line) {
-        const content = runGit(realRoot, ['show', object]);
+        const content = prefetched && !prefetched.missing
+          ? { status: 0, stdout: prefetched.content }
+          : runGit(realRoot, ['show', object]);
         if (content.status !== 0) evidenceFailure('repository-evidence/file-unreadable', `${where} could not be read at revision ${revision}.`, {
           subject: { path: where, ...nodeSubject },
           evidence: { sourcePath: source.path, revision },
