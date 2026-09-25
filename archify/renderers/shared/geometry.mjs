@@ -1262,14 +1262,13 @@ export function normalizeRoutePoints(points) {
     const cached = NORMALIZED_ROUTE_POINTS.get(points);
     if (cached) return cached;
   }
-  const finite = asArray(points).filter((point) => Array.isArray(point) && point.length === 2 && isFinitePoint(...point));
-  const deduped = [];
-  for (const point of finite) {
-    const previous = deduped.at(-1);
-    if (!previous || Math.abs(point[0] - previous[0]) > 0.0001 || Math.abs(point[1] - previous[1]) > 0.0001) deduped.push(point);
-  }
   const normalized = [];
-  for (const point of deduped) {
+  for (const point of Array.isArray(points) ? points : []) {
+    if (!Array.isArray(point) || point.length !== 2 || !isFinitePoint(point[0], point[1])) continue;
+    const previous = normalized.at(-1);
+    if (previous
+      && Math.abs(point[0] - previous[0]) <= 0.0001
+      && Math.abs(point[1] - previous[1]) <= 0.0001) continue;
     while (normalized.length >= 2 && collinearForward(normalized.at(-2), normalized.at(-1), point)) normalized.pop();
     normalized.push(point);
   }
