@@ -932,6 +932,45 @@ function createWorkflowLaneGeometry(workflow, layout, legendExtraHeight, minimum
   };
 }
 
+// Node measurement: the measured node map and the text-fit sizes every later
+// phase reads. Kept together so the compiler body reads as phases.
+function measureWorkflowNodes(workflow, layout, laneGeometry) {
+  const { laneHeight, laneGroupHeaderH, laneGroupFooterH, laneTop } = laneGeometry;
+  function measureNode(node) {
+    const width = node.width || layout.nodeW;
+    const height = node.height || (node.tag ? 68 : layout.nodeH);
+    const cx = layout.colXs[node.col];
+    const groupHeaderH = laneGroupHeaderH(node.lane);
+    const contentH = laneHeight(node.lane) - layout.laneTitleH
+      - groupHeaderH - laneGroupFooterH(node.lane);
+    const y = laneTop(node.lane) + layout.laneTitleH + groupHeaderH
+      + (contentH - height) / 2 + (node.yOffset || 0);
+    return {
+      ...node,
+      width,
+      height,
+      x: cx - width / 2,
+      y,
+      cx,
+      cy: y + height / 2
+    };
+  }
+
+  // Font sizes for this renderer's node text; the fitting geometry is shared.
+  const nodeTextFit = {
+    labelPreferred: 11,
+    labelMinimum: 9,
+    sublabelPreferred: 8,
+    sublabelMinimum: 6,
+    tagPreferred: 7,
+    tagMinimum: 6,
+  };
+
+  const nodes = new Map(asArray(workflow.nodes).map((node) => [node.id, measureNode(node)]));
+
+  return { measureNode, nodeTextFit, nodes };
+}
+
 function compileWorkflowInternal({
   workflow: inputWorkflow,
   qualityProfile,
@@ -1051,37 +1090,7 @@ function workflowLegendRects() {
   ];
 }
 
-function measureNode(node) {
-  const width = node.width || layout.nodeW;
-  const height = node.height || (node.tag ? 68 : layout.nodeH);
-  const cx = layout.colXs[node.col];
-  const groupHeaderH = laneGroupHeaderH(node.lane);
-  const contentH = laneHeight(node.lane) - layout.laneTitleH
-    - groupHeaderH - laneGroupFooterH(node.lane);
-  const y = laneTop(node.lane) + layout.laneTitleH + groupHeaderH
-    + (contentH - height) / 2 + (node.yOffset || 0);
-  return {
-    ...node,
-    width,
-    height,
-    x: cx - width / 2,
-    y,
-    cx,
-    cy: y + height / 2
-  };
-}
-
-// Font sizes for this renderer's node text; the fitting geometry is shared.
-const nodeTextFit = {
-  labelPreferred: 11,
-  labelMinimum: 9,
-  sublabelPreferred: 8,
-  sublabelMinimum: 6,
-  tagPreferred: 7,
-  tagMinimum: 6,
-};
-
-const nodes = new Map(asArray(workflow.nodes).map((node) => [node.id, measureNode(node)]));
+const { measureNode, nodeTextFit, nodes } = measureWorkflowNodes(workflow, layout, laneGeometry);
 
 function workflowCompositionFrames() {
   const frames = [];
