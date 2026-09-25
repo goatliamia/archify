@@ -3245,10 +3245,19 @@ function candidateLabelRect(edge, points) {
 
 function labelRouteClearanceDeficit(edge, points, threshold = 8) {
   const candidateLabel = candidateLabelRect(edge, points);
+  const candidateExtent = routeBounds(points);
+  const candidateLabelExtent = candidateLabel ? rectToBounds(candidateLabel) : null;
   let deficit = 0;
   for (const [otherEdge, routed] of pathCache) {
-    const otherIndex = workflow.edges.indexOf(otherEdge);
+    const otherIndex = edgeIndexByEdge.get(otherEdge) ?? workflow.edges.indexOf(otherEdge);
     const otherLabel = labelRectFor(otherEdge, otherIndex);
+    // Nothing outside the threshold can contribute to the deficit.
+    const otherExtent = routeBounds(routed.points);
+    const otherLabelExtent = otherLabel ? rectToBounds(otherLabel) : null;
+    if (!boundsOverlap(candidateExtent, otherExtent, threshold)
+      && (!candidateLabelExtent || !boundsOverlap(candidateLabelExtent, otherExtent, threshold))
+      && (!otherLabelExtent || !boundsOverlap(candidateExtent, otherLabelExtent, threshold))
+      && (!candidateLabelExtent || !otherLabelExtent || !boundsOverlap(candidateLabelExtent, otherLabelExtent, threshold))) continue;
     if (candidateLabel) {
       for (let index = 0; index < routed.points.length - 1; index += 1) {
         const clearance = segmentRectClearance({
