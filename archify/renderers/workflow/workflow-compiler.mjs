@@ -971,6 +971,24 @@ function measureWorkflowNodes(workflow, layout, laneGeometry) {
   return { measureNode, nodeTextFit, nodes };
 }
 
+// Step indexes: where each edge and node sits on the main path. Lifted out so
+// the compiler body keeps only the phases that read them.
+function createWorkflowStepIndexes(workflow) {
+  const mainPathSteps = new Map(asArray(workflow.mainPath).map((id, index) => [id, index]));
+  const edgeSteps = new Map(asArray(workflow.edges).map((edge, index) => {
+    const fromStep = mainPathSteps.get(edge.from);
+    const toStep = mainPathSteps.get(edge.to);
+    const mainStep = Number.isInteger(fromStep) && toStep === fromStep + 1 ? fromStep : null;
+    return [edge, mainStep ?? asArray(workflow.mainPath).length + index];
+  }));
+
+  function nodeStep(node) {
+    return mainPathSteps.get(node.id) ?? asArray(workflow.mainPath).length + asArray(workflow.nodes).findIndex((item) => item.id === node.id);
+  }
+
+  return { mainPathSteps, edgeSteps, nodeStep };
+}
+
 function compileWorkflowInternal({
   workflow: inputWorkflow,
   qualityProfile,
@@ -1167,17 +1185,7 @@ function workflowSceneLabelObstacles() {
   return obstacles;
 }
 
-const mainPathSteps = new Map(asArray(workflow.mainPath).map((id, index) => [id, index]));
-const edgeSteps = new Map(asArray(workflow.edges).map((edge, index) => {
-  const fromStep = mainPathSteps.get(edge.from);
-  const toStep = mainPathSteps.get(edge.to);
-  const mainStep = Number.isInteger(fromStep) && toStep === fromStep + 1 ? fromStep : null;
-  return [edge, mainStep ?? asArray(workflow.mainPath).length + index];
-}));
-
-function nodeStep(node) {
-  return mainPathSteps.get(node.id) ?? asArray(workflow.mainPath).length + asArray(workflow.nodes).findIndex((item) => item.id === node.id);
-}
+const { mainPathSteps, edgeSteps, nodeStep } = createWorkflowStepIndexes(workflow);
 
   function acceptsFix(mutator) {
     if (!discoverFixes) return false;
