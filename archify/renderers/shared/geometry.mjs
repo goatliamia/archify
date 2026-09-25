@@ -1252,7 +1252,16 @@ function segmentPosition(index, segmentCount) {
   return 'interior';
 }
 
+// Normalizing a route is pure, and the same route array is normalized again by
+// every predicate that inspects it. Keyed by the array itself, so a rebuilt
+// route simply gets a new entry.
+const NORMALIZED_ROUTE_POINTS = new WeakMap();
+
 export function normalizeRoutePoints(points) {
+  if (Array.isArray(points)) {
+    const cached = NORMALIZED_ROUTE_POINTS.get(points);
+    if (cached) return cached;
+  }
   const finite = asArray(points).filter((point) => Array.isArray(point) && point.length === 2 && isFinitePoint(...point));
   const deduped = [];
   for (const point of finite) {
@@ -1264,6 +1273,7 @@ export function normalizeRoutePoints(points) {
     while (normalized.length >= 2 && collinearForward(normalized.at(-2), normalized.at(-1), point)) normalized.pop();
     normalized.push(point);
   }
+  if (Array.isArray(points)) NORMALIZED_ROUTE_POINTS.set(points, normalized);
   return normalized;
 }
 
