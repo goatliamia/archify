@@ -1461,6 +1461,10 @@ for (const node of nodes.values()) {
 }
 let rightmostRoutedEdge = Number.NEGATIVE_INFINITY;
 
+// Routed endpoints per node, so the port search reads only the routes that touch
+// the node instead of walking every routed path.
+const nodeRoutes = new Map();
+
 function workflowCompositionFrames() {
   const frames = [];
   for (const [index, lane] of asArray(workflow.lanes).entries()) {
@@ -4062,7 +4066,7 @@ function automaticPortCandidates(edge, node, side, preferred, counterpart) {
   const axis = verticalSide ? 1 : 0;
   const center = anchor(node, side);
   const occupied = [];
-  for (const [other, routed] of pathCache) {
+  for (const [other, routed] of nodeRoutes.get(node.id) ?? []) {
     for (const endpoint of ['from', 'to']) {
       if (other[endpoint] !== node.id) continue;
       const point = endpoint === 'from' ? routed.points[0] : routed.points.at(-1);
@@ -4441,6 +4445,13 @@ function registerRouted(edge, routed) {
   const routeExtent = routeBounds(routed.points);
   obstacleGrid.insert(routeExtent, { kind: 'route', edge, routed, sequence, bounds: routeExtent });
   for (const [x] of routed.points) rightmostRoutedEdge = Math.max(rightmostRoutedEdge, x);
+  for (const end of ['from', 'to']) {
+    const nodeId = edge[end];
+    if (nodeId === undefined || nodeId === null) continue;
+    let byEdge = nodeRoutes.get(nodeId);
+    if (!byEdge) { byEdge = new Map(); nodeRoutes.set(nodeId, byEdge); }
+    byEdge.set(edge, routed);
+  }
   const index = edgeIndexByEdge.get(edge);
   const label = index === undefined ? null : labelRectFor(edge, index);
   if (label) {
