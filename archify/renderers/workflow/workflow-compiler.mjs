@@ -808,6 +808,55 @@ function semanticContractDiagnostics(workflow) {
   return diagnostics;
 }
 
+// Legend footprint and canvas width: one phase of the workflow compile, lifted
+// out of compileWorkflowInternal so the caller reads as a sequence of steps.
+function resolveWorkflowLegendFootprint(workflow, layout) {
+  const LEGEND_CATALOG = [
+    'frontend',
+    'backend',
+    'security',
+    'messagebus',
+    'database',
+    'cloud',
+    'external',
+  ].map((kind) => ({ kind, label: i18nText(workflow.meta.locale, `legend.workflow.${kind}`) }));
+  const presentLegendKinds = new Set(asArray(workflow.nodes).map((node) => node.type));
+  const workflowLegendEntries = resolveLegend(
+    workflow.meta?.legend,
+    LEGEND_CATALOG,
+    presentLegendKinds,
+  );
+  const legendFootprintOptions = { fontSize: 7, itemGap: 7 };
+  const oneRowLegendFootprint = legendFootprint(workflowLegendEntries, {
+    ...legendFootprintOptions,
+    width: Number.MAX_SAFE_INTEGER,
+  });
+  const minimumCanvasWidth = workflow.schema_version === 2
+    ? Math.max(layout.defaultViewBoxWidth, oneRowLegendFootprint.minWidth + 40)
+    : layout.defaultViewBoxWidth;
+  const legendPackingWidth = Math.max(
+    1,
+    (workflow.schema_version === 2
+      ? minimumCanvasWidth
+      : (workflow.meta?.viewBox?.[0] ?? minimumCanvasWidth)) - 40,
+  );
+  const packedLegendFootprint = legendFootprint(workflowLegendEntries, {
+    ...legendFootprintOptions,
+    width: legendPackingWidth,
+  });
+  const legendExtraHeight = workflow.schema_version === 2
+    ? packedLegendFootprint.extraHeight
+    : 0;
+  return {
+    workflowLegendEntries,
+    presentLegendKinds,
+    legendPackingWidth,
+    packedLegendFootprint,
+    legendExtraHeight,
+    minimumCanvasWidth,
+  };
+}
+
 function compileWorkflowInternal({
   workflow: inputWorkflow,
   qualityProfile,
@@ -872,42 +921,14 @@ function compileWorkflowInternal({
     ? createReadableLayout(workflow, layoutFeedback)
     : createLegacyLayout();
 
-const LEGEND_CATALOG = [
-  'frontend',
-  'backend',
-  'security',
-  'messagebus',
-  'database',
-  'cloud',
-  'external',
-].map((kind) => ({ kind, label: i18nText(workflow.meta.locale, `legend.workflow.${kind}`) }));
-const presentLegendKinds = new Set(asArray(workflow.nodes).map((node) => node.type));
-const workflowLegendEntries = resolveLegend(
-  workflow.meta?.legend,
-  LEGEND_CATALOG,
+const {
+  workflowLegendEntries,
   presentLegendKinds,
-);
-const legendFootprintOptions = { fontSize: 7, itemGap: 7 };
-const oneRowLegendFootprint = legendFootprint(workflowLegendEntries, {
-  ...legendFootprintOptions,
-  width: Number.MAX_SAFE_INTEGER,
-});
-const minimumCanvasWidth = workflow.schema_version === 2
-  ? Math.max(layout.defaultViewBoxWidth, oneRowLegendFootprint.minWidth + 40)
-  : layout.defaultViewBoxWidth;
-const legendPackingWidth = Math.max(
-  1,
-  (workflow.schema_version === 2
-    ? minimumCanvasWidth
-    : (workflow.meta?.viewBox?.[0] ?? minimumCanvasWidth)) - 40,
-);
-const packedLegendFootprint = legendFootprint(workflowLegendEntries, {
-  ...legendFootprintOptions,
-  width: legendPackingWidth,
-});
-const legendExtraHeight = workflow.schema_version === 2
-  ? packedLegendFootprint.extraHeight
-  : 0;
+  legendPackingWidth,
+  packedLegendFootprint,
+  legendExtraHeight,
+  minimumCanvasWidth,
+} = resolveWorkflowLegendFootprint(workflow, layout);
 
 // Content is 680px wide (laneX + laneW); auto height fits the lanes plus legend.
 const autoHeight = layout.laneY
