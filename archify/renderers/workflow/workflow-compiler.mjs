@@ -3399,19 +3399,37 @@ function routeClearsLegend(edge, points) {
 // Scene label obstacles are a pure function of the document and the layout.
 let cachedSceneLabelObstacles = null;
 function sceneLabelObstacles() {
-  if (!cachedSceneLabelObstacles) cachedSceneLabelObstacles = workflowSceneLabelObstacles();
+  if (!cachedSceneLabelObstacles) {
+    cachedSceneLabelObstacles = workflowSceneLabelObstacles();
+    for (const obstacle of cachedSceneLabelObstacles) {
+      obstacleGrid.insert(rectToBounds(obstacle), { kind: 'scene', obstacle });
+    }
+  }
   return cachedSceneLabelObstacles;
 }
 
 function routeClearsSceneLabelObstacles(edge, points) {
+  // Asking for the cached list also publishes it to the grid.
+  sceneLabelObstacles();
   const label = candidateLabelRect(edge, points);
-  for (const obstacle of sceneLabelObstacles()) {
+  const extent = routeBounds(points);
+  const queryBox = {
+    minX: extent.minX, minY: extent.minY, maxX: extent.maxX, maxY: extent.maxY,
+  };
+  if (label) {
+    queryBox.minX = Math.min(queryBox.minX, label.x);
+    queryBox.minY = Math.min(queryBox.minY, label.y);
+    queryBox.maxX = Math.max(queryBox.maxX, label.x + label.width);
+    queryBox.maxY = Math.max(queryBox.maxY, label.y + label.height);
+  }
+  for (const item of obstacleGrid.query(queryBox)) {
+    if (item.kind !== 'scene') continue;
     for (let index = 0; index < points.length - 1; index += 1) {
-      if (segmentIntersectsRect({ start: points[index], end: points[index + 1] }, obstacle)) {
+      if (segmentIntersectsRect({ start: points[index], end: points[index + 1] }, item.obstacle)) {
         return false;
       }
     }
-    if (label && rectsOverlap(label, obstacle)) return false;
+    if (label && rectsOverlap(label, item.obstacle)) return false;
   }
   return true;
 }
@@ -3502,7 +3520,16 @@ function independentAutomaticRoute(edge) {
 function routeInteractionMetrics(edge, points) {
   let properCrossingCount = 0;
   let sharedCorridorPx = 0;
-  for (const [otherEdge, routed] of pathCache) {
+  const extent = routeBounds(points);
+  const nearbyRoutes = obstacleGrid.query({
+    minX: extent.minX - 8, minY: extent.minY - 8,
+    maxX: extent.maxX + 8, maxY: extent.maxY + 8,
+  })
+    .filter((item) => item.kind === 'route')
+    .sort((left, right) => left.sequence - right.sequence);
+  for (const item of nearbyRoutes) {
+    const otherEdge = item.edge;
+    const routed = item.routed;
     const sharedEndpoint = [edge.from, edge.to].some((id) => id === otherEdge.from || id === otherEdge.to);
     if (sharedEndpoint && workflow.schema_version !== 2) continue;
     sharedCorridorPx += collectAmbiguousCorridors({
