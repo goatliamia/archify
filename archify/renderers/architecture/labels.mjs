@@ -15,8 +15,48 @@ export function placeAutomaticLabels({
     rect.x >= 0 && rect.y >= 0
     && rect.x + rect.width <= viewBox[0] && rect.y + rect.height <= viewBox[1]
   );
-  const masksRoute = rect => segments.some(segment => segment.relationIndex !== rect.relationIndex
-    && segmentRectClearanceWithin(segment, rect, 4) + 0.0001 < 4);
+  // The mask test asked every segment about every candidate position. Segments
+  // go into a uniform grid once, and a candidate only asks the cells it covers.
+  const SEGMENT_CELL = 120;
+  const segmentGrid = new Map();
+  for (const segment of segments) {
+    const [sx, sy] = segment.start;
+    const [ex, ey] = segment.end;
+    const x0 = Math.floor(Math.min(sx, ex) / SEGMENT_CELL);
+    const x1 = Math.floor(Math.max(sx, ex) / SEGMENT_CELL);
+    const y0 = Math.floor(Math.min(sy, ey) / SEGMENT_CELL);
+    const y1 = Math.floor(Math.max(sy, ey) / SEGMENT_CELL);
+    for (let cx = x0; cx <= x1; cx += 1) {
+      for (let cy = y0; cy <= y1; cy += 1) {
+        const key = cx + ':' + cy;
+        let bucket = segmentGrid.get(key);
+        if (!bucket) { bucket = []; segmentGrid.set(key, bucket); }
+        bucket.push(segment);
+      }
+    }
+  }
+  const segmentsNear = (rect, margin) => {
+    const found = new Set();
+    const x0 = Math.floor((rect.x - margin) / SEGMENT_CELL);
+    const x1 = Math.floor((rect.x + rect.width + margin) / SEGMENT_CELL);
+    const y0 = Math.floor((rect.y - margin) / SEGMENT_CELL);
+    const y1 = Math.floor((rect.y + rect.height + margin) / SEGMENT_CELL);
+    for (let cx = x0; cx <= x1; cx += 1) {
+      for (let cy = y0; cy <= y1; cy += 1) {
+        const bucket = segmentGrid.get(cx + ':' + cy);
+        if (!bucket) continue;
+        for (const segment of bucket) found.add(segment);
+      }
+    }
+    return found;
+  };
+  const masksRoute = rect => {
+    for (const segment of segmentsNear(rect, 4)) {
+      if (segment.relationIndex === rect.relationIndex) continue;
+      if (segmentRectClearanceWithin(segment, rect, 4) + 0.0001 < 4) return true;
+    }
+    return false;
+  };
   const overlapsLabel = (rect, index, gap = 0) => placed.some((other, otherIndex) => (
     otherIndex !== index && rectsOverlap(rect, other, gap)
   ));
