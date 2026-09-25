@@ -857,6 +857,81 @@ function resolveWorkflowLegendFootprint(workflow, layout) {
   };
 }
 
+// Lane geometry: the canvas height, the lane lookups and the small position
+// helpers every later phase reads. Lifted out of compileWorkflowInternal so the
+// body reads as phases instead of one script.
+function createWorkflowLaneGeometry(workflow, layout, legendExtraHeight, minimumCanvasWidth) {
+  // Content is 680px wide (laneX + laneW); auto height fits the lanes plus legend.
+  const autoHeight = layout.laneY
+    + (layout.laneHeights?.reduce((total, height) => total + height, 0)
+      ?? (workflow.lanes?.length || 1) * layout.laneH)
+    + ((workflow.lanes?.length || 1) - 1) * layout.laneGap
+    + 124
+    + legendExtraHeight;
+  const initialViewBox = workflow.meta?.viewBox || [minimumCanvasWidth, autoHeight];
+  
+
+  const laneIndex = new Map(asArray(workflow.lanes).map((lane, index) => [lane.id, index]));
+  const laneLabels = new Map(asArray(workflow.lanes).map((lane) => [lane.id, lane.label]));
+
+  function nodeContext(node) {
+    const group = asArray(workflow.groups).find((candidate) => (
+      candidate.lane === node.lane && node.col >= candidate.fromCol && node.col <= candidate.toCol
+    ));
+    const phase = asArray(workflow.phases).find((candidate) => (
+      node.col >= candidate.fromCol && node.col <= candidate.toCol
+    ));
+    return [laneLabels.get(node.lane), group?.label, phase?.label].filter(Boolean).join(' › ')
+      || i18nText(workflow.meta.locale, 'node.context.workflow');
+  }
+
+  function laneHeight(idOrIndex) {
+    const index = typeof idOrIndex === 'number' ? idOrIndex : laneIndex.get(idOrIndex);
+    return layout.laneHeights?.[index] ?? layout.laneH;
+  }
+
+  function laneGroupHeaderH(idOrIndex) {
+    const index = typeof idOrIndex === 'number' ? idOrIndex : laneIndex.get(idOrIndex);
+    return layout.groupHeaderHeights?.[index] ?? 0;
+  }
+
+  function laneGroupFooterH(idOrIndex) {
+    const index = typeof idOrIndex === 'number' ? idOrIndex : laneIndex.get(idOrIndex);
+    return layout.groupFooterHeights?.[index] ?? 0;
+  }
+
+  function laneTop(id) {
+    const index = laneIndex.get(id);
+    const precedingHeight = asArray(workflow.lanes).slice(0, index)
+      .reduce((total, _lane, lanePosition) => total + laneHeight(lanePosition), 0);
+    return layout.laneY + precedingHeight + index * layout.laneGap;
+  }
+
+  function lastLaneBottom() {
+    return layout.laneY
+      + asArray(workflow.lanes).reduce((total, _lane, index) => total + laneHeight(index), 0)
+      + (workflow.lanes.length - 1) * layout.laneGap;
+  }
+
+  function legendY() {
+    return lastLaneBottom() + 44 + legendExtraHeight;
+  }
+
+  return {
+    autoHeight,
+    initialViewBox,
+    laneIndex,
+    laneLabels,
+    nodeContext,
+    laneHeight,
+    laneGroupHeaderH,
+    laneGroupFooterH,
+    laneTop,
+    lastLaneBottom,
+    legendY,
+  };
+}
+
 function compileWorkflowInternal({
   workflow: inputWorkflow,
   qualityProfile,
@@ -930,61 +1005,21 @@ const {
   minimumCanvasWidth,
 } = resolveWorkflowLegendFootprint(workflow, layout);
 
-// Content is 680px wide (laneX + laneW); auto height fits the lanes plus legend.
-const autoHeight = layout.laneY
-  + (layout.laneHeights?.reduce((total, height) => total + height, 0)
-    ?? (workflow.lanes?.length || 1) * layout.laneH)
-  + ((workflow.lanes?.length || 1) - 1) * layout.laneGap
-  + 124
-  + legendExtraHeight;
-let viewBox = workflow.meta?.viewBox || [minimumCanvasWidth, autoHeight];
+const laneGeometry = createWorkflowLaneGeometry(workflow, layout, legendExtraHeight, minimumCanvasWidth);
+const {
+  autoHeight,
+  laneIndex,
+  laneLabels,
+  nodeContext,
+  laneHeight,
+  laneGroupHeaderH,
+  laneGroupFooterH,
+  laneTop,
+  lastLaneBottom,
+  legendY,
+} = laneGeometry;
+let viewBox = laneGeometry.initialViewBox;
 let requiredViewBox = [...viewBox];
-
-const laneIndex = new Map(asArray(workflow.lanes).map((lane, index) => [lane.id, index]));
-const laneLabels = new Map(asArray(workflow.lanes).map((lane) => [lane.id, lane.label]));
-
-function nodeContext(node) {
-  const group = asArray(workflow.groups).find((candidate) => (
-    candidate.lane === node.lane && node.col >= candidate.fromCol && node.col <= candidate.toCol
-  ));
-  const phase = asArray(workflow.phases).find((candidate) => (
-    node.col >= candidate.fromCol && node.col <= candidate.toCol
-  ));
-  return [laneLabels.get(node.lane), group?.label, phase?.label].filter(Boolean).join(' › ')
-    || i18nText(workflow.meta.locale, 'node.context.workflow');
-}
-
-function laneHeight(idOrIndex) {
-  const index = typeof idOrIndex === 'number' ? idOrIndex : laneIndex.get(idOrIndex);
-  return layout.laneHeights?.[index] ?? layout.laneH;
-}
-
-function laneGroupHeaderH(idOrIndex) {
-  const index = typeof idOrIndex === 'number' ? idOrIndex : laneIndex.get(idOrIndex);
-  return layout.groupHeaderHeights?.[index] ?? 0;
-}
-
-function laneGroupFooterH(idOrIndex) {
-  const index = typeof idOrIndex === 'number' ? idOrIndex : laneIndex.get(idOrIndex);
-  return layout.groupFooterHeights?.[index] ?? 0;
-}
-
-function laneTop(id) {
-  const index = laneIndex.get(id);
-  const precedingHeight = asArray(workflow.lanes).slice(0, index)
-    .reduce((total, _lane, lanePosition) => total + laneHeight(lanePosition), 0);
-  return layout.laneY + precedingHeight + index * layout.laneGap;
-}
-
-function lastLaneBottom() {
-  return layout.laneY
-    + asArray(workflow.lanes).reduce((total, _lane, index) => total + laneHeight(index), 0)
-    + (workflow.lanes.length - 1) * layout.laneGap;
-}
-
-function legendY() {
-  return lastLaneBottom() + 44 + legendExtraHeight;
-}
 
 function workflowLegendLayout(obstacles = []) {
   return {
