@@ -989,6 +989,180 @@ function createWorkflowStepIndexes(workflow) {
   return { mainPathSteps, edgeSteps, nodeStep };
 }
 
+// Legacy capacity repair: the v1 column-capacity gate and the three fix
+// verifiers it uses. They share the measured nodes, the layout and the fix
+// acceptor, so they are built together and the body only calls the gate.
+function createLegacyCapacityRepair({
+  workflow,
+  nodes,
+  layout,
+  discoverFixes,
+  resolvedQualityProfile,
+  authoredQualityProfile,
+  nodeTextFit,
+  acceptsFix,
+}) {
+    function verifiedLegacyAlternative(edge, from, to, requiredClearance) {
+      const occupied = [...nodes.values()].filter((node) => node.lane === to.lane && node.id !== to.id);
+    const candidates = layout.colXs.map((center, col) => ({ center, col }))
+      .filter(({ col }) => col !== to.col)
+      .sort((a, b) => Math.abs(a.col - to.col) - Math.abs(b.col - to.col) || a.col - b.col);
+    for (const candidate of candidates) {
+      const candidateRect = { ...to, col: candidate.col, cx: candidate.center, x: candidate.center - to.width / 2 };
+      if (occupied.some((node) => rectsOverlap(candidateRect, node, 8))) continue;
+      const centerDistance = Math.abs(candidate.center - from.cx);
+      const signedClearance = centerDistance - from.width / 2 - to.width / 2;
+        if (signedClearance < requiredClearance) continue;
+        if (acceptsFix((document) => {
+          document.nodes.find((node) => node.id === to.id).col = candidate.col;
+        })) return candidate.col;
+      }
+      return null;
+    }
+
+    function readableMigrationProvidesCapacity(from, to, requiredClearance) {
+      const readable = createReadableLayout({ ...workflow, schema_version: 2 });
+      const centerDistance = Math.abs(readable.colXs[to.col] - readable.colXs[from.col]);
+      if (centerDistance - from.width / 2 - to.width / 2 < requiredClearance) return false;
+      if (!discoverFixes) return false;
+
+      return withDiagnosticRecordingSuppressed(() => {
+        const migrationQualityProfile = authoredQualityProfile;
+        let planned = compileWorkflowWithFeedback({
+          workflow: intrinsicWorkflow(workflow),
+          qualityProfile: migrationQualityProfile,
+          discoverFixes: false,
+        });
+        if (!planned.ok) {
+          planned = compileWorkflowWithFeedback({
+            workflow: planningWorkflow(workflow),
+            qualityProfile: migrationQualityProfile,
+            discoverFixes: false,
+          });
+        }
+        if (!planned.ok || !Array.isArray(planned.receipt?.columns)) return false;
+
+        let candidate;
+        try {
+          candidate = createMappedWorkflowCandidate(
+            workflow,
+            LEGACY_COLUMN_CENTERS,
+            planned.receipt.columns,
+          ).document;
+        } catch {
+          return false;
+        }
+        let compiled = compileWorkflowWithFeedback({
+          workflow: candidate,
+          qualityProfile: migrationQualityProfile,
+          discoverFixes: false,
+        });
+        const requiredViewBox = compiled.diagnostics?.length
+          && compiled.diagnostics.every(({ code }) => code === 'workflow/viewbox-capacity')
+          ? compiled.diagnostics.find(({ evidence }) => Array.isArray(evidence?.requiredViewBox))
+            ?.evidence.requiredViewBox
+          : null;
+        if (!compiled.ok && Array.isArray(candidate.meta?.viewBox) && requiredViewBox) {
+          candidate.meta.viewBox = [
+            Math.max(candidate.meta.viewBox[0], requiredViewBox[0]),
+            Math.max(candidate.meta.viewBox[1], requiredViewBox[1]),
+          ];
+          compiled = compileWorkflowWithFeedback({
+            workflow: candidate,
+            qualityProfile: migrationQualityProfile,
+            discoverFixes: false,
+          });
+        }
+        return compiled.ok;
+      });
+    }
+
+  function verifiedReducedWidths(from, to, requiredClearance) {
+    const widthBudget = 2 * (Math.abs(to.cx - from.cx) - requiredClearance);
+    if (widthBudget < 64) return null;
+    const widths = [from.width, to.width];
+    let excess = widths[0] + widths[1] - widthBudget;
+    for (const index of widths[0] >= widths[1] ? [0, 1] : [1, 0]) {
+      const reduction = Math.min(excess, widths[index] - 32);
+      widths[index] -= reduction;
+      excess -= reduction;
+    }
+    if (excess > 0.0001) return null;
+    const candidates = [from, to];
+    const labelsFit = candidates.every((node, index) => (
+      textUnits(node.label) * 6.8 <= widths[index] + 6
+      && (!node.sublabel || minimumNodeTextWidth(node.sublabel, nodeTextFit.sublabelMinimum) <= availableNodeTextWidth(widths[index]))
+      && (!node.tag || minimumNodeTextWidth(node.tag, nodeTextFit.tagMinimum) <= availableNodeTextWidth(widths[index]))
+    ));
+    if (!labelsFit) return null;
+    const serializedWidths = widths.map((width) => Math.floor((width + 1e-9) * 100) / 100);
+    const signedClearance = Math.abs(to.cx - from.cx)
+      - serializedWidths[0] / 2 - serializedWidths[1] / 2;
+    if (signedClearance + 0.0001 < requiredClearance) return null;
+    const accepted = acceptsFix((document) => {
+      document.nodes.find((node) => node.id === from.id).width = serializedWidths[0];
+      document.nodes.find((node) => node.id === to.id).width = serializedWidths[1];
+    });
+    return accepted ? serializedWidths : null;
+  }
+
+  function enforceLegacyColumnCapacity() {
+    if (workflow.schema_version !== 1) return;
+    for (const edge of workflow.edges) {
+      const from = nodes.get(edge.from);
+      const to = nodes.get(edge.to);
+      if (!from || !to || from.lane !== to.lane || from.col === to.col) continue;
+      if (!verticalIntervalsOverlap(from, to, 8)) continue;
+      const centerDistance = Math.abs(to.cx - from.cx);
+      const actualSignedClearance = centerDistance - from.width / 2 - to.width / 2;
+      const direct = !edge.via && ['auto', 'straight'].includes(edge.route || 'auto')
+        && Math.abs(from.cy - to.cy) < 0.0001;
+      const requiredDirectClearance = direct ? 28 : 8;
+      if (actualSignedClearance >= requiredDirectClearance) continue;
+      const alternative = verifiedLegacyAlternative(edge, from, to, requiredDirectClearance);
+      const reducedWidths = verifiedReducedWidths(from, to, requiredDirectClearance);
+      const capacity = actualSignedClearance < 0
+        ? `overlap by ${Math.abs(Math.round(actualSignedClearance))}px`
+        : `leave only ${Math.round(actualSignedClearance)}px of direct clearance`;
+      const message = `Workflow columns ${from.col}→${to.col} place nodes "${from.id}" and "${to.id}" so they ${capacity} under the fixed-v1 layout.`;
+      const supportedFixes = [];
+      if (readableMigrationProvidesCapacity(from, to, requiredDirectClearance)) {
+        supportedFixes.push('migrate this workflow to schema_version 2');
+      }
+      if (alternative !== null) supportedFixes.push(`move node "${to.id}" to verified free column ${alternative}`);
+      if (reducedWidths) {
+        supportedFixes.push(`set node widths "${from.id}"=${Math.round(reducedWidths[0] * 100) / 100}px and "${to.id}"=${Math.round(reducedWidths[1] * 100) / 100}px`);
+      }
+      throwDiagnosticError(message, [{
+        code: 'workflow/column-capacity',
+        severity: 'error',
+        message,
+        subject: {
+          diagramType: 'workflow',
+          edge: edge.id ?? null,
+          from: edge.from,
+          to: edge.to,
+          fromCol: from.col,
+          toCol: to.col,
+        },
+        evidence: {
+          centerDistancePx: centerDistance,
+          nodeWidthsPx: [from.width, to.width],
+          actualSignedClearancePx: actualSignedClearance,
+          requiredDirectClearancePx: requiredDirectClearance,
+        },
+        supportedFixes,
+        suppresses: [
+          'workflow/short-edge',
+          'clean-flow/endpoint-side-direction',
+          'workflow/label-node-overlap',
+        ],
+      }]);
+    }
+  }
+  return { enforceLegacyColumnCapacity };
+}
+
 function compileWorkflowInternal({
   workflow: inputWorkflow,
   qualityProfile,
@@ -1198,164 +1372,16 @@ const { mainPathSteps, edgeSteps, nodeStep } = createWorkflowStepIndexes(workflo
     }).ok);
   }
 
-  function verifiedLegacyAlternative(edge, from, to, requiredClearance) {
-    const occupied = [...nodes.values()].filter((node) => node.lane === to.lane && node.id !== to.id);
-  const candidates = layout.colXs.map((center, col) => ({ center, col }))
-    .filter(({ col }) => col !== to.col)
-    .sort((a, b) => Math.abs(a.col - to.col) - Math.abs(b.col - to.col) || a.col - b.col);
-  for (const candidate of candidates) {
-    const candidateRect = { ...to, col: candidate.col, cx: candidate.center, x: candidate.center - to.width / 2 };
-    if (occupied.some((node) => rectsOverlap(candidateRect, node, 8))) continue;
-    const centerDistance = Math.abs(candidate.center - from.cx);
-    const signedClearance = centerDistance - from.width / 2 - to.width / 2;
-      if (signedClearance < requiredClearance) continue;
-      if (acceptsFix((document) => {
-        document.nodes.find((node) => node.id === to.id).col = candidate.col;
-      })) return candidate.col;
-    }
-    return null;
-  }
-
-  function readableMigrationProvidesCapacity(from, to, requiredClearance) {
-    const readable = createReadableLayout({ ...workflow, schema_version: 2 });
-    const centerDistance = Math.abs(readable.colXs[to.col] - readable.colXs[from.col]);
-    if (centerDistance - from.width / 2 - to.width / 2 < requiredClearance) return false;
-    if (!discoverFixes) return false;
-
-    return withDiagnosticRecordingSuppressed(() => {
-      const migrationQualityProfile = authoredQualityProfile;
-      let planned = compileWorkflowWithFeedback({
-        workflow: intrinsicWorkflow(workflow),
-        qualityProfile: migrationQualityProfile,
-        discoverFixes: false,
-      });
-      if (!planned.ok) {
-        planned = compileWorkflowWithFeedback({
-          workflow: planningWorkflow(workflow),
-          qualityProfile: migrationQualityProfile,
-          discoverFixes: false,
-        });
-      }
-      if (!planned.ok || !Array.isArray(planned.receipt?.columns)) return false;
-
-      let candidate;
-      try {
-        candidate = createMappedWorkflowCandidate(
-          workflow,
-          LEGACY_COLUMN_CENTERS,
-          planned.receipt.columns,
-        ).document;
-      } catch {
-        return false;
-      }
-      let compiled = compileWorkflowWithFeedback({
-        workflow: candidate,
-        qualityProfile: migrationQualityProfile,
-        discoverFixes: false,
-      });
-      const requiredViewBox = compiled.diagnostics?.length
-        && compiled.diagnostics.every(({ code }) => code === 'workflow/viewbox-capacity')
-        ? compiled.diagnostics.find(({ evidence }) => Array.isArray(evidence?.requiredViewBox))
-          ?.evidence.requiredViewBox
-        : null;
-      if (!compiled.ok && Array.isArray(candidate.meta?.viewBox) && requiredViewBox) {
-        candidate.meta.viewBox = [
-          Math.max(candidate.meta.viewBox[0], requiredViewBox[0]),
-          Math.max(candidate.meta.viewBox[1], requiredViewBox[1]),
-        ];
-        compiled = compileWorkflowWithFeedback({
-          workflow: candidate,
-          qualityProfile: migrationQualityProfile,
-          discoverFixes: false,
-        });
-      }
-      return compiled.ok;
-    });
-  }
-
-function verifiedReducedWidths(from, to, requiredClearance) {
-  const widthBudget = 2 * (Math.abs(to.cx - from.cx) - requiredClearance);
-  if (widthBudget < 64) return null;
-  const widths = [from.width, to.width];
-  let excess = widths[0] + widths[1] - widthBudget;
-  for (const index of widths[0] >= widths[1] ? [0, 1] : [1, 0]) {
-    const reduction = Math.min(excess, widths[index] - 32);
-    widths[index] -= reduction;
-    excess -= reduction;
-  }
-  if (excess > 0.0001) return null;
-  const candidates = [from, to];
-  const labelsFit = candidates.every((node, index) => (
-    textUnits(node.label) * 6.8 <= widths[index] + 6
-    && (!node.sublabel || minimumNodeTextWidth(node.sublabel, nodeTextFit.sublabelMinimum) <= availableNodeTextWidth(widths[index]))
-    && (!node.tag || minimumNodeTextWidth(node.tag, nodeTextFit.tagMinimum) <= availableNodeTextWidth(widths[index]))
-  ));
-  if (!labelsFit) return null;
-  const serializedWidths = widths.map((width) => Math.floor((width + 1e-9) * 100) / 100);
-  const signedClearance = Math.abs(to.cx - from.cx)
-    - serializedWidths[0] / 2 - serializedWidths[1] / 2;
-  if (signedClearance + 0.0001 < requiredClearance) return null;
-  const accepted = acceptsFix((document) => {
-    document.nodes.find((node) => node.id === from.id).width = serializedWidths[0];
-    document.nodes.find((node) => node.id === to.id).width = serializedWidths[1];
-  });
-  return accepted ? serializedWidths : null;
-}
-
-function enforceLegacyColumnCapacity() {
-  if (workflow.schema_version !== 1) return;
-  for (const edge of workflow.edges) {
-    const from = nodes.get(edge.from);
-    const to = nodes.get(edge.to);
-    if (!from || !to || from.lane !== to.lane || from.col === to.col) continue;
-    if (!verticalIntervalsOverlap(from, to, 8)) continue;
-    const centerDistance = Math.abs(to.cx - from.cx);
-    const actualSignedClearance = centerDistance - from.width / 2 - to.width / 2;
-    const direct = !edge.via && ['auto', 'straight'].includes(edge.route || 'auto')
-      && Math.abs(from.cy - to.cy) < 0.0001;
-    const requiredDirectClearance = direct ? 28 : 8;
-    if (actualSignedClearance >= requiredDirectClearance) continue;
-    const alternative = verifiedLegacyAlternative(edge, from, to, requiredDirectClearance);
-    const reducedWidths = verifiedReducedWidths(from, to, requiredDirectClearance);
-    const capacity = actualSignedClearance < 0
-      ? `overlap by ${Math.abs(Math.round(actualSignedClearance))}px`
-      : `leave only ${Math.round(actualSignedClearance)}px of direct clearance`;
-    const message = `Workflow columns ${from.col}→${to.col} place nodes "${from.id}" and "${to.id}" so they ${capacity} under the fixed-v1 layout.`;
-    const supportedFixes = [];
-    if (readableMigrationProvidesCapacity(from, to, requiredDirectClearance)) {
-      supportedFixes.push('migrate this workflow to schema_version 2');
-    }
-    if (alternative !== null) supportedFixes.push(`move node "${to.id}" to verified free column ${alternative}`);
-    if (reducedWidths) {
-      supportedFixes.push(`set node widths "${from.id}"=${Math.round(reducedWidths[0] * 100) / 100}px and "${to.id}"=${Math.round(reducedWidths[1] * 100) / 100}px`);
-    }
-    throwDiagnosticError(message, [{
-      code: 'workflow/column-capacity',
-      severity: 'error',
-      message,
-      subject: {
-        diagramType: 'workflow',
-        edge: edge.id ?? null,
-        from: edge.from,
-        to: edge.to,
-        fromCol: from.col,
-        toCol: to.col,
-      },
-      evidence: {
-        centerDistancePx: centerDistance,
-        nodeWidthsPx: [from.width, to.width],
-        actualSignedClearancePx: actualSignedClearance,
-        requiredDirectClearancePx: requiredDirectClearance,
-      },
-      supportedFixes,
-      suppresses: [
-        'workflow/short-edge',
-        'clean-flow/endpoint-side-direction',
-        'workflow/label-node-overlap',
-      ],
-    }]);
-  }
-}
+const { enforceLegacyColumnCapacity } = createLegacyCapacityRepair({
+  workflow,
+  nodes,
+  layout,
+  discoverFixes,
+  resolvedQualityProfile,
+  authoredQualityProfile,
+  nodeTextFit,
+  acceptsFix,
+});
 
 function verifiedEdgeFix(edge, message, mutator) {
   const edgeIndex = workflow.edges.indexOf(edge);
