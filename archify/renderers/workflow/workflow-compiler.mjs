@@ -3363,14 +3363,21 @@ function routeClearsPlacedLabels(edge, points) {
     // A label may sit far from the route it annotates, so both boxes are queried.
     if (item.kind === 'label') {
       if (candidateLabel && rectsOverlap(candidateLabel, item.rect, -2)) return false;
+      const rect = item.rect;
+      // Either axis further than the minimum clearance means no segment can reach it.
+      if (Math.max(rect.x - candidateExtent.maxX, candidateExtent.minX - (rect.x + rect.width)) >= 4
+        || Math.max(rect.y - candidateExtent.maxY, candidateExtent.minY - (rect.y + rect.height)) >= 4) continue;
       for (let index = 0; index < points.length - 1; index += 1) {
         const clearance = segmentRectClearance({
           start: points[index],
           end: points[index + 1],
-        }, item.rect);
+        }, rect);
         if (clearance != null && clearance + 0.0001 < 4) return false;
       }
     } else if (item.kind === 'route' && candidateLabel) {
+      const otherBounds = item.bounds;
+      if (Math.max(candidateLabel.x - otherBounds.maxX, otherBounds.minX - (candidateLabel.x + candidateLabel.width)) >= 4
+        || Math.max(candidateLabel.y - otherBounds.maxY, otherBounds.minY - (candidateLabel.y + candidateLabel.height)) >= 4) continue;
       const otherPoints = item.routed.points;
       for (let index = 0; index < otherPoints.length - 1; index += 1) {
         const clearance = segmentRectClearance({
@@ -4431,7 +4438,8 @@ let obstacleSequence = 0;
 function registerRouted(edge, routed) {
   pathCache.set(edge, routed);
   const sequence = obstacleSequence++;
-  obstacleGrid.insert(routeBounds(routed.points), { kind: 'route', edge, routed, sequence });
+  const routeExtent = routeBounds(routed.points);
+  obstacleGrid.insert(routeExtent, { kind: 'route', edge, routed, sequence, bounds: routeExtent });
   for (const [x] of routed.points) rightmostRoutedEdge = Math.max(rightmostRoutedEdge, x);
   const index = edgeIndexByEdge.get(edge);
   const label = index === undefined ? null : labelRectFor(edge, index);
