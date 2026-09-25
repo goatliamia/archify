@@ -98,8 +98,9 @@ const BRAND_COLLECTIONS = {
 function declaresBrandMark(diagramType, diagram) {
   const collection = BRAND_COLLECTIONS[diagramType];
   const elements = collection && Array.isArray(diagram?.[collection]) ? diagram[collection] : [];
-  return elements.some((element) => element && element.brand !== undefined && element.brand !== null
-    && String(element.brand).trim() !== '');
+  // Same skip condition as the preparer, so a mark it would report as unknown
+  // still reaches it.
+  return elements.some((element) => Boolean(element?.brand));
 }
 
 export async function loadDiagramWithBrandMarks(options) {

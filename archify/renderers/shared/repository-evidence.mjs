@@ -223,7 +223,29 @@ export function verifyRepositoryEvidence(diagramType, diagram, repoRootInput) {
     if (!Array.isArray(node.sources) || node.sources.length === 0) continue;
     for (const [sourceIndex, authored] of node.sources.entries()) {
       const at = `/${collection}/${nodeIndex}/sources/${sourceIndex}`;
-      citedObjects.push(`${revision}:${verifiedSourcePath(authored.path, `${at}/path`)}`);
+      const sourcePath = verifiedSourcePath(authored.path, `${at}/path`);
+      // The same cheap line checks the verification loop makes, in the same
+      // order, so batching never reorders the first diagnostic.
+      if (authored.end_line && !authored.line) {
+        const nodeSubject = collection === 'components'
+          ? { diagramType, collection, nodeId: node.id, componentId: node.id }
+          : { diagramType, collection, nodeId: node.id };
+        evidenceFailure('repository-evidence/line-required', `${at}/end_line requires line.`, {
+          subject: { path: `${at}/end_line`, ...nodeSubject },
+          supportedFixes: ['add line or remove end_line'],
+        });
+      }
+      if (authored.end_line && authored.end_line < authored.line) {
+        const nodeSubject = collection === 'components'
+          ? { diagramType, collection, nodeId: node.id, componentId: node.id }
+          : { diagramType, collection, nodeId: node.id };
+        evidenceFailure('repository-evidence/line-range-invalid', `${at}/end_line must be greater than or equal to line.`, {
+          subject: { path: at, ...nodeSubject },
+          evidence: { line: authored.line, endLine: authored.end_line },
+          supportedFixes: ['use an end_line greater than or equal to line'],
+        });
+      }
+      citedObjects.push(`${revision}:${sourcePath}`);
     }
   }
   const prefetchedBlobs = prefetchBlobs(realRoot, [...new Set(citedObjects)]);

@@ -1,3 +1,4 @@
+import { createSpatialGrid } from '../shared/spatial-grid.mjs';
 import { esc, renderDefinitions, renderSemanticSigil, textUnits } from '../shared/utils.mjs';
 import {
   animateAttr,
@@ -1415,45 +1416,8 @@ const { measureNode, nodeTextFit, nodes } = measureWorkflowNodes(workflow, layou
 // Obstacles of the routing search are queried through a uniform grid instead of
 // scanned: a candidate can only fail an obstacle its own box can reach.
 const OBSTACLE_CELL = 160;
-function createObstacleGrid() {
-  const buckets = new Map();
-  const rangeOf = (box) => ({
-    x0: Math.floor(box.minX / OBSTACLE_CELL), x1: Math.floor(box.maxX / OBSTACLE_CELL),
-    y0: Math.floor(box.minY / OBSTACLE_CELL), y1: Math.floor(box.maxY / OBSTACLE_CELL),
-  });
-  return {
-    insert(box, item) {
-      const range = rangeOf(box);
-      for (let x = range.x0; x <= range.x1; x += 1) {
-        for (let y = range.y0; y <= range.y1; y += 1) {
-          const key = x + ':' + y;
-          let bucket = buckets.get(key);
-          if (!bucket) { bucket = []; buckets.set(key, bucket); }
-          bucket.push(item);
-        }
-      }
-    },
-    query(box) {
-      const range = rangeOf(box);
-      const seen = new Set();
-      const found = [];
-      for (let x = range.x0; x <= range.x1; x += 1) {
-        for (let y = range.y0; y <= range.y1; y += 1) {
-          const bucket = buckets.get(x + ':' + y);
-          if (!bucket) continue;
-          for (const item of bucket) {
-            if (seen.has(item)) continue;
-            seen.add(item);
-            found.push(item);
-          }
-        }
-      }
-      return found;
-    },
-  };
-}
 
-const obstacleGrid = createObstacleGrid();
+const obstacleGrid = createSpatialGrid(OBSTACLE_CELL);
 let rightmostNodeEdge = 0;
 for (const node of nodes.values()) {
   obstacleGrid.insert(rectToBounds(node), { kind: 'node', node, bounds: rectToBounds(node) });

@@ -1,4 +1,5 @@
 import { normalizeRoutePoints, rectsOverlap, segmentRectClearanceWithin } from '../shared/geometry.mjs';
+import { createSpatialGrid } from '../shared/spatial-grid.mjs';
 
 // A bounded fallback for an unpinned label whose usual position collides.
 // It never routes an edge, moves a node, expands the canvas, or rewrites input.
@@ -18,38 +19,19 @@ export function placeAutomaticLabels({
   // The mask test asked every segment about every candidate position. Segments
   // go into a uniform grid once, and a candidate only asks the cells it covers.
   const SEGMENT_CELL = 120;
-  const segmentGrid = new Map();
+  const segmentGrid = createSpatialGrid(SEGMENT_CELL);
   for (const segment of segments) {
     const [sx, sy] = segment.start;
     const [ex, ey] = segment.end;
-    const x0 = Math.floor(Math.min(sx, ex) / SEGMENT_CELL);
-    const x1 = Math.floor(Math.max(sx, ex) / SEGMENT_CELL);
-    const y0 = Math.floor(Math.min(sy, ey) / SEGMENT_CELL);
-    const y1 = Math.floor(Math.max(sy, ey) / SEGMENT_CELL);
-    for (let cx = x0; cx <= x1; cx += 1) {
-      for (let cy = y0; cy <= y1; cy += 1) {
-        const key = cx + ':' + cy;
-        let bucket = segmentGrid.get(key);
-        if (!bucket) { bucket = []; segmentGrid.set(key, bucket); }
-        bucket.push(segment);
-      }
-    }
+    segmentGrid.insert({
+      minX: Math.min(sx, ex), maxX: Math.max(sx, ex),
+      minY: Math.min(sy, ey), maxY: Math.max(sy, ey),
+    }, segment);
   }
-  const segmentsNear = (rect, margin) => {
-    const found = new Set();
-    const x0 = Math.floor((rect.x - margin) / SEGMENT_CELL);
-    const x1 = Math.floor((rect.x + rect.width + margin) / SEGMENT_CELL);
-    const y0 = Math.floor((rect.y - margin) / SEGMENT_CELL);
-    const y1 = Math.floor((rect.y + rect.height + margin) / SEGMENT_CELL);
-    for (let cx = x0; cx <= x1; cx += 1) {
-      for (let cy = y0; cy <= y1; cy += 1) {
-        const bucket = segmentGrid.get(cx + ':' + cy);
-        if (!bucket) continue;
-        for (const segment of bucket) found.add(segment);
-      }
-    }
-    return found;
-  };
+  const segmentsNear = (rect, margin) => segmentGrid.query({
+    minX: rect.x - margin, maxX: rect.x + rect.width + margin,
+    minY: rect.y - margin, maxY: rect.y + rect.height + margin,
+  });
   const masksRoute = rect => {
     for (const segment of segmentsNear(rect, 4)) {
       if (segment.relationIndex === rect.relationIndex) continue;

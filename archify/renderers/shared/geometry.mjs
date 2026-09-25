@@ -1271,7 +1271,10 @@ function segmentPosition(index, segmentCount) {
 
 // Normalizing a route is pure, and the same route array is normalized again by
 // every predicate that inspects it. Keyed by the array itself, so a rebuilt
-// route simply gets a new entry.
+// route simply gets a new entry. Cached results are frozen: every reader gets
+// the same read-only array, and an in-place edit cannot leave a stale entry
+// behind. The point array it contains is produced once per render and read
+// only.
 const NORMALIZED_ROUTE_POINTS = new WeakMap();
 
 // Assembling a route from an anchor, corridor points and an anchor is the same
@@ -1291,6 +1294,7 @@ export function joinRoutePoints(start, via, end) {
   accept(start);
   for (const point of Array.isArray(via) ? via : []) accept(point);
   accept(end);
+  Object.freeze(normalized);
   NORMALIZED_ROUTE_POINTS.set(normalized, normalized);
   return normalized;
 }
@@ -1310,7 +1314,10 @@ export function normalizeRoutePoints(points) {
     while (normalized.length >= 2 && collinearForward(normalized.at(-2), normalized.at(-1), point)) normalized.pop();
     normalized.push(point);
   }
-  if (Array.isArray(points)) NORMALIZED_ROUTE_POINTS.set(points, normalized);
+  if (Array.isArray(points)) {
+    Object.freeze(normalized);
+    NORMALIZED_ROUTE_POINTS.set(points, normalized);
+  }
   return normalized;
 }
 
