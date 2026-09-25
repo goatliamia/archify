@@ -1453,7 +1453,12 @@ function createObstacleGrid() {
 }
 
 const obstacleGrid = createObstacleGrid();
-for (const node of nodes.values()) obstacleGrid.insert(rectToBounds(node), { kind: 'node', node });
+let rightmostNodeEdge = 0;
+for (const node of nodes.values()) {
+  obstacleGrid.insert(rectToBounds(node), { kind: 'node', node, bounds: rectToBounds(node) });
+  rightmostNodeEdge = Math.max(rightmostNodeEdge, node.x + node.width);
+}
+let rightmostRoutedEdge = Number.NEGATIVE_INFINITY;
 
 function workflowCompositionFrames() {
   const frames = [];
@@ -3660,58 +3665,44 @@ function readableAutomaticVia(edge, from, to, start, end, fromSide, toSide) {
     const currentPoints = normalizeRoutePoints([start, ...outsideRightCandidate.via, end]);
     const labelRect = candidateLabelRect(edge, currentPoints);
     let outsideRightMinX = outsideRight;
-    for (const node of nodes.values()) {
-      if (!labelRect || !rectsOverlap(labelRect, node, -2)) continue;
-      const rightwardLabelDeficit = node.x + node.width - 2 - labelRect.x;
-      if (rightwardLabelDeficit > 0) {
-        outsideRightMinX = Math.max(
-          outsideRightMinX,
-          outsideRight + rightwardLabelDeficit * 2,
-        );
-      }
-    }
-    for (const [otherEdge, routed] of pathCache) {
-      const otherIndex = workflow.edges.indexOf(otherEdge);
-      const otherLabel = labelRectFor(otherEdge, otherIndex);
-      if (labelRect && otherLabel && rectsOverlap(labelRect, otherLabel, -2)) {
-        const rightwardLabelDeficit = otherLabel.x + otherLabel.width - 2 - labelRect.x;
-        if (rightwardLabelDeficit > 0) {
-          outsideRightMinX = Math.max(
-            outsideRightMinX,
-            outsideRight + rightwardLabelDeficit * 2,
-          );
-        }
-      }
-      if (!labelRect) continue;
-      for (let index = 0; index < routed.points.length - 1; index += 1) {
-        const segment = {
-          start: routed.points[index],
-          end: routed.points[index + 1],
-        };
-        const clearance = segmentRectClearance(segment, labelRect);
-        if (clearance == null || clearance + 0.0001 >= 4) continue;
-        const rightwardLabelDeficit = Math.max(segment.start[0], segment.end[0])
-          + 4 - labelRect.x;
-        if (rightwardLabelDeficit > 0) {
-          outsideRightMinX = Math.max(
-            outsideRightMinX,
-            outsideRight + rightwardLabelDeficit * 2,
-          );
+    if (labelRect) {
+      // Only obstacles whose box can reach the label rect can push the corridor.
+      const labelQuery = {
+        minX: labelRect.x - 4, minY: labelRect.y - 4,
+        maxX: labelRect.x + labelRect.width + 4, maxY: labelRect.y + labelRect.height + 4,
+      };
+      for (const item of obstacleGrid.query(labelQuery)) {
+        if (item.kind === 'node') {
+          if (!rectsOverlap(labelRect, item.node, -2)) continue;
+          const rightwardLabelDeficit = item.node.x + item.node.width - 2 - labelRect.x;
+          if (rightwardLabelDeficit > 0) {
+            outsideRightMinX = Math.max(outsideRightMinX, outsideRight + rightwardLabelDeficit * 2);
+          }
+        } else if (item.kind === 'label') {
+          if (!rectsOverlap(labelRect, item.rect, -2)) continue;
+          const rightwardLabelDeficit = item.rect.x + item.rect.width - 2 - labelRect.x;
+          if (rightwardLabelDeficit > 0) {
+            outsideRightMinX = Math.max(outsideRightMinX, outsideRight + rightwardLabelDeficit * 2);
+          }
+        } else if (item.kind === 'route') {
+          const otherPoints = item.routed.points;
+          for (let index = 0; index < otherPoints.length - 1; index += 1) {
+            const clearance = segmentRectClearance({
+              start: otherPoints[index],
+              end: otherPoints[index + 1],
+            }, labelRect);
+            if (clearance == null || clearance + 0.0001 >= 4) continue;
+            const rightwardLabelDeficit = Math.max(otherPoints[index][0], otherPoints[index + 1][0])
+              + 4 - labelRect.x;
+            if (rightwardLabelDeficit > 0) {
+              outsideRightMinX = Math.max(outsideRightMinX, outsideRight + rightwardLabelDeficit * 2);
+            }
+          }
         }
       }
     }
     outsideRightMinX = Math.ceil(outsideRightMinX * 1000) / 1000;
-    let rightmostPlacedX = outsideRight;
-    for (const node of nodes.values()) {
-      rightmostPlacedX = Math.max(rightmostPlacedX, node.x + node.width);
-    }
-    for (const [otherEdge, routed] of pathCache) {
-      for (const [x] of routed.points) rightmostPlacedX = Math.max(rightmostPlacedX, x);
-      const otherLabel = labelRectFor(otherEdge, workflow.edges.indexOf(otherEdge));
-      if (otherLabel) {
-        rightmostPlacedX = Math.max(rightmostPlacedX, otherLabel.x + otherLabel.width);
-      }
-    }
+    const rightmostPlacedX = Math.max(outsideRight, rightmostNodeEdge, rightmostRoutedEdge);
     let probeGrowth = Math.max(
       32,
       labelRect?.width ?? 0,
@@ -4410,9 +4401,13 @@ function registerRouted(edge, routed) {
   pathCache.set(edge, routed);
   const sequence = obstacleSequence++;
   obstacleGrid.insert(routeBounds(routed.points), { kind: 'route', edge, routed, sequence });
+  for (const [x] of routed.points) rightmostRoutedEdge = Math.max(rightmostRoutedEdge, x);
   const index = edgeIndexByEdge.get(edge);
   const label = index === undefined ? null : labelRectFor(edge, index);
-  if (label) obstacleGrid.insert(rectToBounds(label), { kind: 'label', edge, rect: label, sequence });
+  if (label) {
+    obstacleGrid.insert(rectToBounds(label), { kind: 'label', edge, rect: label, sequence });
+    rightmostRoutedEdge = Math.max(rightmostRoutedEdge, label.x + label.width);
+  }
   return routed;
 }
 
