@@ -229,6 +229,8 @@ const VARIATION_SELECTOR_EMOJI = 0xfe0f;
 // Width measurement is pure and the same labels are measured many times per
 // compile, so the unit count is memoized by its input string.
 const TEXT_UNITS_CACHE = new Map();
+const MAX_TEXT_UNITS_CACHE_ENTRIES = 4096;
+const MAX_CACHED_TEXT_LENGTH = 1024;
 
 export function textUnits(text) {
   const cacheKey = String(text ?? '');
@@ -243,6 +245,12 @@ export function textUnits(text) {
     if (next === VARIATION_SELECTOR_EMOJI) units += 2;
     else units += FULLWIDTH_RE.test(chars[i]) ? 2 : 1;
   }
-  TEXT_UNITS_CACHE.set(cacheKey, units);
+  // Keep repeated in-process compiles bounded, including unusually long labels.
+  if (cacheKey.length <= MAX_CACHED_TEXT_LENGTH) {
+    if (TEXT_UNITS_CACHE.size >= MAX_TEXT_UNITS_CACHE_ENTRIES) {
+      TEXT_UNITS_CACHE.delete(TEXT_UNITS_CACHE.keys().next().value);
+    }
+    TEXT_UNITS_CACHE.set(cacheKey, units);
+  }
   return units;
 }

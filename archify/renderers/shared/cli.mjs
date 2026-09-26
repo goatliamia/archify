@@ -19,6 +19,7 @@ import {
   verifyAtomicOutput,
 } from './atomic-output.mjs';
 import { resolveLocale, translateMessage } from './i18n.mjs';
+import { prepareDiagramBrandMarks } from './brand-marks.mjs';
 
 const outputPathGuards = new Map();
 let renderCandidateSequence = 0;
@@ -85,30 +86,9 @@ export function loadDiagram({ rendererDir, diagramType, defaultExample, argv = p
 // Brand URL capture is the only asynchronous authoring step. Typed renderers
 // opt into it through this wrapper without changing loadDiagram's long-lived
 // synchronous safety contract.
-// Brand resolution walks the element collection and returns immediately when no
-// element names a mark, so a document without one never needs the brand tables.
-const BRAND_COLLECTIONS = {
-  architecture: 'components',
-  workflow: 'nodes',
-  sequence: 'participants',
-  dataflow: 'nodes',
-  lifecycle: 'states',
-};
-
-function declaresBrandMark(diagramType, diagram) {
-  const collection = BRAND_COLLECTIONS[diagramType];
-  const elements = collection && Array.isArray(diagram?.[collection]) ? diagram[collection] : [];
-  // Same skip condition as the preparer, so a mark it would report as unknown
-  // still reaches it.
-  return elements.some((element) => Boolean(element?.brand));
-}
-
 export async function loadDiagramWithBrandMarks(options) {
   const loaded = loadDiagram(options);
-  if (declaresBrandMark(options.diagramType, loaded.diagram)) {
-    const { prepareDiagramBrandMarks } = await import('./brand-marks.mjs');
-    await prepareDiagramBrandMarks(options.diagramType, loaded.diagram);
-  }
+  await prepareDiagramBrandMarks(options.diagramType, loaded.diagram);
   return loaded;
 }
 

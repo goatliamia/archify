@@ -1271,10 +1271,9 @@ function segmentPosition(index, segmentCount) {
 
 // Normalizing a route is pure, and the same route array is normalized again by
 // every predicate that inspects it. Keyed by the array itself, so a rebuilt
-// route simply gets a new entry. Cached results are frozen: every reader gets
-// the same read-only array, and an in-place edit cannot leave a stale entry
-// behind. The point array it contains is produced once per render and read
-// only.
+// route simply gets a new entry. The result's outer array is frozen. Callers
+// must also treat input arrays and their coordinate pairs as immutable, since
+// edits in place cannot invalidate this identity-based cache.
 const NORMALIZED_ROUTE_POINTS = new WeakMap();
 
 // Assembling a route from an anchor, corridor points and an anchor is the same
@@ -1330,18 +1329,14 @@ function pointRectDistance(point, rect) {
 function pointSegmentDistanceXY(px, py, start, end) {
   const dx = end[0] - start[0];
   const dy = end[1] - start[1];
-  if (dx === 0 && dy === 0) return Math.hypot(px - start[0], py - start[1]);
-  const t = Math.max(0, Math.min(1, ((px - start[0]) * dx + (py - start[1]) * dy) / (dx * dx + dy * dy)));
+  const lengthSquared = dx * dx + dy * dy;
+  if (lengthSquared <= 0.0000001) return Math.hypot(px - start[0], py - start[1]);
+  const t = Math.max(0, Math.min(1, ((px - start[0]) * dx + (py - start[1]) * dy) / lengthSquared));
   return Math.hypot(px - (start[0] + t * dx), py - (start[1] + t * dy));
 }
 
 function pointSegmentDistance(point, start, end) {
-  const dx = end[0] - start[0];
-  const dy = end[1] - start[1];
-  const lengthSquared = dx * dx + dy * dy;
-  if (lengthSquared <= 0.0000001) return Math.hypot(point[0] - start[0], point[1] - start[1]);
-  const projection = Math.max(0, Math.min(1, ((point[0] - start[0]) * dx + (point[1] - start[1]) * dy) / lengthSquared));
-  return Math.hypot(point[0] - (start[0] + projection * dx), point[1] - (start[1] + projection * dy));
+  return pointSegmentDistanceXY(point[0], point[1], start, end);
 }
 
 function collinearForward(a, b, c) {
