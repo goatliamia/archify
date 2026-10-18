@@ -1,0 +1,16 @@
+{
+  "acyclic-compatibility.json": "e4a124ded82999d39bab8af4695e2f646cba7de09ef5c03cf3f59d20b04b2cf6",
+  "after-tall.png": "c0b86fb94961164d74443db389e0fb8adbffd1c4ac613cab24176961d64a6f73",
+  "after.png": "a286d3ebfeb817acfe2793e805c350db88d4e0ea5787dc288a8a42c197d92e37",
+  "after.workflow.json": "9719022059fc22feac93c29d49d71cd1d105ab8891968acd60fc44fcf8d073fc",
+  "before-tall.png": "af9b9b4d8f2f28a64498c8d8b49c357cb21c4e640dbb086a67400cb7e8b9c0ec",
+  "before.png": "a4f26bc25786040954a5b26c7815a09fc7b943b251102686f1e406a79375a7ba",
+  "before.workflow.json": "1e09e0c92fde1fe38463da0a6418a4818c772657fb286e14f7979d25d88f131e",
+  "browser-evidence.json": "17a03f791258405edfd0e1282b4f65622cd12becd28e997f3384b51737f94fe2",
+  "checks.json": "f1802549b26d743f7ed7f4ca417bed65b7cffa1cb412179f150437982f25a815",
+  "example.archify.md": "cf06a0743c8beb5aa0ff3521c98c75a95a2a4382855e4662ffc8d5b35ef59f5e",
+  "example.png": "0fe70681b157d368ace4f83ae37bba7c2da89fee79fd94ef5c1cad99b62bcadb",
+  "LICENSE": "b799ab081703e7821ae5096d2c1abdf14bbdc75e8ea1c4045998c36ed6db9706",
+  "metrics.json": "b5cf3fecb303b00e123c327bba33ebbe5e36e55a0447f7b84048321e3e364078",
+  "README.md": "1728a0afa5d5bbbff38b322b9cc870805881e334a62665696625ad20bad39f38"
+}

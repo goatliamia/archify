@@ -1,0 +1,11 @@
+{
+  "kind": "constructed compatibility sample",
+  "seed": 188031,
+  "graphs": 200,
+  "callers": [
+    "workflow",
+    "architecture"
+  ],
+  "comparisons": 400,
+  "differences": 0
+}

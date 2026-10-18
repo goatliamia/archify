@@ -1,0 +1,130 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Review and retry",
+    "output": "retry.html",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "lane-0",
+      "label": "Review and retry"
+    },
+    {
+      "id": "lane-1",
+      "label": "分支 1"
+    },
+    {
+      "id": "lane-2",
+      "label": "分支 2"
+    },
+    {
+      "id": "lane-3",
+      "label": "分支 3"
+    },
+    {
+      "id": "lane-4",
+      "label": "分支 4"
+    },
+    {
+      "id": "lane-5",
+      "label": "分支 5"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "enter",
+      "label": "Enter",
+      "type": "backend",
+      "col": 0,
+      "lane": "lane-0"
+    },
+    {
+      "id": "check",
+      "label": "Check?",
+      "type": "backend",
+      "icon": "decision",
+      "col": 0,
+      "lane": "lane-1"
+    },
+    {
+      "id": "verify",
+      "label": "Verify?",
+      "type": "backend",
+      "icon": "decision",
+      "col": 0,
+      "lane": "lane-2"
+    },
+    {
+      "id": "record",
+      "label": "Record",
+      "type": "backend",
+      "col": 0,
+      "lane": "lane-3"
+    },
+    {
+      "id": "done",
+      "label": "Done",
+      "type": "backend",
+      "col": 0,
+      "lane": "lane-4"
+    },
+    {
+      "id": "revise",
+      "label": "Revise",
+      "type": "backend",
+      "col": 0,
+      "lane": "lane-5"
+    }
+  ],
+  "edges": [
+    {
+      "id": "enter-to-check-1",
+      "from": "enter",
+      "to": "check"
+    },
+    {
+      "id": "check-to-verify-1",
+      "from": "check",
+      "to": "verify",
+      "label": "yes"
+    },
+    {
+      "id": "verify-to-record-1",
+      "from": "verify",
+      "to": "record",
+      "label": "yes"
+    },
+    {
+      "id": "record-to-done-1",
+      "from": "record",
+      "to": "done"
+    },
+    {
+      "id": "check-to-revise-1",
+      "from": "check",
+      "to": "revise",
+      "label": "no"
+    },
+    {
+      "id": "verify-to-revise-1",
+      "from": "verify",
+      "to": "revise",
+      "label": "no"
+    },
+    {
+      "id": "record-to-revise-1",
+      "from": "record",
+      "to": "revise",
+      "label": "error"
+    },
+    {
+      "id": "revise-to-enter-1",
+      "from": "revise",
+      "to": "enter",
+      "label": "retry",
+      "variant": "dashed"
+    }
+  ]
+}

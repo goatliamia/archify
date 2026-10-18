@@ -1,0 +1,194 @@
+[
+  {
+    "name": "before",
+    "showcase": false,
+    "errors": [
+      "composition/proper-crossing",
+      "composition/proper-crossing",
+      "composition/arrowhead-collision"
+    ],
+    "viewBox": [
+      796,
+      900
+    ],
+    "topology": {
+      "nodes": [
+        {
+          "id": "enter",
+          "label": "Enter",
+          "type": "backend"
+        },
+        {
+          "id": "check",
+          "label": "Check?",
+          "type": "backend",
+          "icon": "decision"
+        },
+        {
+          "id": "verify",
+          "label": "Verify?",
+          "type": "backend",
+          "icon": "decision"
+        },
+        {
+          "id": "record",
+          "label": "Record",
+          "type": "backend"
+        },
+        {
+          "id": "done",
+          "label": "Done",
+          "type": "backend"
+        },
+        {
+          "id": "revise",
+          "label": "Revise",
+          "type": "backend"
+        }
+      ],
+      "edges": [
+        {
+          "id": "enter-to-check-1",
+          "from": "enter",
+          "to": "check"
+        },
+        {
+          "id": "check-to-verify-1",
+          "from": "check",
+          "to": "verify",
+          "label": "yes"
+        },
+        {
+          "id": "verify-to-record-1",
+          "from": "verify",
+          "to": "record",
+          "label": "yes"
+        },
+        {
+          "id": "record-to-done-1",
+          "from": "record",
+          "to": "done"
+        },
+        {
+          "id": "check-to-revise-1",
+          "from": "check",
+          "to": "revise",
+          "label": "no"
+        },
+        {
+          "id": "verify-to-revise-1",
+          "from": "verify",
+          "to": "revise",
+          "label": "no"
+        },
+        {
+          "id": "record-to-revise-1",
+          "from": "record",
+          "to": "revise",
+          "label": "error"
+        },
+        {
+          "id": "revise-to-enter-1",
+          "from": "revise",
+          "to": "enter",
+          "label": "retry",
+          "variant": "dashed"
+        }
+      ]
+    }
+  },
+  {
+    "name": "after",
+    "showcase": true,
+    "errors": [],
+    "viewBox": [
+      796,
+      404
+    ],
+    "topology": {
+      "nodes": [
+        {
+          "id": "enter",
+          "label": "Enter",
+          "type": "backend"
+        },
+        {
+          "id": "check",
+          "label": "Check?",
+          "type": "backend",
+          "icon": "decision"
+        },
+        {
+          "id": "verify",
+          "label": "Verify?",
+          "type": "backend",
+          "icon": "decision"
+        },
+        {
+          "id": "record",
+          "label": "Record",
+          "type": "backend"
+        },
+        {
+          "id": "done",
+          "label": "Done",
+          "type": "backend"
+        },
+        {
+          "id": "revise",
+          "label": "Revise",
+          "type": "backend"
+        }
+      ],
+      "edges": [
+        {
+          "id": "enter-to-check-1",
+          "from": "enter",
+          "to": "check"
+        },
+        {
+          "id": "check-to-verify-1",
+          "from": "check",
+          "to": "verify",
+          "label": "yes"
+        },
+        {
+          "id": "verify-to-record-1",
+          "from": "verify",
+          "to": "record",
+          "label": "yes"
+        },
+        {
+          "id": "record-to-done-1",
+          "from": "record",
+          "to": "done"
+        },
+        {
+          "id": "check-to-revise-1",
+          "from": "check",
+          "to": "revise",
+          "label": "no"
+        },
+        {
+          "id": "verify-to-revise-1",
+          "from": "verify",
+          "to": "revise",
+          "label": "no"
+        },
+        {
+          "id": "record-to-revise-1",
+          "from": "record",
+          "to": "revise",
+          "label": "error"
+        },
+        {
+          "id": "revise-to-enter-1",
+          "from": "revise",
+          "to": "enter",
+          "label": "retry",
+          "variant": "dashed"
+        }
+      ]
+    }
+  }
+]

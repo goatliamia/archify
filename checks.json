@@ -1,0 +1,861 @@
+{
+  "base": "824db3ad62bae7f7acde02c65f3c236d41e60b5c",
+  "head": "8bb803ef0c27a5602bf74330f16a78c66864749c",
+  "node": "v22.23.2",
+  "platform": "win32",
+  "full": {
+    "tests": 3332,
+    "pass": 3027,
+    "fail": 61,
+    "cancelled": 53,
+    "skipped": 191,
+    "todo": 0
+  },
+  "chrome": {
+    "tests": 298,
+    "pass": 298,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "edge": {
+    "tests": 8,
+    "pass": 8,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "baselineReplay": {
+    "tests": 114,
+    "pass": 5,
+    "fail": 56,
+    "cancelled": 53,
+    "skipped": 0,
+    "todo": 0
+  },
+  "visualFileRerun": {
+    "base": {
+      "tests": 102,
+      "pass": 87,
+      "fail": 5,
+      "cancelled": 0,
+      "skipped": 10,
+      "todo": 0
+    },
+    "candidate": {
+      "tests": 102,
+      "pass": 87,
+      "fail": 5,
+      "cancelled": 0,
+      "skipped": 10,
+      "todo": 0
+    },
+    "note": "The five visual-check failures passed filtered selection but recurred in a complete file run on both revisions."
+  },
+  "failures": [
+    {
+      "name": "browser gate focuses maintained browser suites and supports explicit concurrency",
+      "status": "failed",
+      "file": "test/browser-gate.test.mjs",
+      "line": 89,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "browser gate forwards a validated test name pattern",
+      "status": "failed",
+      "file": "test/browser-gate.test.mjs",
+      "line": 99,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "CI media gates fail closed and run only for their affected responsibility",
+      "status": "failed",
+      "file": "test/browser-gate.test.mjs",
+      "line": 224,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "required jobs fail when classification fails or returns an unknown scope",
+      "status": "failed",
+      "file": "test/ci-scope.test.mjs",
+      "line": 173,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "canonical Node cannot pass full CI with failed, cancelled or skipped regression shards",
+      "status": "failed",
+      "file": "test/ci-scope.test.mjs",
+      "line": 187,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "cli: deliver preserves the renderer default output contract",
+      "status": "failed",
+      "file": "test/cli.test.mjs",
+      "line": 755,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "Cloudflare destination rejects invalid values without evaluating them as shell code",
+      "status": "failed",
+      "file": "test/cloudflare-deployment-workflow.test.mjs",
+      "line": 48,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "the zero-dependency archive works from the canonical Cursor-visible agent path",
+      "status": "failed",
+      "file": "test/cursor-onboarding.test.mjs",
+      "line": 50,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "ordinary handoff uses one deterministic finalizer without image capability",
+      "status": "failed",
+      "file": "test/delivery-contract.test.mjs",
+      "line": 36,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "strict provenance succeeds before either browser command",
+      "status": "failed",
+      "file": "test/delivery-contract.test.mjs",
+      "line": 76,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "Windows delivery accepts an existing 8.3 artifact alias and keeps strict provenance",
+      "status": "failed",
+      "file": "test/delivery-sidecar-path.test.mjs",
+      "line": 1076,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "explainer diagrams: source containment rejects traversal, symlinks, mismatch, and malformed JSON",
+      "status": "failed",
+      "file": "test/explainer-diagrams.test.mjs",
+      "line": 165,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "image containment rejects symlink files and directories, traversal, unsupported formats and oversize files",
+      "status": "failed",
+      "file": "test/explainer-sources.test.mjs",
+      "line": 167,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "every command rejects durable meta.output that escapes through a directory symlink, even with a CLI target",
+      "status": "failed",
+      "file": "test/meta-output-contract.test.mjs",
+      "line": 149,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "every command rejects durable meta.output that resolves through a file symlink to a non-HTML target, even with a CLI target",
+      "status": "failed",
+      "file": "test/meta-output-contract.test.mjs",
+      "line": 149,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "packaged skill keeps first-draft rules inline and repair contracts behind reachable triggers",
+      "status": "failed",
+      "file": "test/ordinary-model-floor.test.mjs",
+      "line": 1001,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "render reports an output symlink cycle as a structured output diagnostic",
+      "status": "failed",
+      "file": "test/output-path.test.mjs",
+      "line": 102,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "render rejects an output symlink that aliases its JSON input",
+      "status": "failed",
+      "file": "test/output-path.test.mjs",
+      "line": 128,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "render rejects a meta.output that escapes through a directory symlink",
+      "status": "failed",
+      "file": "test/output-path.test.mjs",
+      "line": 191,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "render rejects a meta.output symlink that resolves to a non-html target",
+      "status": "failed",
+      "file": "test/output-path.test.mjs",
+      "line": 226,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "deliver rejects a future-path alias of its JSON input with a structured diagnostic",
+      "status": "failed",
+      "file": "test/output-path.test.mjs",
+      "line": 244,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "deliver rechecks aliases immediately before committing a verified candidate",
+      "status": "failed",
+      "file": "test/output-path.test.mjs",
+      "line": 264,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "compare rejects an artifact path that aliases either architecture input",
+      "status": "failed",
+      "file": "test/output-path.test.mjs",
+      "line": 380,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "compare rejects a dangling receipt symlink to the future artifact path",
+      "status": "failed",
+      "file": "test/output-path.test.mjs",
+      "line": 420,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "compare preserves dangling output symlinks and commits to their physical targets",
+      "status": "failed",
+      "file": "test/output-path.test.mjs",
+      "line": 439,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "the shared renderer rechecks its guarded output immediately before writing",
+      "status": "failed",
+      "file": "test/output-path.test.mjs",
+      "line": 960,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "compare rechecks every target immediately before committing the artifact pair",
+      "status": "failed",
+      "file": "test/output-path.test.mjs",
+      "line": 996,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "preview: rejects destructive or unsupported startup targets before watching",
+      "status": "failed",
+      "file": "test/preview.test.mjs",
+      "line": 184,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "package smoke rejects every dependency metadata field in a built package",
+      "status": "failed",
+      "file": "test/release-package-gates.test.mjs",
+      "line": 21,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "built archives contain the embedded notifier runtime",
+      "status": "failed",
+      "file": "test/release-package-gates.test.mjs",
+      "line": 21,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "archive build excludes untracked files and external symlinks from the live working tree",
+      "status": "failed",
+      "file": "test/release-package-gates.test.mjs",
+      "line": 21,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "archive build rejects an unmerged index and preserves an existing archive",
+      "status": "failed",
+      "file": "test/release-package-gates.test.mjs",
+      "line": 21,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "archive build is byte-for-byte reproducible across caller time zones without system zip",
+      "status": "failed",
+      "file": "test/release-package-gates.test.mjs",
+      "line": 21,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "archive build accepts Windows-style absolute output paths",
+      "status": "failed",
+      "file": "test/release-package-gates.test.mjs",
+      "line": 838,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "pinned evidence ignores commit replacement adds a missing file",
+      "status": "failed",
+      "file": "test/repository-evidence-replacement.test.mjs",
+      "line": 122,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "pinned evidence ignores commit replacement adds out-of-range lines",
+      "status": "failed",
+      "file": "test/repository-evidence-replacement.test.mjs",
+      "line": 122,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "pinned evidence ignores commit replacement removes a valid file",
+      "status": "failed",
+      "file": "test/repository-evidence-replacement.test.mjs",
+      "line": 122,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "pinned evidence ignores commit replacement shortens valid lines",
+      "status": "failed",
+      "file": "test/repository-evidence-replacement.test.mjs",
+      "line": 122,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "pinned evidence ignores blob replacement adds out-of-range lines",
+      "status": "failed",
+      "file": "test/repository-evidence-replacement.test.mjs",
+      "line": 122,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "pinned evidence ignores blob replacement shortens valid lines",
+      "status": "failed",
+      "file": "test/repository-evidence-replacement.test.mjs",
+      "line": 122,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "pinned evidence ignores custom replacement namespace adds out-of-range lines",
+      "status": "failed",
+      "file": "test/repository-evidence-replacement.test.mjs",
+      "line": 122,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "pinned evidence ignores dirty working files without replacement refs",
+      "status": "failed",
+      "file": "test/repository-evidence-replacement.test.mjs",
+      "line": 130,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "focused runner selects exact files from an unrelated cwd and cleans isolated cache",
+      "status": "failed",
+      "file": "test/repository-test-runner.test.mjs",
+      "line": 38,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "supported older Node retains default operation and rejects explicit concurrency",
+      "status": "failed",
+      "file": "test/repository-test-runner.test.mjs",
+      "line": 52,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "default Node concurrency uses available CPUs with a four-file ceiling and a separate Chrome limit",
+      "status": "failed",
+      "file": "test/repository-test-runner.test.mjs",
+      "line": 63,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "focused runner forwards a validated test name pattern as one child argument",
+      "status": "failed",
+      "file": "test/repository-test-runner.test.mjs",
+      "line": 71,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "test name selection fails clearly before Node 18.11 and works from that version",
+      "status": "failed",
+      "file": "test/repository-test-runner.test.mjs",
+      "line": 87,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "runner lists inventory without launching or allocating a cache",
+      "status": "failed",
+      "file": "test/repository-test-runner.test.mjs",
+      "line": 100,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a committed cache state symlink is ignored without following its target",
+      "status": "failed",
+      "file": "test/update-notifier.test.mjs",
+      "line": 710,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a cache ancestor replaced before a cached read cannot inject a reminder",
+      "status": "failed",
+      "file": "test/update-notifier.test.mjs",
+      "line": 734,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a committed directory replaced by a symlink cannot inject a reminder",
+      "status": "failed",
+      "file": "test/update-notifier.test.mjs",
+      "line": 789,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a pending directory replaced by a symlink cannot be ignored as inactive",
+      "status": "failed",
+      "file": "test/update-notifier.test.mjs",
+      "line": 842,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "zero-inode cache metadata uses timestamp fallback to reject a replaced ancestor",
+      "status": "failed",
+      "file": "test/update-notifier.test.mjs",
+      "line": 902,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "zero-inode cache metadata without birthtime fails closed",
+      "status": "failed",
+      "file": "test/update-notifier.test.mjs",
+      "line": 1012,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "an empty precheck snapshot cannot start a second concurrent network request",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 1760,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "two promoters cannot replace and then steal a stale empty active claim",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 1791,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a delayed lower-generation promoter cannot retire a completed higher claim",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 1829,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "an expired contender cannot fetch after its delayed claim promotion succeeds",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 1867,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a stale supersession snapshot cannot let a lower promoter retire a higher claim",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 1905,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "an owner fenced while active ownership is read cannot issue a second GET",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 1945,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "an expired active owner cannot start a network request",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2005,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a fenced owner rechecks its active claim immediately before network access",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2037,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "an overlapping check reads the last-good candidate while another process refreshes it",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2081,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a snooze waits briefly for an in-flight refresh instead of losing the choice",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2111,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a snooze for a superseded release never suppresses the newer candidate",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2143,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "preference retry budget uses a monotonic clock",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2184,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a delayed allocator cannot reuse a generation after its reservation name was taken",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2205,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "an oversized generation name cannot poison future allocation",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2230,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a lower generation stalled after reservation cannot commit behind a newer generation",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2247,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a snooze fences an expired refresh and the resumed owner cannot erase it",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2275,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a snooze retries when fenced during pending owner creation",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2312,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a snooze retries when fenced during state temp creation",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2312,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a stale corrupt operation is fenced without exposing a failure",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2351,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "malformed active-claim shapes recover after the hard lease",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2370,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a delayed corrupt-claim retirement cannot move a successor active claim",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2410,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "repeated corrupt claim contents receive distinct retirement identities",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2461,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "corrupt claim retirement preserves distinct 64-bit inode identities",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2491,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a forged retirement symlink cannot move an active claim outside its cache partition",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2547,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "an expired operation is fenced even when its PID was reused by a live process",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2573,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a corrupt future-dated operation cannot suppress checks indefinitely",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2591,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a newly-created operation with slight clock skew is never fenced as stale",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2610,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a fenced stale owner cannot overwrite a newer committed candidate after resuming",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2630,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "different installed versions share no preference or cache-reset state",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2660,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "an identity mismatch is rejected silently and never cached as a candidate",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2689,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "release notes must byte-match the exact trusted GitHub URL",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2703,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "malformed release notes are classified as an invalid manifest",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2726,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "publishedAt must use canonical UTC seconds and a real calendar date",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2738,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "stable candidates cannot use prerelease or build metadata",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2757,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "an invalid local identity fails before any network disclosure",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2772,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a bounded timeout fails silently without retrying",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2790,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "non-success responses cancel their unread body before failing silently",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2808,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "media-type and declared-size rejection cancel unread response bodies",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2827,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "response stream failures are classified as network failures",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2852,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "invalid UTF-8 is classified as an invalid manifest rather than a network failure",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2874,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "chunked responses above 32 KiB are rejected instead of fully trusted",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2887,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a poisoned far-future cache timestamp cannot suppress checks indefinitely",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2900,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a semantically corrupt cached candidate discards legacy validators and rebuilds unconditionally",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2919,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "corrupt cache is rebuilt without exposing an error to the user",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2944,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "disabled CLI returns one silent JSON line and never needs the network",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2962,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "legacy CLI acknowledgement is a harmless one-line no-op",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 2974,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "CLI entry detection survives a realpath or symlink alias",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 3018,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "notifier source has no process execution or remote-origin override surface",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 3046,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "delivery preferences are explicit and scoped to the exact release digest",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 3064,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "delivery check treats a withdrawn manifest differently from an invalid response",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 3096,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "a validated network result survives a cache publication failure without inventing an upgrade",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 3116,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "an offline delivery still offers the last validated candidate when backoff cannot be written",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 3140,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "legacy cached candidates keep the version notice without inventing a summary",
+      "status": "cancelled",
+      "file": "test/update-notifier.test.mjs",
+      "line": 3162,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "visual-check rejects a screenshot candidate externally hard-linked before registration",
+      "status": "failed",
+      "file": "test/visual-check.test.mjs",
+      "line": 1935,
+      "baselineReplay": "complete visual-check file"
+    },
+    {
+      "name": "visual-check rolls back when the staged contact-sheet gains an external hard link during publish",
+      "status": "failed",
+      "file": "test/visual-check.test.mjs",
+      "line": 1984,
+      "baselineReplay": "complete visual-check file"
+    },
+    {
+      "name": "visual-check rolls back when the staged receipt gains an external hard link during publish",
+      "status": "failed",
+      "file": "test/visual-check.test.mjs",
+      "line": 1984,
+      "baselineReplay": "complete visual-check file"
+    },
+    {
+      "name": "visual-check retries transient remote ENOTEMPTY during staging cleanup",
+      "status": "failed",
+      "file": "test/visual-check.test.mjs",
+      "line": 2593,
+      "baselineReplay": "complete visual-check file"
+    },
+    {
+      "name": "a no-Chrome rerun retires captures only when the successful receipt proves ownership",
+      "status": "failed",
+      "file": "test/visual-check.test.mjs",
+      "line": 3278,
+      "baselineReplay": "complete visual-check file"
+    },
+    {
+      "name": "workflow migration reports a cyclic-symlink destination as structured JSON",
+      "status": "failed",
+      "file": "test/workflow-migration.test.mjs",
+      "line": 701,
+      "baselineReplay": "filtered failure replay"
+    },
+    {
+      "name": "workflow migration rejects a dangling destination symlink without touching it",
+      "status": "failed",
+      "file": "test/workflow-migration.test.mjs",
+      "line": 717,
+      "baselineReplay": "filtered failure replay"
+    }
+  ],
+  "generated": "passed: viewer, brand marks, validators, release identity and golden renders",
+  "packageSmoke": "passed: isolated zero-dependency Explainer parse, native graph, delivery, strict check and panel patch",
+  "packageSha256": "644deac63808d104df196ee0d6758d22f4532992dbde3935fd70810045c44e61",
+  "generationPilot": "Not run; Explainer-focused comparison scope awaits maintainer agreement. Constructed regression checks are not fresh Agent sessions."
+}
