@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Squad: CLI and persisted coordination",
+    "output": "graph.html",
+    "quality_profile": "standard",
+    "locale": "en"
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 1,
+    "cellW": 176,
+    "cellH": 76,
+    "gapX": 100,
+    "gapY": 110
+  },
+  "components": [
+    {
+      "id": "manager",
+      "label": "Manager",
+      "type": "frontend",
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "cli",
+      "label": "Squad CLI",
+      "type": "backend",
+      "row": 1,
+      "col": 0
+    },
+    {
+      "id": "store",
+      "label": "Task and message store",
+      "type": "backend",
+      "row": 2,
+      "col": 0,
+      "size": [
+        162,
+        60
+      ]
+    },
+    {
+      "id": "db",
+      "label": "SQLite state",
+      "type": "database",
+      "row": 3,
+      "col": 0
+    },
+    {
+      "id": "worker",
+      "label": "Worker",
+      "type": "external",
+      "row": 4,
+      "col": 0
+    }
+  ],
+  "connections": [
+    {
+      "id": "manager-to-cli-1",
+      "from": "manager",
+      "to": "cli",
+      "label": "assign or inspect"
+    },
+    {
+      "id": "worker-to-cli-1",
+      "from": "worker",
+      "to": "cli",
+      "label": "receive, ack, complete"
+    },
+    {
+      "id": "cli-to-store-1",
+      "from": "cli",
+      "to": "store",
+      "label": "checked operation"
+    },
+    {
+      "id": "store-to-db-1",
+      "from": "store",
+      "to": "db",
+      "label": "transaction or query"
+    },
+    {
+      "id": "store-to-cli-1",
+      "from": "store",
+      "to": "cli",
+      "label": "task and messages"
+    },
+    {
+      "id": "cli-to-worker-1",
+      "from": "cli",
+      "to": "worker",
+      "label": "assignment and task state"
+    },
+    {
+      "id": "cli-to-manager-1",
+      "from": "cli",
+      "to": "manager",
+      "label": "result summary"
+    }
+  ]
+}

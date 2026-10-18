@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "SkillRoster: inspection and mutation boundaries",
+    "output": "graph.html",
+    "quality_profile": "standard",
+    "locale": "en"
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 3,
+    "cellW": 176,
+    "cellH": 76,
+    "gapX": 100,
+    "gapY": 110
+  },
+  "components": [
+    {
+      "id": "ui",
+      "label": "CLI and review",
+      "type": "frontend",
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "scan",
+      "label": "Skill scanner",
+      "type": "backend",
+      "row": 1,
+      "col": 1
+    },
+    {
+      "id": "plan",
+      "label": "Roster planner",
+      "type": "backend",
+      "row": 1,
+      "col": 2
+    },
+    {
+      "id": "change",
+      "label": "Checked apply and undo",
+      "type": "backend",
+      "row": 1,
+      "col": 0,
+      "size": [
+        162,
+        60
+      ]
+    },
+    {
+      "id": "files",
+      "label": "Skill files",
+      "type": "database",
+      "row": 2,
+      "col": 0
+    },
+    {
+      "id": "state",
+      "label": "Receipts and backups",
+      "type": "database",
+      "row": 3,
+      "col": 0,
+      "size": [
+        148,
+        60
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "ui-to-scan-1",
+      "from": "ui",
+      "to": "scan",
+      "label": "inspect"
+    },
+    {
+      "id": "scan-to-files-1",
+      "from": "scan",
+      "to": "files",
+      "label": "read installation state"
+    },
+    {
+      "id": "scan-to-plan-1",
+      "from": "scan",
+      "to": "plan",
+      "label": "snapshot"
+    },
+    {
+      "id": "plan-to-change-1",
+      "from": "plan",
+      "to": "change",
+      "label": "approved operations"
+    },
+    {
+      "id": "change-to-files-1",
+      "from": "change",
+      "to": "files",
+      "label": "checked mutation"
+    },
+    {
+      "id": "files-to-change-1",
+      "from": "files",
+      "to": "change",
+      "label": "current fingerprints"
+    },
+    {
+      "id": "change-to-state-1",
+      "from": "change",
+      "to": "state",
+      "label": "receipt and backups"
+    },
+    {
+      "id": "state-to-change-1",
+      "from": "state",
+      "to": "change",
+      "label": "undo receipt"
+    }
+  ]
+}

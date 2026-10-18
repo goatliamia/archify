@@ -1,0 +1,572 @@
+{
+  "schemaVersion": 1,
+  "sourceChecks": [
+    {
+      "project": "openpi",
+      "sha": "677b4959108976b99fb63fb5029198b04aa51cb5",
+      "status": "clean"
+    },
+    {
+      "project": "hive",
+      "sha": "f8f1343da6595a232f0baba7f0ea5b5a58fe0e9c",
+      "status": "clean"
+    },
+    {
+      "project": "mco",
+      "sha": "3cfce130362dbcc2aedda6170d1a31e39cf67d3e",
+      "status": "clean"
+    },
+    {
+      "project": "squad",
+      "sha": "8146bcc1c38c439aedaf3ff44548c830654c8621",
+      "status": "clean"
+    },
+    {
+      "project": "skillroster",
+      "sha": "21d14c7cff25c66a016562e238e62d0538eb696f",
+      "status": "clean"
+    }
+  ],
+  "cases": [
+    {
+      "project": "openpi",
+      "type": "workflow",
+      "title": "OpenPI: delegate, observe and settle",
+      "description": "A bounded delegation uses an independent Pi session. Cancellation and normal settlement converge on the managed result; no automatic retry is invented.",
+      "rows": [
+        "request | Delegate task | frontend",
+        "admit | Admit child | backend",
+        "session | Start Pi session | backend",
+        "events | Observe events | backend",
+        "settle | Settle snapshot | backend",
+        "result | Return result | frontend",
+        "cancel | Cancel session | backend",
+        "request > admit",
+        "admit > session",
+        "session > events",
+        "events > settle | finished or error",
+        "settle > result",
+        "request > cancel | caller cancels",
+        "cancel > settle | bounded cleanup"
+      ],
+      "facts": [
+        {
+          "description": "The spawn tool accepts a bounded child request.",
+          "file": "extensions/subagents/index.ts",
+          "start": 1000,
+          "end": 1012,
+          "url": "https://github.com/openpi-dev/openpi/blob/677b4959108976b99fb63fb5029198b04aa51cb5/extensions/subagents/index.ts#L1000-L1012",
+          "sourceSha256": "445485c19eb9fb7b9c9678ce68d858122d2cbb763b78e8f33b5e01fb3f661651"
+        },
+        {
+          "description": "The manager owns snapshots, the normalized event pump, settlement and scoped cancellation.",
+          "file": "extensions/subagents/src/manager.ts",
+          "start": 1,
+          "end": 15,
+          "url": "https://github.com/openpi-dev/openpi/blob/677b4959108976b99fb63fb5029198b04aa51cb5/extensions/subagents/src/manager.ts#L1-L15",
+          "sourceSha256": "18cbb021f7e59378e1e044dee58919ac727b4c55f0120eec5b4fce8f943097f4"
+        },
+        {
+          "description": "Cancellation aborts the Pi session and waits for active prompt cleanup.",
+          "file": "extensions/subagents/src/backends/pi.ts",
+          "start": 893,
+          "end": 910,
+          "url": "https://github.com/openpi-dev/openpi/blob/677b4959108976b99fb63fb5029198b04aa51cb5/extensions/subagents/src/backends/pi.ts#L893-L910",
+          "sourceSha256": "eb8d92c4883a20f4bab77d8366024988e0282d2f27f2e82c206901d559b28e85"
+        }
+      ],
+      "id": "openpi-workflow",
+      "authorship": "Maintenance author, from pinned public sources; not an independent Agent first draft",
+      "sourceRevision": "677b4959108976b99fb63fb5029198b04aa51cb5"
+    },
+    {
+      "project": "openpi",
+      "type": "architecture",
+      "title": "OpenPI: managed child sessions",
+      "description": "Request and completion communication is bidirectional. Cycles here express actual calls and returned events, not invented processing retries.",
+      "rows": [
+        "parent | Parent agent | frontend",
+        "tools | Subagent tools | backend",
+        "manager | Subagent manager | backend",
+        "session | Pi child session | backend",
+        "delivery | Result inbox | backend",
+        "parent > tools | delegate or inspect",
+        "tools > manager | spawn, wait, cancel",
+        "manager > session | create and control",
+        "session > manager | lifecycle events",
+        "manager > delivery | settled snapshot",
+        "delivery > parent | result follow-up"
+      ],
+      "facts": [
+        {
+          "description": "The public tools spawn, wait, check and cancel child sessions.",
+          "file": "extensions/subagents/index.ts",
+          "start": 2,
+          "end": 15,
+          "url": "https://github.com/openpi-dev/openpi/blob/677b4959108976b99fb63fb5029198b04aa51cb5/extensions/subagents/index.ts#L2-L15",
+          "sourceSha256": "445485c19eb9fb7b9c9678ce68d858122d2cbb763b78e8f33b5e01fb3f661651"
+        },
+        {
+          "description": "The manager creates a backend session and folds events into snapshots.",
+          "file": "extensions/subagents/src/manager.ts",
+          "start": 1,
+          "end": 15,
+          "url": "https://github.com/openpi-dev/openpi/blob/677b4959108976b99fb63fb5029198b04aa51cb5/extensions/subagents/src/manager.ts#L1-L15",
+          "sourceSha256": "18cbb021f7e59378e1e044dee58919ac727b4c55f0120eec5b4fce8f943097f4"
+        },
+        {
+          "description": "The shared one-shot inbox delivers settled results to the parent without duplicate consumption.",
+          "file": "extensions/subagents/src/result-delivery.ts",
+          "start": 16,
+          "end": 38,
+          "url": "https://github.com/openpi-dev/openpi/blob/677b4959108976b99fb63fb5029198b04aa51cb5/extensions/subagents/src/result-delivery.ts#L16-L38",
+          "sourceSha256": "567cf4f1a2f8fb1b02d32f14effe52ebaa77b413982676b1013b5f27147a47ec"
+        }
+      ],
+      "id": "openpi-architecture",
+      "authorship": "Maintenance author, from pinned public sources; not an independent Agent first draft",
+      "sourceRevision": "677b4959108976b99fb63fb5029198b04aa51cb5"
+    },
+    {
+      "project": "hive",
+      "type": "workflow",
+      "title": "Hive: queued dispatch delivery",
+      "description": "The outbox drains queued messages, records delivery or PTY failure, and retries a failed write only after another explicit drain/start.",
+      "rows": [
+        "accept | Authorize message | backend",
+        "queue | Select queued message | backend",
+        "active | Active worker? | backend",
+        "write | Write PTY envelope | backend",
+        "ack | Mark delivered | backend",
+        "failed | Record failure | backend",
+        "done | Stop draining | backend",
+        "accept > queue",
+        "queue > active",
+        "active > write | ready",
+        "active > done | no active run",
+        "write > ack | written",
+        "write > failed | PTY error",
+        "ack > queue | next queued message",
+        "failed > queue | next explicit drain"
+      ],
+      "facts": [
+        {
+          "description": "Authorization and insertion precede draining the recipient outbox.",
+          "file": "src/server/dispatch-message-operations.ts",
+          "start": 70,
+          "end": 95,
+          "url": "https://github.com/tt-a1i/hive/blob/f8f1343da6595a232f0baba7f0ea5b5a58fe0e9c/src/server/dispatch-message-operations.ts#L70-L95",
+          "sourceSha256": "4203d058b4d466a148bf5f96fe97ec355e006f3a6e5ca92b6a62a9f725880493"
+        },
+        {
+          "description": "A drain loops through queued messages, records writes and stops on a failed PTY until the next explicit drain/start.",
+          "file": "src/server/dispatch-message-outbox.ts",
+          "start": 38,
+          "end": 73,
+          "url": "https://github.com/tt-a1i/hive/blob/f8f1343da6595a232f0baba7f0ea5b5a58fe0e9c/src/server/dispatch-message-outbox.ts#L38-L73",
+          "sourceSha256": "8a109b523dc129d1cd7880705dfda04508399a82d9ef806410b6dbe790ec9571"
+        }
+      ],
+      "id": "hive-workflow",
+      "authorship": "Maintenance author, from pinned public sources; not an independent Agent first draft",
+      "sourceRevision": "f8f1343da6595a232f0baba7f0ea5b5a58fe0e9c"
+    },
+    {
+      "project": "hive",
+      "type": "architecture",
+      "title": "Hive: workbench and worker process",
+      "description": "The workbench calls server operations; persisted dispatch messages reach a worker PTY through the runtime, and reports return through server message operations.",
+      "rows": [
+        "web | Browser workbench | frontend",
+        "api | Server operations | backend",
+        "store | Dispatch store | database",
+        "outbox | Message outbox | backend",
+        "runtime | Agent runtime | backend",
+        "worker | Worker CLI process | external",
+        "web > api | team actions",
+        "api > store | persist message",
+        "api > outbox | drain recipient",
+        "outbox > runtime | deliver envelope",
+        "runtime > worker | PTY input",
+        "worker > api | report message",
+        "api > web | status and messages"
+      ],
+      "facts": [
+        {
+          "description": "Server operations authorize and persist worker/orchestrator messages before draining.",
+          "file": "src/server/dispatch-message-operations.ts",
+          "start": 70,
+          "end": 95,
+          "url": "https://github.com/tt-a1i/hive/blob/f8f1343da6595a232f0baba7f0ea5b5a58fe0e9c/src/server/dispatch-message-operations.ts#L70-L95",
+          "sourceSha256": "4203d058b4d466a148bf5f96fe97ec355e006f3a6e5ca92b6a62a9f725880493"
+        },
+        {
+          "description": "Agent runtime delivery writes into an active worker input.",
+          "file": "src/server/agent-stdin-dispatcher.ts",
+          "start": 194,
+          "end": 207,
+          "url": "https://github.com/tt-a1i/hive/blob/f8f1343da6595a232f0baba7f0ea5b5a58fe0e9c/src/server/agent-stdin-dispatcher.ts#L194-L207",
+          "sourceSha256": "1f9bffc32978cb7b9f90046461f1b60514618c0a0b6ee3a33b2ca018307dfa92"
+        },
+        {
+          "description": "The manager starts the configured agent using a PTY process.",
+          "file": "src/server/agent-manager.ts",
+          "start": 125,
+          "end": 157,
+          "url": "https://github.com/tt-a1i/hive/blob/f8f1343da6595a232f0baba7f0ea5b5a58fe0e9c/src/server/agent-manager.ts#L125-L157",
+          "sourceSha256": "749a8927c44980a84c3a39b6bab80817e2cbf2e682944f86774bde482461ba12"
+        },
+        {
+          "description": "Server queries return current collaboration messages and required sequence state.",
+          "file": "src/server/dispatch-message-operations.ts",
+          "start": 99,
+          "end": 128,
+          "url": "https://github.com/tt-a1i/hive/blob/f8f1343da6595a232f0baba7f0ea5b5a58fe0e9c/src/server/dispatch-message-operations.ts#L99-L128",
+          "sourceSha256": "4203d058b4d466a148bf5f96fe97ec355e006f3a6e5ca92b6a62a9f725880493"
+        }
+      ],
+      "id": "hive-architecture",
+      "authorship": "Maintenance author, from pinned public sources; not an independent Agent first draft",
+      "sourceRevision": "f8f1343da6595a232f0baba7f0ea5b5a58fe0e9c"
+    },
+    {
+      "project": "mco",
+      "type": "workflow",
+      "title": "MCO: provider review outcomes",
+      "description": "A requested provider set runs concurrently. Invocation errors remain explicit results; the aggregate distinguishes all, some, and no successful invocations.",
+      "rows": [
+        "request | Accept review request | frontend",
+        "providers | Expand invocations | backend",
+        "run | Run providers | backend",
+        "record | Preserve each outcome | backend",
+        "aggregate | How many succeeded? | backend",
+        "complete | Complete | backend",
+        "partial | Partial | backend",
+        "failed | Failed | backend",
+        "request > providers",
+        "providers > run",
+        "run > record | answer, failure or timeout",
+        "record > aggregate",
+        "aggregate > complete | all",
+        "aggregate > partial | some",
+        "aggregate > failed | none"
+      ],
+      "facts": [
+        {
+          "description": "Provider declarations become separate invocations with explicit success, failed, timeout or cancelled status; aggregate statuses are complete, partial or failed.",
+          "file": "docs/contracts/invocation-runtime-v1.md",
+          "start": 5,
+          "end": 40,
+          "url": "https://github.com/mco-org/mco/blob/3cfce130362dbcc2aedda6170d1a31e39cf67d3e/docs/contracts/invocation-runtime-v1.md#L5-L40",
+          "sourceSha256": "3e0baacfed21a4e4ea4723e6b806ada85a0b57c2e743191328e385cb5f607498"
+        },
+        {
+          "description": "The executor submits invocations and retains explicit exceptional outcomes.",
+          "file": "runtime/invocation_runtime.py",
+          "start": 498,
+          "end": 576,
+          "url": "https://github.com/mco-org/mco/blob/3cfce130362dbcc2aedda6170d1a31e39cf67d3e/runtime/invocation_runtime.py#L498-L576",
+          "sourceSha256": "1367ddff864562b4ae9514f64815f2fa7dd557db3385cc475913484086ccd4cd"
+        },
+        {
+          "description": "The aggregate status derives from the number of successful outputs.",
+          "file": "runtime/invocation_runtime.py",
+          "start": 600,
+          "end": 611,
+          "url": "https://github.com/mco-org/mco/blob/3cfce130362dbcc2aedda6170d1a31e39cf67d3e/runtime/invocation_runtime.py#L600-L611",
+          "sourceSha256": "1367ddff864562b4ae9514f64815f2fa7dd557db3385cc475913484086ccd4cd"
+        }
+      ],
+      "id": "mco-workflow",
+      "authorship": "Maintenance author, from pinned public sources; not an independent Agent first draft",
+      "sourceRevision": "3cfce130362dbcc2aedda6170d1a31e39cf67d3e"
+    },
+    {
+      "project": "mco",
+      "type": "architecture",
+      "title": "MCO: invocation and artifact boundary",
+      "description": "The runtime delegates transport to adapters, receives decoded invocation outcomes, and writes raw answer artifacts without treating prose as structured findings.",
+      "rows": [
+        "cli | Review CLI | frontend",
+        "runtime | Invocation runtime | backend",
+        "adapter | Provider adapter | backend",
+        "provider | Provider process | external",
+        "artifacts | Answer artifacts | database",
+        "cli > runtime | review request",
+        "runtime > adapter | invocation",
+        "adapter > provider | transport",
+        "provider > adapter | answer events",
+        "adapter > runtime | decoded outcome",
+        "runtime > artifacts | ordered answers and status",
+        "runtime > cli | complete, partial or failed"
+      ],
+      "facts": [
+        {
+          "description": "The invocation runtime owns execution and adapters transport and decode formal answer events.",
+          "file": "docs/contracts/invocation-runtime-v1.md",
+          "start": 1,
+          "end": 25,
+          "url": "https://github.com/mco-org/mco/blob/3cfce130362dbcc2aedda6170d1a31e39cf67d3e/docs/contracts/invocation-runtime-v1.md#L1-L25",
+          "sourceSha256": "3e0baacfed21a4e4ea4723e6b806ada85a0b57c2e743191328e385cb5f607498"
+        },
+        {
+          "description": "The runtime schedules each selected invocation with its configured adapter.",
+          "file": "runtime/invocation_runtime.py",
+          "start": 498,
+          "end": 541,
+          "url": "https://github.com/mco-org/mco/blob/3cfce130362dbcc2aedda6170d1a31e39cf67d3e/runtime/invocation_runtime.py#L498-L541",
+          "sourceSha256": "1367ddff864562b4ae9514f64815f2fa7dd557db3385cc475913484086ccd4cd"
+        },
+        {
+          "description": "The runtime aggregates outcomes and writes invocation artifacts.",
+          "file": "runtime/invocation_runtime.py",
+          "start": 600,
+          "end": 623,
+          "url": "https://github.com/mco-org/mco/blob/3cfce130362dbcc2aedda6170d1a31e39cf67d3e/runtime/invocation_runtime.py#L600-L623",
+          "sourceSha256": "1367ddff864562b4ae9514f64815f2fa7dd557db3385cc475913484086ccd4cd"
+        }
+      ],
+      "id": "mco-architecture",
+      "authorship": "Maintenance author, from pinned public sources; not an independent Agent first draft",
+      "sourceRevision": "3cfce130362dbcc2aedda6170d1a31e39cf67d3e"
+    },
+    {
+      "project": "squad",
+      "type": "workflow",
+      "title": "Squad: leased task and explicit requeue",
+      "description": "A task is assigned and acknowledged by its intended active worker; completion requires the lease owner. Explicit requeue returns the record to queued state.",
+      "rows": [
+        "assign | Assign task | backend",
+        "queued | Queued task | database",
+        "ack | Worker may acknowledge? | backend",
+        "lease | Acked with lease | database",
+        "complete | Owner completes task | backend",
+        "result | Read result summary | frontend",
+        "requeue | Explicit requeue | backend",
+        "reject | Reject invalid state | backend",
+        "assign > queued",
+        "queued > ack",
+        "ack > lease | intended active worker",
+        "ack > reject | invalid worker or state",
+        "lease > complete | lease owner",
+        "complete > result",
+        "lease > requeue | manager requests reassignment",
+        "requeue > queued | reset lease and result"
+      ],
+      "facts": [
+        {
+          "description": "Task creation checks active creator/assignee and inserts the assignment message transactionally.",
+          "file": "src/store.rs",
+          "start": 452,
+          "end": 558,
+          "url": "https://github.com/mco-org/squad/blob/8146bcc1c38c439aedaf3ff44548c830654c8621/src/store.rs#L452-L558",
+          "sourceSha256": "5bb88913dfbd022daa794ab34289e22f490689aabb5977459d02b0e698184203"
+        },
+        {
+          "description": "Acknowledgement checks queued ownership; completion checks acked lease ownership.",
+          "file": "src/store.rs",
+          "start": 617,
+          "end": 683,
+          "url": "https://github.com/mco-org/squad/blob/8146bcc1c38c439aedaf3ff44548c830654c8621/src/store.rs#L617-L683",
+          "sourceSha256": "5bb88913dfbd022daa794ab34289e22f490689aabb5977459d02b0e698184203"
+        },
+        {
+          "description": "Explicit requeue resets lease, completion fields and optional assignee.",
+          "file": "src/store.rs",
+          "start": 685,
+          "end": 726,
+          "url": "https://github.com/mco-org/squad/blob/8146bcc1c38c439aedaf3ff44548c830654c8621/src/store.rs#L685-L726",
+          "sourceSha256": "5bb88913dfbd022daa794ab34289e22f490689aabb5977459d02b0e698184203"
+        }
+      ],
+      "id": "squad-workflow",
+      "authorship": "Maintenance author, from pinned public sources; not an independent Agent first draft",
+      "sourceRevision": "8146bcc1c38c439aedaf3ff44548c830654c8621"
+    },
+    {
+      "project": "squad",
+      "type": "architecture",
+      "title": "Squad: CLI and persisted coordination",
+      "description": "Manager and worker commands meet at the same store. Task queries and unread-message delivery are reads of persisted state, not a fabricated worker daemon.",
+      "rows": [
+        "manager | Manager | frontend",
+        "cli | Squad CLI | backend",
+        "store | Task and message store | backend",
+        "db | SQLite state | database",
+        "worker | Worker | external",
+        "manager > cli | assign or inspect",
+        "worker > cli | receive, ack, complete",
+        "cli > store | checked operation",
+        "store > db | transaction or query",
+        "store > cli | task and messages",
+        "cli > worker | assignment and task state",
+        "cli > manager | result summary"
+      ],
+      "facts": [
+        {
+          "description": "Receiving messages reads and marks unread rows atomically.",
+          "file": "src/store.rs",
+          "start": 339,
+          "end": 375,
+          "url": "https://github.com/mco-org/squad/blob/8146bcc1c38c439aedaf3ff44548c830654c8621/src/store.rs#L339-L375",
+          "sourceSha256": "5bb88913dfbd022daa794ab34289e22f490689aabb5977459d02b0e698184203"
+        },
+        {
+          "description": "Task creation and assignment messaging share a transaction.",
+          "file": "src/store.rs",
+          "start": 452,
+          "end": 558,
+          "url": "https://github.com/mco-org/squad/blob/8146bcc1c38c439aedaf3ff44548c830654c8621/src/store.rs#L452-L558",
+          "sourceSha256": "5bb88913dfbd022daa794ab34289e22f490689aabb5977459d02b0e698184203"
+        },
+        {
+          "description": "Worker acknowledgement and completion update checked persisted task state.",
+          "file": "src/store.rs",
+          "start": 617,
+          "end": 683,
+          "url": "https://github.com/mco-org/squad/blob/8146bcc1c38c439aedaf3ff44548c830654c8621/src/store.rs#L617-L683",
+          "sourceSha256": "5bb88913dfbd022daa794ab34289e22f490689aabb5977459d02b0e698184203"
+        }
+      ],
+      "id": "squad-architecture",
+      "authorship": "Maintenance author, from pinned public sources; not an independent Agent first draft",
+      "sourceRevision": "8146bcc1c38c439aedaf3ff44548c830654c8621"
+    },
+    {
+      "project": "skillroster",
+      "type": "workflow",
+      "title": "SkillRoster: inspect, apply and undo",
+      "description": "Inspection derives a plan, human approval precedes filesystem mutation, and apply/undo recheck fingerprints instead of forcing over changed files.",
+      "rows": [
+        "scan | Inspect installed skills | backend",
+        "plan | Derive change plan | backend",
+        "review | Review and approve | frontend",
+        "apply | Apply checked changes | backend",
+        "receipt | Save receipt and backups | database",
+        "undo | Undo with checks | backend",
+        "restore | Restore prior files | backend",
+        "blocked | Refuse conflicting change | backend",
+        "scan > plan",
+        "plan > review",
+        "review > apply | approved",
+        "apply > receipt | verified",
+        "apply > blocked | changed precondition",
+        "receipt > undo | later undo request",
+        "undo > restore | fingerprints still match",
+        "undo > blocked | conflict"
+      ],
+      "facts": [
+        {
+          "description": "Scanning inspects installed skill state.",
+          "file": "src/scan.rs",
+          "start": 984,
+          "end": 1002,
+          "url": "https://github.com/tt-a1i/skillroster/blob/21d14c7cff25c66a016562e238e62d0538eb696f/src/scan.rs#L984-L1002",
+          "sourceSha256": "8871a484c13033077f8d3b78ad989ff40d40f2c2b7f18e9603e0b888648ac1ed"
+        },
+        {
+          "description": "Roster planning derives operations from a snapshot.",
+          "file": "src/roster_plan.rs",
+          "start": 703,
+          "end": 724,
+          "url": "https://github.com/tt-a1i/skillroster/blob/21d14c7cff25c66a016562e238e62d0538eb696f/src/roster_plan.rs#L703-L724",
+          "sourceSha256": "2e9917d0c6dbca7ced09cc2341224e3fa3e9b07c06ef7f4cdf474a9501481730"
+        },
+        {
+          "description": "Apply and undo start after human confirmation.",
+          "file": "src/main.rs",
+          "start": 35,
+          "end": 40,
+          "url": "https://github.com/tt-a1i/skillroster/blob/21d14c7cff25c66a016562e238e62d0538eb696f/src/main.rs#L35-L40",
+          "sourceSha256": "fa3c0c045f836ad084ec917ce8d5d9d7d30b5c97e2b7954a1326e06c10ba8a04"
+        },
+        {
+          "description": "Prepared projections bind before and after fingerprints.",
+          "file": "src/change.rs",
+          "start": 637,
+          "end": 650,
+          "url": "https://github.com/tt-a1i/skillroster/blob/21d14c7cff25c66a016562e238e62d0538eb696f/src/change.rs#L637-L650",
+          "sourceSha256": "96e3eeddcc69a18191622ecf76b27a4077df7c4f987c19a018be828f08c420c1"
+        },
+        {
+          "description": "Apply obtains the shared write lock.",
+          "file": "src/change.rs",
+          "start": 680,
+          "end": 705,
+          "url": "https://github.com/tt-a1i/skillroster/blob/21d14c7cff25c66a016562e238e62d0538eb696f/src/change.rs#L680-L705",
+          "sourceSha256": "96e3eeddcc69a18191622ecf76b27a4077df7c4f987c19a018be828f08c420c1"
+        },
+        {
+          "description": "Undo obtains the same lock and checks the receipt before reversing operations.",
+          "file": "src/change.rs",
+          "start": 929,
+          "end": 972,
+          "url": "https://github.com/tt-a1i/skillroster/blob/21d14c7cff25c66a016562e238e62d0538eb696f/src/change.rs#L929-L972",
+          "sourceSha256": "96e3eeddcc69a18191622ecf76b27a4077df7c4f987c19a018be828f08c420c1"
+        }
+      ],
+      "id": "skillroster-workflow",
+      "authorship": "Maintenance author, from pinned public sources; not an independent Agent first draft",
+      "sourceRevision": "21d14c7cff25c66a016562e238e62d0538eb696f"
+    },
+    {
+      "project": "skillroster",
+      "type": "architecture",
+      "title": "SkillRoster: inspection and mutation boundaries",
+      "description": "The scan and planning stages are separate from guarded filesystem changes. Saved state provides receipts and backups for later undo.",
+      "rows": [
+        "ui | CLI and review | frontend",
+        "scan | Skill scanner | backend",
+        "plan | Roster planner | backend",
+        "change | Checked apply and undo | backend",
+        "files | Skill files | database",
+        "state | Receipts and backups | database",
+        "ui > scan | inspect",
+        "scan > files | read installation state",
+        "scan > plan | snapshot",
+        "plan > change | approved operations",
+        "change > files | checked mutation",
+        "files > change | current fingerprints",
+        "change > state | receipt and backups",
+        "state > change | undo receipt"
+      ],
+      "facts": [
+        {
+          "description": "The scanner builds an installation snapshot.",
+          "file": "src/scan.rs",
+          "start": 984,
+          "end": 1002,
+          "url": "https://github.com/tt-a1i/skillroster/blob/21d14c7cff25c66a016562e238e62d0538eb696f/src/scan.rs#L984-L1002",
+          "sourceSha256": "8871a484c13033077f8d3b78ad989ff40d40f2c2b7f18e9603e0b888648ac1ed"
+        },
+        {
+          "description": "The planner derives changes and backup locations.",
+          "file": "src/roster_plan.rs",
+          "start": 703,
+          "end": 724,
+          "url": "https://github.com/tt-a1i/skillroster/blob/21d14c7cff25c66a016562e238e62d0538eb696f/src/roster_plan.rs#L703-L724",
+          "sourceSha256": "2e9917d0c6dbca7ced09cc2341224e3fa3e9b07c06ef7f4cdf474a9501481730"
+        },
+        {
+          "description": "Apply and undo are fail-closed, fingerprint-bound changes under one write lock.",
+          "file": "src/change.rs",
+          "start": 1,
+          "end": 4,
+          "url": "https://github.com/tt-a1i/skillroster/blob/21d14c7cff25c66a016562e238e62d0538eb696f/src/change.rs#L1-L4",
+          "sourceSha256": "96e3eeddcc69a18191622ecf76b27a4077df7c4f987c19a018be828f08c420c1"
+        },
+        {
+          "description": "Undo reads a prior change receipt before reversing filesystem effects.",
+          "file": "src/change.rs",
+          "start": 929,
+          "end": 972,
+          "url": "https://github.com/tt-a1i/skillroster/blob/21d14c7cff25c66a016562e238e62d0538eb696f/src/change.rs#L929-L972",
+          "sourceSha256": "96e3eeddcc69a18191622ecf76b27a4077df7c4f987c19a018be828f08c420c1"
+        }
+      ],
+      "id": "skillroster-architecture",
+      "authorship": "Maintenance author, from pinned public sources; not an independent Agent first draft",
+      "sourceRevision": "21d14c7cff25c66a016562e238e62d0538eb696f"
+    }
+  ]
+}

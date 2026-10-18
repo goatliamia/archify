@@ -1,0 +1,1890 @@
+{
+  "schemaVersion": 1,
+  "kind": "fixed-input real-source replay",
+  "identities": {
+    "base": {
+      "revision": "824db3ad62bae7f7acde02c65f3c236d41e60b5c",
+      "packageTree": "9a09502d75072d4b581a076a251b9306b9d3de98",
+      "status": ""
+    },
+    "head": {
+      "revision": "7a9b2c939bfe8a85e3edc67c1a90e848954d9b5b",
+      "packageTree": "1c3f28847fc64e9cf6e0e9fe1ce47b5e8a6a09e3",
+      "status": ""
+    }
+  },
+  "environment": {
+    "node": "v22.23.2",
+    "os": "Windows_NT",
+    "release": "10.0.26200",
+    "architecture": "x64",
+    "cpu": "AMD Ryzen 7 8845H w/ Radeon 780M Graphics"
+  },
+  "results": [
+    {
+      "id": "openpi-workflow",
+      "type": "workflow",
+      "project": "openpi",
+      "inputSha256": "4d5aaed69cd42aea59199455111e7a878e14ef236a220c6d121c07db5eacedd7",
+      "results": {
+        "standard": {
+          "base": {
+            "side": "base",
+            "quality": "standard",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1442.219,
+            "output": "artifacts/standard/base/openpi-workflow.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "7069567a531242c43c725998ca0a6d6f4b2a867471e4c32ccbc27b2af5b30589",
+            "bytes": 494346,
+            "svgSha256": "58f31a7e22d78adeb23065c9d9fbfa82fe5f808447a1dd5bb0248570118026a5",
+            "viewBox": "0 0 1017 528"
+          },
+          "head": {
+            "side": "head",
+            "quality": "standard",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1385.2082,
+            "output": "artifacts/standard/head/openpi-workflow.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "a4e8a3f59505c72d8b6124dac87d9cb95bcc26cd4ccd14e52b045c276326b3a5",
+            "bytes": 495820,
+            "svgSha256": "58f31a7e22d78adeb23065c9d9fbfa82fe5f808447a1dd5bb0248570118026a5",
+            "viewBox": "0 0 1017 528"
+          }
+        },
+        "showcase": {
+          "base": {
+            "side": "base",
+            "quality": "showcase",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1359.8816000000006,
+            "output": "artifacts/showcase/base/openpi-workflow.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "ded87a80a321f433d8ee9eaa18fd33bd7fbd5cbcfaefadac474d1f644e6ff8bd",
+            "bytes": 494346,
+            "svgSha256": "4cf971a58ac36ee24f4f169c86f933ffd74b4628220f1fdd63dc17f167b43b34",
+            "viewBox": "0 0 1017 528"
+          },
+          "head": {
+            "side": "head",
+            "quality": "showcase",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1317.6005000000005,
+            "output": "artifacts/showcase/head/openpi-workflow.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "879ebe686df91bc450d4564608f346e9e3ac4f46c907e1a0bf7556aca2640084",
+            "bytes": 495820,
+            "svgSha256": "4cf971a58ac36ee24f4f169c86f933ffd74b4628220f1fdd63dc17f167b43b34",
+            "viewBox": "0 0 1017 528"
+          }
+        }
+      },
+      "topologyPreserved": true,
+      "compiledEqual": true,
+      "nodeCount": 7,
+      "edgeCount": 7
+    },
+    {
+      "id": "openpi-architecture",
+      "type": "architecture",
+      "project": "openpi",
+      "inputSha256": "a90c607b5cc97d4b1e5341d2c7bceb8575d0e104204574a56f82854f1fb672d2",
+      "results": {
+        "standard": {
+          "base": {
+            "side": "base",
+            "quality": "standard",
+            "status": 1,
+            "ok": false,
+            "elapsedMs": 522.7619999999997,
+            "output": null,
+            "diagnostics": [
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "Label \"delegate or inspect\" overlaps component \"parent\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [56, 120, 101, 14]\n  component \"parent\" rect: [40, 80, 120, 60]\n  Suggested fix: set labelAt [107, 154] or set labelDy 24 (below); or set labelAt [107, 72] or set labelDy -58 (above)",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\openpi-architecture.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "architecture",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native architecture JSON specification.",
+                  "native": {
+                    "code": "layout/constraint",
+                    "severity": "error",
+                    "message": "Label \"delegate or inspect\" overlaps component \"parent\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [56, 120, 101, 14]\n  component \"parent\" rect: [40, 80, 120, 60]\n  Suggested fix: set labelAt [107, 154] or set labelDy 24 (below); or set labelAt [107, 72] or set labelDy -58 (above)",
+                    "subject": {
+                      "diagramType": "architecture"
+                    },
+                    "evidence": {},
+                    "supportedFixes": []
+                  }
+                }
+              },
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "Label \"spawn, wait, cancel\" overlaps component \"tools\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [49, 306, 101, 14]\n  component \"tools\" rect: [40, 266, 120, 60]\n  Suggested fix: set labelAt [100, 340] or set labelDy 24 (below); or set labelAt [100, 258] or set labelDy -58 (above)",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\openpi-architecture.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "architecture",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native architecture JSON specification.",
+                  "native": {
+                    "code": "layout/constraint",
+                    "severity": "error",
+                    "message": "Label \"spawn, wait, cancel\" overlaps component \"tools\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [49, 306, 101, 14]\n  component \"tools\" rect: [40, 266, 120, 60]\n  Suggested fix: set labelAt [100, 340] or set labelDy 24 (below); or set labelAt [100, 258] or set labelDy -58 (above)",
+                    "subject": {
+                      "diagramType": "architecture"
+                    },
+                    "evidence": {},
+                    "supportedFixes": []
+                  }
+                }
+              }
+            ],
+            "error": null
+          },
+          "head": {
+            "side": "head",
+            "quality": "standard",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1271.2590999999993,
+            "output": "artifacts/standard/head/openpi-architecture.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "11f9cbc276de7b8a77ce3b91bdee32e605762c7129f3cd60f58b192be810625a",
+            "bytes": 494060,
+            "svgSha256": "bee90f2d92badf44835b05dd1dcc97e3cbb820e7ad90896c1afc7705fa6edd00",
+            "viewBox": "0 0 1030 394"
+          }
+        },
+        "showcase": {
+          "base": {
+            "side": "base",
+            "quality": "showcase",
+            "status": 1,
+            "ok": false,
+            "elapsedMs": 486.1733999999997,
+            "output": null,
+            "diagnostics": [
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "Connection \"delivery-to-parent-1\" extends outside the viewBox — move the measured outside route points inward or enlarge an authored viewBox for right/bottom overflow.",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\openpi-architecture.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "architecture",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native architecture JSON specification.",
+                  "native": {
+                    "code": "layout/route-out-of-bounds",
+                    "severity": "error",
+                    "message": "Connection \"delivery-to-parent-1\" extends outside the viewBox — move the measured outside route points inward or enlarge an authored viewBox for right/bottom overflow.",
+                    "subject": {
+                      "diagramType": "architecture",
+                      "collection": "connections",
+                      "index": 5,
+                      "id": "delivery-to-parent-1",
+                      "from": "delivery",
+                      "to": "parent"
+                    },
+                    "evidence": {
+                      "viewBox": [
+                        275,
+                        974
+                      ],
+                      "outsidePoints": [
+                        [
+                          -6.399999999999984,
+                          751
+                        ],
+                        [
+                          -6.399999999999984,
+                          164
+                        ]
+                      ],
+                      "points": [
+                        [
+                          93,
+                          824
+                        ],
+                        [
+                          93,
+                          751
+                        ],
+                        [
+                          -6.399999999999984,
+                          751
+                        ],
+                        [
+                          -6.399999999999984,
+                          164
+                        ],
+                        [
+                          93,
+                          164
+                        ],
+                        [
+                          93,
+                          140
+                        ]
+                      ]
+                    },
+                    "supportedFixes": [
+                      "move negative route coordinates inside the canvas; for right/bottom overflow, enlarge meta.viewBox or reroute inward; preserve endpoints, direction and labels, then revalidate"
+                    ]
+                  }
+                }
+              }
+            ],
+            "error": null
+          },
+          "head": {
+            "side": "head",
+            "quality": "showcase",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1242.974900000001,
+            "output": "artifacts/showcase/head/openpi-architecture.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "344ae691c210a0fb2aaacf4906c8c5964313a73dcdff1515324d5de440bb0091",
+            "bytes": 491976,
+            "svgSha256": "9bab818a849dea818a3cc89aa707e9a19a3e7c8f5f6c59e92b2f1152c726a3e3",
+            "viewBox": "0 0 1030 394"
+          }
+        }
+      },
+      "topologyPreserved": true,
+      "compiledEqual": false,
+      "nodeCount": 5,
+      "edgeCount": 6
+    },
+    {
+      "id": "hive-workflow",
+      "type": "workflow",
+      "project": "hive",
+      "inputSha256": "e858902f80b2323feb316099f46ba7d0bce45683e917ef8422c2e0a03c65bb67",
+      "results": {
+        "standard": {
+          "base": {
+            "side": "base",
+            "quality": "standard",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1393.709499999999,
+            "output": "artifacts/standard/base/hive-workflow.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "c3bfc87ad8424db90b08e6e83c874a656aa7c1d0f925f8417e16a0008bd062d7",
+            "bytes": 502164,
+            "svgSha256": "01b94f38ca7103324b82387f16990e1a9db041c35ee9c08d9d72417711c778f7",
+            "viewBox": "0 0 823 1024"
+          },
+          "head": {
+            "side": "head",
+            "quality": "standard",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1322.046400000001,
+            "output": "artifacts/standard/head/hive-workflow.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "d9a9684820b96c87221528de4e10ea97d317a318b458c517f92e4389d3585d6e",
+            "bytes": 496234,
+            "svgSha256": "5034e383b1b47b028c29f871ba5add5742dcd85c183d96701a4484ab618023bc",
+            "viewBox": "0 0 1082 404"
+          }
+        },
+        "showcase": {
+          "base": {
+            "side": "base",
+            "quality": "showcase",
+            "status": 1,
+            "ok": false,
+            "elapsedMs": 815.4897000000001,
+            "output": null,
+            "diagnostics": [
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "[composition/proper-crossing] showcase workflow edges[3] id \"active-to-done-1\" \"active\" -> \"done\" crosses edges[6] id \"ack-to-queue-1\" \"ack\" -> \"queue\" at [241, 367] (segments 0 and 2) — adjust route/via, bias, or channel coordinates so the edges use separate lane corridors.",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\hive-workflow.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "workflow",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native workflow JSON specification.",
+                  "native": {
+                    "code": "composition/proper-crossing",
+                    "severity": "error",
+                    "message": "[composition/proper-crossing] showcase workflow edges[3] id \"active-to-done-1\" \"active\" -> \"done\" crosses edges[6] id \"ack-to-queue-1\" \"ack\" -> \"queue\" at [241, 367] (segments 0 and 2) — adjust route/via, bias, or channel coordinates so the edges use separate lane corridors.",
+                    "subject": {
+                      "diagramType": "workflow",
+                      "collection": "edges",
+                      "index": 3,
+                      "id": "active-to-done-1",
+                      "from": "active",
+                      "to": "done"
+                    },
+                    "evidence": {
+                      "otherRelationship": {
+                        "diagramType": "workflow",
+                        "collection": "edges",
+                        "index": 6,
+                        "id": "ack-to-queue-1",
+                        "from": "ack",
+                        "to": "queue"
+                      },
+                      "point": [
+                        241,
+                        367
+                      ],
+                      "segmentIndex": 0,
+                      "otherSegmentIndex": 2
+                    },
+                    "supportedFixes": [
+                      "adjust route/via, bias, or channel coordinates so the edges use separate lane corridors"
+                    ]
+                  }
+                }
+              },
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "[composition/proper-crossing] showcase workflow edges[5] id \"write-to-failed-1\" \"write\" -> \"failed\" crosses edges[6] id \"ack-to-queue-1\" \"ack\" -> \"queue\" at [241, 491] (segments 0 and 2) — adjust route/via, bias, or channel coordinates so the edges use separate lane corridors.",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\hive-workflow.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "workflow",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native workflow JSON specification.",
+                  "native": {
+                    "code": "composition/proper-crossing",
+                    "severity": "error",
+                    "message": "[composition/proper-crossing] showcase workflow edges[5] id \"write-to-failed-1\" \"write\" -> \"failed\" crosses edges[6] id \"ack-to-queue-1\" \"ack\" -> \"queue\" at [241, 491] (segments 0 and 2) — adjust route/via, bias, or channel coordinates so the edges use separate lane corridors.",
+                    "subject": {
+                      "diagramType": "workflow",
+                      "collection": "edges",
+                      "index": 5,
+                      "id": "write-to-failed-1",
+                      "from": "write",
+                      "to": "failed"
+                    },
+                    "evidence": {
+                      "otherRelationship": {
+                        "diagramType": "workflow",
+                        "collection": "edges",
+                        "index": 6,
+                        "id": "ack-to-queue-1",
+                        "from": "ack",
+                        "to": "queue"
+                      },
+                      "point": [
+                        241,
+                        491
+                      ],
+                      "segmentIndex": 0,
+                      "otherSegmentIndex": 2
+                    },
+                    "supportedFixes": [
+                      "adjust route/via, bias, or channel coordinates so the edges use separate lane corridors"
+                    ]
+                  }
+                }
+              }
+            ],
+            "error": null
+          },
+          "head": {
+            "side": "head",
+            "quality": "showcase",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1343.7070999999996,
+            "output": "artifacts/showcase/head/hive-workflow.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "345190d73c5d39d2f11abc9b354478ea56d44d1c6b1c628d92e4ca11c546648a",
+            "bytes": 496234,
+            "svgSha256": "78db649f0c900f168a8bd348f4fb4835bf8b0aaf7ca631ee09753997ad018a23",
+            "viewBox": "0 0 1082 404"
+          }
+        }
+      },
+      "topologyPreserved": true,
+      "compiledEqual": false,
+      "nodeCount": 7,
+      "edgeCount": 8
+    },
+    {
+      "id": "hive-architecture",
+      "type": "architecture",
+      "project": "hive",
+      "inputSha256": "53b5933bc3b721c72511d8535b5990164e882d79686529ce3683ec96187839d7",
+      "results": {
+        "standard": {
+          "base": {
+            "side": "base",
+            "quality": "standard",
+            "status": 1,
+            "ok": false,
+            "elapsedMs": 474.5083000000013,
+            "output": null,
+            "diagnostics": [
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "Label \"team actions\" overlaps component \"web\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [78, 120, 68, 14]\n  component \"web\" rect: [40, 80, 129, 60]\n  Suggested fix: set labelAt [112, 154] or set labelDx 1 with labelDy 24 (below); or set labelAt [112, 72] or set labelDx 1 with labelDy -58 (above)",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\hive-architecture.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "architecture",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native architecture JSON specification.",
+                  "native": {
+                    "code": "layout/constraint",
+                    "severity": "error",
+                    "message": "Label \"team actions\" overlaps component \"web\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [78, 120, 68, 14]\n  component \"web\" rect: [40, 80, 129, 60]\n  Suggested fix: set labelAt [112, 154] or set labelDx 1 with labelDy 24 (below); or set labelAt [112, 72] or set labelDx 1 with labelDy -58 (above)",
+                    "subject": {
+                      "diagramType": "architecture"
+                    },
+                    "evidence": {},
+                    "supportedFixes": []
+                  }
+                }
+              },
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "Label \"persist message\" overlaps component \"api\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [64, 306, 82, 14]\n  component \"api\" rect: [40, 266, 129, 60]\n  Suggested fix: set labelAt [105, 340] or set labelDx 1 with labelDy 24 (below); or set labelAt [105, 258] or set labelDx 1 with labelDy -58 (above)",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\hive-architecture.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "architecture",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native architecture JSON specification.",
+                  "native": {
+                    "code": "layout/constraint",
+                    "severity": "error",
+                    "message": "Label \"persist message\" overlaps component \"api\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [64, 306, 82, 14]\n  component \"api\" rect: [40, 266, 129, 60]\n  Suggested fix: set labelAt [105, 340] or set labelDx 1 with labelDy 24 (below); or set labelAt [105, 258] or set labelDx 1 with labelDy -58 (above)",
+                    "subject": {
+                      "diagramType": "architecture"
+                    },
+                    "evidence": {},
+                    "supportedFixes": []
+                  }
+                }
+              },
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "Label \"drain recipient\" overlaps component \"store\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [-25, 462, 82, 14]\n  component \"store\" rect: [40, 452, 120, 60]\n  Suggested fix: set labelAt [41, 526] or set labelDx 25 with labelDy 54 (below); or set labelAt [41, 444] or set labelDx 25 with labelDy -28 (above)",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\hive-architecture.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "architecture",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native architecture JSON specification.",
+                  "native": {
+                    "code": "layout/constraint",
+                    "severity": "error",
+                    "message": "Label \"drain recipient\" overlaps component \"store\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [-25, 462, 82, 14]\n  component \"store\" rect: [40, 452, 120, 60]\n  Suggested fix: set labelAt [41, 526] or set labelDx 25 with labelDy 54 (below); or set labelAt [41, 444] or set labelDx 25 with labelDy -28 (above)",
+                    "subject": {
+                      "diagramType": "architecture"
+                    },
+                    "evidence": {},
+                    "supportedFixes": []
+                  }
+                }
+              },
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "Label \"deliver envelope\" overlaps component \"outbox\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [57, 678, 87, 14]\n  component \"outbox\" rect: [40, 638, 120, 60]\n  Suggested fix: set labelAt [100, 712] or set labelDy 24 (below); or set labelAt [100, 630] or set labelDy -58 (above)",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\hive-architecture.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "architecture",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native architecture JSON specification.",
+                  "native": {
+                    "code": "layout/constraint",
+                    "severity": "error",
+                    "message": "Label \"deliver envelope\" overlaps component \"outbox\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [57, 678, 87, 14]\n  component \"outbox\" rect: [40, 638, 120, 60]\n  Suggested fix: set labelAt [100, 712] or set labelDy 24 (below); or set labelAt [100, 630] or set labelDy -58 (above)",
+                    "subject": {
+                      "diagramType": "architecture"
+                    },
+                    "evidence": {},
+                    "supportedFixes": []
+                  }
+                }
+              },
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "Label \"PTY input\" overlaps component \"runtime\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [74, 864, 53, 14]\n  component \"runtime\" rect: [40, 824, 120, 60]\n  Suggested fix: set labelAt [101, 898] or set labelDx 1 with labelDy 24 (below); or set labelAt [101, 816] or set labelDx 1 with labelDy -58 (above)",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\hive-architecture.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "architecture",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native architecture JSON specification.",
+                  "native": {
+                    "code": "layout/constraint",
+                    "severity": "error",
+                    "message": "Label \"PTY input\" overlaps component \"runtime\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [74, 864, 53, 14]\n  component \"runtime\" rect: [40, 824, 120, 60]\n  Suggested fix: set labelAt [101, 898] or set labelDx 1 with labelDy 24 (below); or set labelAt [101, 816] or set labelDx 1 with labelDy -58 (above)",
+                    "subject": {
+                      "diagramType": "architecture"
+                    },
+                    "evidence": {},
+                    "supportedFixes": []
+                  }
+                }
+              }
+            ],
+            "error": null
+          },
+          "head": {
+            "side": "head",
+            "quality": "standard",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1313.0689999999995,
+            "output": "artifacts/standard/head/hive-architecture.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "f3e60f13294e6121e94585a754c8779c749183935f9c7268dcbcf9c5592bac8a",
+            "bytes": 504299,
+            "svgSha256": "b3649dc4060fb749c125b74fc96416abe86316e266115399f70c1ce479682f03",
+            "viewBox": "0 0 1319 394"
+          }
+        },
+        "showcase": {
+          "base": {
+            "side": "base",
+            "quality": "showcase",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1271.6633000000002,
+            "output": "artifacts/showcase/base/hive-architecture.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "504ab66a179c68ec4b5722cf3ef989145fe1d82696f4ecf089d5b7fc0157c6d5",
+            "bytes": 501705,
+            "svgSha256": "52462abf179fa3c1829fab0b2ef89b4898f82fa1f72fb6dc094f48a6c3e7b023",
+            "viewBox": "0 0 266 1204"
+          },
+          "head": {
+            "side": "head",
+            "quality": "showcase",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1289.1854999999996,
+            "output": "artifacts/showcase/head/hive-architecture.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "b2fa1a798cf4cb48a8863fe3820c7850d2d37f2aaeffb8ba7e85215a4edc6f0b",
+            "bytes": 502365,
+            "svgSha256": "ca5a8a337cda057b6ac2f5d14443fda6a2446e6da1edfa9681526beb4bdc039d",
+            "viewBox": "0 0 1319 394"
+          }
+        }
+      },
+      "topologyPreserved": true,
+      "compiledEqual": false,
+      "nodeCount": 6,
+      "edgeCount": 7
+    },
+    {
+      "id": "mco-workflow",
+      "type": "workflow",
+      "project": "mco",
+      "inputSha256": "f12c0538bd6152b9685a6ad3fb18696709226061d188d39866c9994c1c8277fa",
+      "results": {
+        "standard": {
+          "base": {
+            "side": "base",
+            "quality": "standard",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1230.9544999999998,
+            "output": "artifacts/standard/base/mco-workflow.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "382c907378455fe422d0d8e582f5530d65037fe5b14bfb72d89176ab4106ede3",
+            "bytes": 499119,
+            "svgSha256": "1aad68f8f00846daf0870ee98e4195ba0014cb6e716dee90264978e7d9878495",
+            "viewBox": "0 0 1051 652"
+          },
+          "head": {
+            "side": "head",
+            "quality": "standard",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1223.6972999999998,
+            "output": "artifacts/standard/head/mco-workflow.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "f272eb68182b69b74bd4b91e02ec1379a880158697734b5380b67b83b5580231",
+            "bytes": 500593,
+            "svgSha256": "1aad68f8f00846daf0870ee98e4195ba0014cb6e716dee90264978e7d9878495",
+            "viewBox": "0 0 1051 652"
+          }
+        },
+        "showcase": {
+          "base": {
+            "side": "base",
+            "quality": "showcase",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1203.8650000000016,
+            "output": "artifacts/showcase/base/mco-workflow.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "f2fed91983aa9df52482e7b4e1d166fb0e20c3fadc3c67c2c79c52957f64d864",
+            "bytes": 499115,
+            "svgSha256": "367f15aebe193526efd14e6a9a2b09526799f3ce2db75c414700cba2911336f1",
+            "viewBox": "0 0 1051 652"
+          },
+          "head": {
+            "side": "head",
+            "quality": "showcase",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1235.027299999998,
+            "output": "artifacts/showcase/head/mco-workflow.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "f55260579af55481c4590cbf1223bd58253c754a89d0afd190c4ce97b3e72423",
+            "bytes": 500589,
+            "svgSha256": "367f15aebe193526efd14e6a9a2b09526799f3ce2db75c414700cba2911336f1",
+            "viewBox": "0 0 1051 652"
+          }
+        }
+      },
+      "topologyPreserved": true,
+      "compiledEqual": true,
+      "nodeCount": 8,
+      "edgeCount": 7
+    },
+    {
+      "id": "mco-architecture",
+      "type": "architecture",
+      "project": "mco",
+      "inputSha256": "74b9220acb8261bc85d4e4007ddc884acee0d7342d0680f13a7a3714d85fe480",
+      "results": {
+        "standard": {
+          "base": {
+            "side": "base",
+            "quality": "standard",
+            "status": 1,
+            "ok": false,
+            "elapsedMs": 432.1804000000011,
+            "output": null,
+            "diagnostics": [
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "Label \"review request\" overlaps component \"cli\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [54, 120, 77, 14]\n  component \"cli\" rect: [40, 80, 120, 60]\n  Suggested fix: set labelAt [93, 154] or set labelDy 24 (below); or set labelAt [93, 72] or set labelDy -58 (above)",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\mco-architecture.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "architecture",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native architecture JSON specification.",
+                  "native": {
+                    "code": "layout/constraint",
+                    "severity": "error",
+                    "message": "Label \"review request\" overlaps component \"cli\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [54, 120, 77, 14]\n  component \"cli\" rect: [40, 80, 120, 60]\n  Suggested fix: set labelAt [93, 154] or set labelDy 24 (below); or set labelAt [93, 72] or set labelDy -58 (above)",
+                    "subject": {
+                      "diagramType": "architecture"
+                    },
+                    "evidence": {},
+                    "supportedFixes": []
+                  }
+                }
+              },
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "Label \"invocation\" overlaps component \"runtime\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [79, 306, 58, 14]\n  component \"runtime\" rect: [40, 266, 135, 60]\n  Suggested fix: set labelAt [108, 340] or set labelDx 1 with labelDy 24 (below); or set labelAt [108, 258] or set labelDx 1 with labelDy -58 (above)",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\mco-architecture.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "architecture",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native architecture JSON specification.",
+                  "native": {
+                    "code": "layout/constraint",
+                    "severity": "error",
+                    "message": "Label \"invocation\" overlaps component \"runtime\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [79, 306, 58, 14]\n  component \"runtime\" rect: [40, 266, 135, 60]\n  Suggested fix: set labelAt [108, 340] or set labelDx 1 with labelDy 24 (below); or set labelAt [108, 258] or set labelDx 1 with labelDy -58 (above)",
+                    "subject": {
+                      "diagramType": "architecture"
+                    },
+                    "evidence": {},
+                    "supportedFixes": []
+                  }
+                }
+              },
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "Label \"transport\" overlaps component \"adapter\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [67, 492, 53, 14]\n  component \"adapter\" rect: [40, 452, 122, 60]\n  Suggested fix: set labelAt [94, 526] or set labelDy 24 (below); or set labelAt [94, 444] or set labelDy -58 (above)",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\mco-architecture.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "architecture",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native architecture JSON specification.",
+                  "native": {
+                    "code": "layout/constraint",
+                    "severity": "error",
+                    "message": "Label \"transport\" overlaps component \"adapter\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [67, 492, 53, 14]\n  component \"adapter\" rect: [40, 452, 122, 60]\n  Suggested fix: set labelAt [94, 526] or set labelDy 24 (below); or set labelAt [94, 444] or set labelDy -58 (above)",
+                    "subject": {
+                      "diagramType": "architecture"
+                    },
+                    "evidence": {},
+                    "supportedFixes": []
+                  }
+                }
+              }
+            ],
+            "error": null
+          },
+          "head": {
+            "side": "head",
+            "quality": "standard",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1217.1242999999995,
+            "output": "artifacts/standard/head/mco-architecture.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "0583b5c92dccbfdd98d5dbbb7e910aade07a9c929fbc83307644614d18a17680",
+            "bytes": 505613,
+            "svgSha256": "d27089f84eabec2147d8515e2622623a4a578be12c6d035e9f1ba16b48532ec8",
+            "viewBox": "0 0 1030 394"
+          }
+        },
+        "showcase": {
+          "base": {
+            "side": "base",
+            "quality": "showcase",
+            "status": 1,
+            "ok": false,
+            "elapsedMs": 470.4574999999968,
+            "output": null,
+            "diagnostics": [
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "[composition/label-route-clearance] showcase architecture label \"complete, partial or failed\" on connections[6] id \"runtime-to-cli-1\" \"runtime\" -> \"cli\" label \"complete, partial or failed\" is 0px from connections[0] id \"cli-to-runtime-1\" \"cli\" -> \"runtime\" label \"review request\" segment 0 [93, 140] -> [93, 266] (label rect [45, 246, 140, 14]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other relationship route/via/channel.",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\mco-architecture.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "architecture",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native architecture JSON specification.",
+                  "native": {
+                    "code": "composition/label-route-clearance",
+                    "severity": "error",
+                    "message": "[composition/label-route-clearance] showcase architecture label \"complete, partial or failed\" on connections[6] id \"runtime-to-cli-1\" \"runtime\" -> \"cli\" label \"complete, partial or failed\" is 0px from connections[0] id \"cli-to-runtime-1\" \"cli\" -> \"runtime\" label \"review request\" segment 0 [93, 140] -> [93, 266] (label rect [45, 246, 140, 14]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other relationship route/via/channel.",
+                    "subject": {
+                      "diagramType": "architecture",
+                      "collection": "connections",
+                      "index": 6,
+                      "id": "runtime-to-cli-1",
+                      "from": "runtime",
+                      "to": "cli"
+                    },
+                    "evidence": {
+                      "label": "complete, partial or failed",
+                      "otherRelationship": {
+                        "diagramType": "architecture",
+                        "collection": "connections",
+                        "index": 0,
+                        "id": "cli-to-runtime-1",
+                        "from": "cli",
+                        "to": "runtime"
+                      },
+                      "segmentIndex": 0,
+                      "clearancePx": 0,
+                      "minimumPx": 4,
+                      "labelRect": {
+                        "relation": {
+                          "id": "runtime-to-cli-1",
+                          "from": "runtime",
+                          "to": "cli",
+                          "label": "complete, partial or failed"
+                        },
+                        "relationIndex": 6,
+                        "label": "complete, partial or failed",
+                        "x": 44.7,
+                        "y": 246,
+                        "width": 139.6,
+                        "height": 14,
+                        "lx": 114.5,
+                        "ly": 256
+                      },
+                      "from": [
+                        93,
+                        140
+                      ],
+                      "to": [
+                        93,
+                        266
+                      ]
+                    },
+                    "supportedFixes": [
+                      "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other relationship route/via/channel"
+                    ]
+                  }
+                }
+              }
+            ],
+            "error": null
+          },
+          "head": {
+            "side": "head",
+            "quality": "showcase",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1183.6808999999994,
+            "output": "artifacts/showcase/head/mco-architecture.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "93d5dafe986e17b1c1c09e0f45fd97a7d89391787088a16d3323965ea685e172",
+            "bytes": 499427,
+            "svgSha256": "a57ca959d9d66ad2fb00307f1febf677db417c94062f09a6947fb17cee4a1f12",
+            "viewBox": "0 0 1030 394"
+          }
+        }
+      },
+      "topologyPreserved": true,
+      "compiledEqual": false,
+      "nodeCount": 5,
+      "edgeCount": 7
+    },
+    {
+      "id": "squad-workflow",
+      "type": "workflow",
+      "project": "squad",
+      "inputSha256": "81c0c91b75428cf7f6eb0fee7a7164bf95831547687edb53e90f28efb2076dea",
+      "results": {
+        "standard": {
+          "base": {
+            "side": "base",
+            "quality": "standard",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1345.4570999999996,
+            "output": "artifacts/standard/base/squad-workflow.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "a803804da80087994024f19a8d025830a5c589d5861b9f351d2348274a3f0f9a",
+            "bytes": 510593,
+            "svgSha256": "8d06735d53597705249d32d8630c12fa1141118d8319b01cd8cc9271413777a0",
+            "viewBox": "0 0 829 1148"
+          },
+          "head": {
+            "side": "head",
+            "quality": "standard",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1253.1402999999991,
+            "output": "artifacts/standard/head/squad-workflow.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "3094e53fa7e0a988afcc29c63c9585a956ac6339f147c01d02ecface03cba0f3",
+            "bytes": 507989,
+            "svgSha256": "96a09f406374927100ebcd837d784494aed9223357f80169a923acb2384678e3",
+            "viewBox": "0 0 1125 652"
+          }
+        },
+        "showcase": {
+          "base": {
+            "side": "base",
+            "quality": "showcase",
+            "status": 1,
+            "ok": false,
+            "elapsedMs": 649.0348999999987,
+            "output": null,
+            "diagnostics": [
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "[composition/proper-crossing] showcase workflow edges[3] id \"ack-to-reject-1\" \"ack\" -> \"reject\" crosses edges[7] id \"requeue-to-queued-1\" \"requeue\" -> \"queued\" at [254, 863] (segments 1 and 0) — adjust route/via, bias, or channel coordinates so the edges use separate lane corridors.",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\squad-workflow.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "workflow",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native workflow JSON specification.",
+                  "native": {
+                    "code": "composition/proper-crossing",
+                    "severity": "error",
+                    "message": "[composition/proper-crossing] showcase workflow edges[3] id \"ack-to-reject-1\" \"ack\" -> \"reject\" crosses edges[7] id \"requeue-to-queued-1\" \"requeue\" -> \"queued\" at [254, 863] (segments 1 and 0) — adjust route/via, bias, or channel coordinates so the edges use separate lane corridors.",
+                    "subject": {
+                      "diagramType": "workflow",
+                      "collection": "edges",
+                      "index": 3,
+                      "id": "ack-to-reject-1",
+                      "from": "ack",
+                      "to": "reject"
+                    },
+                    "evidence": {
+                      "otherRelationship": {
+                        "diagramType": "workflow",
+                        "collection": "edges",
+                        "index": 7,
+                        "id": "requeue-to-queued-1",
+                        "from": "requeue",
+                        "to": "queued"
+                      },
+                      "point": [
+                        254,
+                        863
+                      ],
+                      "segmentIndex": 1,
+                      "otherSegmentIndex": 0
+                    },
+                    "supportedFixes": [
+                      "adjust route/via, bias, or channel coordinates so the edges use separate lane corridors"
+                    ]
+                  }
+                }
+              },
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "[composition/proper-crossing] showcase workflow edges[6] id \"lease-to-requeue-1\" \"lease\" -> \"requeue\" crosses edges[7] id \"requeue-to-queued-1\" \"requeue\" -> \"queued\" at [231, 863] (segments 1 and 0) — adjust route/via, bias, or channel coordinates so the edges use separate lane corridors.",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\squad-workflow.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "workflow",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native workflow JSON specification.",
+                  "native": {
+                    "code": "composition/proper-crossing",
+                    "severity": "error",
+                    "message": "[composition/proper-crossing] showcase workflow edges[6] id \"lease-to-requeue-1\" \"lease\" -> \"requeue\" crosses edges[7] id \"requeue-to-queued-1\" \"requeue\" -> \"queued\" at [231, 863] (segments 1 and 0) — adjust route/via, bias, or channel coordinates so the edges use separate lane corridors.",
+                    "subject": {
+                      "diagramType": "workflow",
+                      "collection": "edges",
+                      "index": 6,
+                      "id": "lease-to-requeue-1",
+                      "from": "lease",
+                      "to": "requeue"
+                    },
+                    "evidence": {
+                      "otherRelationship": {
+                        "diagramType": "workflow",
+                        "collection": "edges",
+                        "index": 7,
+                        "id": "requeue-to-queued-1",
+                        "from": "requeue",
+                        "to": "queued"
+                      },
+                      "point": [
+                        231,
+                        863
+                      ],
+                      "segmentIndex": 1,
+                      "otherSegmentIndex": 0
+                    },
+                    "supportedFixes": [
+                      "adjust route/via, bias, or channel coordinates so the edges use separate lane corridors"
+                    ]
+                  }
+                }
+              }
+            ],
+            "error": null
+          },
+          "head": {
+            "side": "head",
+            "quality": "showcase",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1276.4880999999987,
+            "output": "artifacts/showcase/head/squad-workflow.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "35ba1a43615332dab895f547a0b68857ff51024903b95d172d7f62f1d6503911",
+            "bytes": 507985,
+            "svgSha256": "a79780d3024c0331e356a0546990fd565227c3228bd52daac5036ea8014e1b76",
+            "viewBox": "0 0 1125 652"
+          }
+        }
+      },
+      "topologyPreserved": true,
+      "compiledEqual": false,
+      "nodeCount": 8,
+      "edgeCount": 8
+    },
+    {
+      "id": "squad-architecture",
+      "type": "architecture",
+      "project": "squad",
+      "inputSha256": "b2560b127d8f48135b20f06d83e6ffe56347b5555f220246d493ec15689ad196",
+      "results": {
+        "standard": {
+          "base": {
+            "side": "base",
+            "quality": "standard",
+            "status": 1,
+            "ok": false,
+            "elapsedMs": 476.53470000000016,
+            "output": null,
+            "diagnostics": [
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "Label \"assign or inspect\" overlaps component \"manager\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [61, 120, 92, 14]\n  component \"manager\" rect: [40, 80, 120, 60]\n  Suggested fix: set labelAt [107, 154] or set labelDy 24 (below); or set labelAt [107, 72] or set labelDy -58 (above)",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\squad-architecture.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "architecture",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native architecture JSON specification.",
+                  "native": {
+                    "code": "layout/constraint",
+                    "severity": "error",
+                    "message": "Label \"assign or inspect\" overlaps component \"manager\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [61, 120, 92, 14]\n  component \"manager\" rect: [40, 80, 120, 60]\n  Suggested fix: set labelAt [107, 154] or set labelDy 24 (below); or set labelAt [107, 72] or set labelDy -58 (above)",
+                    "subject": {
+                      "diagramType": "architecture"
+                    },
+                    "evidence": {},
+                    "supportedFixes": []
+                  }
+                }
+              },
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "Label \"receive, ack, complete\" overlaps component \"db\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [-2, 681, 116, 14]\n  component \"db\" rect: [40, 638, 120, 60]\n  Suggested fix: set labelAt [58, 712] or set labelDx 3 with labelDy 21 (below); or set labelAt [58, 630] or set labelDx 3 with labelDy -61 (above)",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\squad-architecture.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "architecture",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native architecture JSON specification.",
+                  "native": {
+                    "code": "layout/constraint",
+                    "severity": "error",
+                    "message": "Label \"receive, ack, complete\" overlaps component \"db\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [-2, 681, 116, 14]\n  component \"db\" rect: [40, 638, 120, 60]\n  Suggested fix: set labelAt [58, 712] or set labelDx 3 with labelDy 21 (below); or set labelAt [58, 630] or set labelDx 3 with labelDy -61 (above)",
+                    "subject": {
+                      "diagramType": "architecture"
+                    },
+                    "evidence": {},
+                    "supportedFixes": []
+                  }
+                }
+              },
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "Label \"checked operation\" overlaps component \"cli\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [61, 306, 92, 14]\n  component \"cli\" rect: [40, 266, 120, 60]\n  Suggested fix: set labelAt [107, 340] or set labelDy 24 (below); or set labelAt [107, 258] or set labelDy -58 (above)",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\squad-architecture.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "architecture",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native architecture JSON specification.",
+                  "native": {
+                    "code": "layout/constraint",
+                    "severity": "error",
+                    "message": "Label \"checked operation\" overlaps component \"cli\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [61, 306, 92, 14]\n  component \"cli\" rect: [40, 266, 120, 60]\n  Suggested fix: set labelAt [107, 340] or set labelDy 24 (below); or set labelAt [107, 258] or set labelDy -58 (above)",
+                    "subject": {
+                      "diagramType": "architecture"
+                    },
+                    "evidence": {},
+                    "supportedFixes": []
+                  }
+                }
+              },
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "Label \"transaction or query\" overlaps component \"store\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [68, 492, 106, 14]\n  component \"store\" rect: [40, 452, 162, 60]\n  Suggested fix: set labelAt [121, 526] or set labelDy 24 (below); or set labelAt [121, 444] or set labelDy -58 (above)",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\squad-architecture.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "architecture",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native architecture JSON specification.",
+                  "native": {
+                    "code": "layout/constraint",
+                    "severity": "error",
+                    "message": "Label \"transaction or query\" overlaps component \"store\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [68, 492, 106, 14]\n  component \"store\" rect: [40, 452, 162, 60]\n  Suggested fix: set labelAt [121, 526] or set labelDy 24 (below); or set labelAt [121, 444] or set labelDy -58 (above)",
+                    "subject": {
+                      "diagramType": "architecture"
+                    },
+                    "evidence": {},
+                    "supportedFixes": []
+                  }
+                }
+              }
+            ],
+            "error": null
+          },
+          "head": {
+            "side": "head",
+            "quality": "standard",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1207.332699999999,
+            "output": "artifacts/standard/head/squad-architecture.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "c14f2fa6ad102ed6eac4fa861d60c803e620ede712c13354b9e707103acc2afa",
+            "bytes": 502697,
+            "svgSha256": "768aa0fe3c7042c2be92ce5f38c2dac97ce68256b8bc448c8c58621f3b3b96c3",
+            "viewBox": "0 0 1028 394"
+          }
+        },
+        "showcase": {
+          "base": {
+            "side": "base",
+            "quality": "showcase",
+            "status": 1,
+            "ok": false,
+            "elapsedMs": 452.066899999998,
+            "output": null,
+            "diagnostics": [
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "[composition/label-route-clearance] showcase architecture label \"assignment and task state\" on connections[5] id \"cli-to-worker-1\" \"cli\" -> \"worker\" label \"assignment and task state\" is 0px from connections[1] id \"worker-to-cli-1\" \"worker\" -> \"cli\" label \"receive, ack, complete\" segment 2 [4, 701] -> [4, 350] (label rect [-27, 354, 130, 14]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other relationship route/via/channel.",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\squad-architecture.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "architecture",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native architecture JSON specification.",
+                  "native": {
+                    "code": "composition/label-route-clearance",
+                    "severity": "error",
+                    "message": "[composition/label-route-clearance] showcase architecture label \"assignment and task state\" on connections[5] id \"cli-to-worker-1\" \"cli\" -> \"worker\" label \"assignment and task state\" is 0px from connections[1] id \"worker-to-cli-1\" \"worker\" -> \"cli\" label \"receive, ack, complete\" segment 2 [4, 701] -> [4, 350] (label rect [-27, 354, 130, 14]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other relationship route/via/channel.",
+                    "subject": {
+                      "diagramType": "architecture",
+                      "collection": "connections",
+                      "index": 5,
+                      "id": "cli-to-worker-1",
+                      "from": "cli",
+                      "to": "worker"
+                    },
+                    "evidence": {
+                      "label": "assignment and task state",
+                      "otherRelationship": {
+                        "diagramType": "architecture",
+                        "collection": "connections",
+                        "index": 1,
+                        "id": "worker-to-cli-1",
+                        "from": "worker",
+                        "to": "cli"
+                      },
+                      "segmentIndex": 2,
+                      "clearancePx": 0,
+                      "minimumPx": 4,
+                      "labelRect": {
+                        "relation": {
+                          "id": "cli-to-worker-1",
+                          "from": "cli",
+                          "to": "worker",
+                          "label": "assignment and task state"
+                        },
+                        "relationIndex": 5,
+                        "label": "assignment and task state",
+                        "x": -27.5,
+                        "y": 354,
+                        "width": 130,
+                        "height": 14,
+                        "lx": 37.5,
+                        "ly": 364
+                      },
+                      "from": [
+                        4,
+                        701
+                      ],
+                      "to": [
+                        4,
+                        350
+                      ]
+                    },
+                    "supportedFixes": [
+                      "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other relationship route/via/channel"
+                    ]
+                  }
+                }
+              },
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "[composition/label-canvas-containment] showcase architecture label \"assignment and task state\" on connections[5] id \"cli-to-worker-1\" \"cli\" -> \"worker\" extends past the left edge by 27.5px (label rect [-27, 354, 130, 14]; viewBox 242x1018) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise enlarge meta.viewBox.",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\squad-architecture.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "architecture",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native architecture JSON specification.",
+                  "native": {
+                    "code": "composition/label-canvas-containment",
+                    "severity": "error",
+                    "message": "[composition/label-canvas-containment] showcase architecture label \"assignment and task state\" on connections[5] id \"cli-to-worker-1\" \"cli\" -> \"worker\" extends past the left edge by 27.5px (label rect [-27, 354, 130, 14]; viewBox 242x1018) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise enlarge meta.viewBox.",
+                    "subject": {
+                      "diagramType": "architecture",
+                      "collection": "connections",
+                      "index": 5,
+                      "id": "cli-to-worker-1",
+                      "from": "cli",
+                      "to": "worker"
+                    },
+                    "evidence": {
+                      "label": "assignment and task state",
+                      "labelRect": {
+                        "x": -27.5,
+                        "y": 354,
+                        "width": 130,
+                        "height": 14
+                      },
+                      "viewBox": [
+                        242,
+                        1018
+                      ],
+                      "overflowPx": {
+                        "left": 27.5
+                      },
+                      "tolerancePx": 0.5
+                    },
+                    "supportedFixes": [
+                      "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise enlarge meta.viewBox"
+                    ]
+                  }
+                }
+              },
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "Connection \"cli-to-worker-1\" extends outside the viewBox — move the measured outside route points inward or enlarge an authored viewBox for right/bottom overflow.",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\squad-architecture.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "architecture",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native architecture JSON specification.",
+                  "native": {
+                    "code": "layout/route-out-of-bounds",
+                    "severity": "error",
+                    "message": "Connection \"cli-to-worker-1\" extends outside the viewBox — move the measured outside route points inward or enlarge an authored viewBox for right/bottom overflow.",
+                    "subject": {
+                      "diagramType": "architecture",
+                      "collection": "connections",
+                      "index": 5,
+                      "id": "cli-to-worker-1",
+                      "from": "cli",
+                      "to": "worker"
+                    },
+                    "evidence": {
+                      "viewBox": [
+                        242,
+                        1018
+                      ],
+                      "outsidePoints": [
+                        [
+                          -4,
+                          374
+                        ],
+                        [
+                          -4,
+                          800
+                        ]
+                      ],
+                      "points": [
+                        [
+                          79,
+                          326
+                        ],
+                        [
+                          79,
+                          374
+                        ],
+                        [
+                          -4,
+                          374
+                        ],
+                        [
+                          -4,
+                          800
+                        ],
+                        [
+                          93,
+                          800
+                        ],
+                        [
+                          93,
+                          824
+                        ]
+                      ]
+                    },
+                    "supportedFixes": [
+                      "move negative route coordinates inside the canvas; for right/bottom overflow, enlarge meta.viewBox or reroute inward; preserve endpoints, direction and labels, then revalidate"
+                    ]
+                  }
+                }
+              }
+            ],
+            "error": null
+          },
+          "head": {
+            "side": "head",
+            "quality": "showcase",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1171.250500000002,
+            "output": "artifacts/showcase/head/squad-architecture.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "186ec3d297410e55c19791338befd0390dd246509b0f2e85d9237fe59521be4c",
+            "bytes": 498607,
+            "svgSha256": "60a325a91cc1cd6cc50198ca63613aabf1d66e620c1f8b560459d93b614ce154",
+            "viewBox": "0 0 1028 394"
+          }
+        }
+      },
+      "topologyPreserved": true,
+      "compiledEqual": false,
+      "nodeCount": 5,
+      "edgeCount": 7
+    },
+    {
+      "id": "skillroster-workflow",
+      "type": "workflow",
+      "project": "skillroster",
+      "inputSha256": "4da1c88b6df1ea7f7235cdeef00be16006cdc04b6edc5cbfc2d049fbf0f20356",
+      "results": {
+        "standard": {
+          "base": {
+            "side": "base",
+            "quality": "standard",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1299.0346999999965,
+            "output": "artifacts/standard/base/skillroster-workflow.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "135284e989835595310b5fff247d5f78b92f595e0a70eabc98b467d40ae4e787",
+            "bytes": 511415,
+            "svgSha256": "cc17f84d4cf7e36deff9cbb31aec036806c04ed8dd9664aa5b6788428063956d",
+            "viewBox": "0 0 1449 652"
+          },
+          "head": {
+            "side": "head",
+            "quality": "standard",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1301.8232000000062,
+            "output": "artifacts/standard/head/skillroster-workflow.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "267914471cf7075f6d9d44be1a66b5727be55679aaa25f8939c1661c75fab720",
+            "bytes": 512889,
+            "svgSha256": "cc17f84d4cf7e36deff9cbb31aec036806c04ed8dd9664aa5b6788428063956d",
+            "viewBox": "0 0 1449 652"
+          }
+        },
+        "showcase": {
+          "base": {
+            "side": "base",
+            "quality": "showcase",
+            "status": 1,
+            "ok": false,
+            "elapsedMs": 538.7456999999995,
+            "output": null,
+            "diagnostics": [
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "[composition/ambiguous-corridor] showcase workflow edges[4] id \"apply-to-blocked-1\" \"apply\" -> \"blocked\" shares a 204.9px corridor with edges[7] id \"undo-to-blocked-1\" \"undo\" -> \"blocked\" at [455.9, 285] -> [660.8, 285] (segments 1 and 1; minimum 8px) — adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge.",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\skillroster-workflow.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "workflow",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native workflow JSON specification.",
+                  "native": {
+                    "code": "composition/ambiguous-corridor",
+                    "severity": "error",
+                    "message": "[composition/ambiguous-corridor] showcase workflow edges[4] id \"apply-to-blocked-1\" \"apply\" -> \"blocked\" shares a 204.9px corridor with edges[7] id \"undo-to-blocked-1\" \"undo\" -> \"blocked\" at [455.9, 285] -> [660.8, 285] (segments 1 and 1; minimum 8px) — adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge.",
+                    "subject": {
+                      "diagramType": "workflow",
+                      "collection": "edges",
+                      "index": 4,
+                      "id": "apply-to-blocked-1",
+                      "from": "apply",
+                      "to": "blocked"
+                    },
+                    "evidence": {
+                      "otherRelationship": {
+                        "diagramType": "workflow",
+                        "collection": "edges",
+                        "index": 7,
+                        "id": "undo-to-blocked-1",
+                        "from": "undo",
+                        "to": "blocked"
+                      },
+                      "overlapLengthPx": 204.9,
+                      "minimumPx": 8,
+                      "from": [
+                        455.9,
+                        285
+                      ],
+                      "to": [
+                        660.8,
+                        285
+                      ],
+                      "segmentIndex": 1,
+                      "otherSegmentIndex": 1
+                    },
+                    "supportedFixes": [
+                      "adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge"
+                    ]
+                  }
+                }
+              },
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "[composition/arrowhead-collision] workflow arrows \"apply-to-blocked-1\" and \"undo-to-blocked-1\" overlap at their destination (clearance 0px; minimum 9.799999999999999px).",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\skillroster-workflow.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "workflow",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native workflow JSON specification.",
+                  "native": {
+                    "code": "composition/arrowhead-collision",
+                    "severity": "error",
+                    "message": "[composition/arrowhead-collision] workflow arrows \"apply-to-blocked-1\" and \"undo-to-blocked-1\" overlap at their destination (clearance 0px; minimum 9.799999999999999px).",
+                    "subject": {
+                      "diagramType": "workflow",
+                      "edge": "apply-to-blocked-1",
+                      "from": "apply",
+                      "to": "blocked"
+                    },
+                    "evidence": {
+                      "otherEdge": "undo-to-blocked-1",
+                      "distancePx": 0,
+                      "minimumPx": 9.799999999999999
+                    },
+                    "supportedFixes": [
+                      "use separate destination sides or ports with clearance for both arrow markers"
+                    ]
+                  }
+                }
+              }
+            ],
+            "error": null
+          },
+          "head": {
+            "side": "head",
+            "quality": "showcase",
+            "status": 1,
+            "ok": false,
+            "elapsedMs": 533.5604999999996,
+            "output": null,
+            "diagnostics": [
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "[composition/ambiguous-corridor] showcase workflow edges[4] id \"apply-to-blocked-1\" \"apply\" -> \"blocked\" shares a 204.9px corridor with edges[7] id \"undo-to-blocked-1\" \"undo\" -> \"blocked\" at [455.9, 285] -> [660.8, 285] (segments 1 and 1; minimum 8px) — adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge.",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\skillroster-workflow.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "workflow",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native workflow JSON specification.",
+                  "native": {
+                    "code": "composition/ambiguous-corridor",
+                    "severity": "error",
+                    "message": "[composition/ambiguous-corridor] showcase workflow edges[4] id \"apply-to-blocked-1\" \"apply\" -> \"blocked\" shares a 204.9px corridor with edges[7] id \"undo-to-blocked-1\" \"undo\" -> \"blocked\" at [455.9, 285] -> [660.8, 285] (segments 1 and 1; minimum 8px) — adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge.",
+                    "subject": {
+                      "diagramType": "workflow",
+                      "collection": "edges",
+                      "index": 4,
+                      "id": "apply-to-blocked-1",
+                      "from": "apply",
+                      "to": "blocked"
+                    },
+                    "evidence": {
+                      "otherRelationship": {
+                        "diagramType": "workflow",
+                        "collection": "edges",
+                        "index": 7,
+                        "id": "undo-to-blocked-1",
+                        "from": "undo",
+                        "to": "blocked"
+                      },
+                      "overlapLengthPx": 204.9,
+                      "minimumPx": 8,
+                      "from": [
+                        455.9,
+                        285
+                      ],
+                      "to": [
+                        660.8,
+                        285
+                      ],
+                      "segmentIndex": 1,
+                      "otherSegmentIndex": 1
+                    },
+                    "supportedFixes": [
+                      "adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge"
+                    ]
+                  }
+                }
+              },
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "[composition/arrowhead-collision] workflow arrows \"apply-to-blocked-1\" and \"undo-to-blocked-1\" overlap at their destination (clearance 0px; minimum 9.799999999999999px).",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\skillroster-workflow.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "workflow",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native workflow JSON specification.",
+                  "native": {
+                    "code": "composition/arrowhead-collision",
+                    "severity": "error",
+                    "message": "[composition/arrowhead-collision] workflow arrows \"apply-to-blocked-1\" and \"undo-to-blocked-1\" overlap at their destination (clearance 0px; minimum 9.799999999999999px).",
+                    "subject": {
+                      "diagramType": "workflow",
+                      "edge": "apply-to-blocked-1",
+                      "from": "apply",
+                      "to": "blocked"
+                    },
+                    "evidence": {
+                      "otherEdge": "undo-to-blocked-1",
+                      "distancePx": 0,
+                      "minimumPx": 9.799999999999999
+                    },
+                    "supportedFixes": [
+                      "use separate destination sides or ports with clearance for both arrow markers"
+                    ]
+                  }
+                }
+              }
+            ],
+            "error": null
+          }
+        }
+      },
+      "topologyPreserved": true,
+      "compiledEqual": true,
+      "nodeCount": 8,
+      "edgeCount": 8
+    },
+    {
+      "id": "skillroster-architecture",
+      "type": "architecture",
+      "project": "skillroster",
+      "inputSha256": "d61a18d630ea3c33f1eaf381aaeef72e6116b8df70f29ed4784ad3cecb8b6cfe",
+      "results": {
+        "standard": {
+          "base": {
+            "side": "base",
+            "quality": "standard",
+            "status": 1,
+            "ok": false,
+            "elapsedMs": 511.2140999999974,
+            "output": null,
+            "diagnostics": [
+              {
+                "code": "explainer/diagram-render",
+                "severity": "error",
+                "message": "Label \"checked mutation\" overlaps component \"change\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [43, 306, 87, 14]\n  component \"change\" rect: [40, 266, 162, 60]\n  Suggested fix: set labelAt [86, 340] or set labelDy 24 (below); or set labelAt [86, 258] or set labelDy -58 (above)",
+                "subject": {
+                  "component": "diagram",
+                  "line": 9,
+                  "path": "/panels/0/blocks/0",
+                  "column": 1,
+                  "input": "<benchmark>\\inputs\\skillroster-architecture.archify.md",
+                  "panelId": "implementation",
+                  "diagramType": "architecture",
+                  "diagram": "graph"
+                },
+                "evidence": {
+                  "reason": "diagram-render",
+                  "example": "Use a valid native architecture JSON specification.",
+                  "native": {
+                    "code": "layout/constraint",
+                    "severity": "error",
+                    "message": "Label \"checked mutation\" overlaps component \"change\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [43, 306, 87, 14]\n  component \"change\" rect: [40, 266, 162, 60]\n  Suggested fix: set labelAt [86, 340] or set labelDy 24 (below); or set labelAt [86, 258] or set labelDy -58 (above)",
+                    "subject": {
+                      "diagramType": "architecture"
+                    },
+                    "evidence": {},
+                    "supportedFixes": []
+                  }
+                }
+              }
+            ],
+            "error": null
+          },
+          "head": {
+            "side": "head",
+            "quality": "standard",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1226.1322,
+            "output": "artifacts/standard/head/skillroster-architecture.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "d31912fe2259bf22b9110352381dbf5409e9b54d78e0c967ffcc13fbec35fb33",
+            "bytes": 505592,
+            "svgSha256": "4bb025796a81bb7c252cc1dbc7f907cd19969785c70a265683792ab70ea90a4f",
+            "viewBox": "0 0 1332 394"
+          }
+        },
+        "showcase": {
+          "base": {
+            "side": "base",
+            "quality": "showcase",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1268.547000000006,
+            "output": "artifacts/showcase/base/skillroster-architecture.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "073c5dc6ae6bb145404e38075956b2d43a38aa46791bb5e55ce59c199913fcae",
+            "bytes": 508908,
+            "svgSha256": "ad91d73a27776108f76a3ccc0fa2d9f28f87bf00a7ae0b02ab44e480e40c4b5b",
+            "viewBox": "0 0 752 766"
+          },
+          "head": {
+            "side": "head",
+            "quality": "showcase",
+            "status": 0,
+            "ok": true,
+            "elapsedMs": 1154.262999999999,
+            "output": "artifacts/showcase/head/skillroster-architecture.html",
+            "diagnostics": [],
+            "error": null,
+            "htmlSha256": "62ca2d6fa9eab53bd483436c0f039cb2d4a63bce3e417c75841868a453a40283",
+            "bytes": 503572,
+            "svgSha256": "685d85fa9700987e1133733c1daf902a3149390557886823735c22e5376e3698",
+            "viewBox": "0 0 1332 394"
+          }
+        }
+      },
+      "topologyPreserved": true,
+      "compiledEqual": false,
+      "nodeCount": 6,
+      "edgeCount": 8
+    }
+  ]
+}

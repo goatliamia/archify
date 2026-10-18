@@ -86,3 +86,7 @@ The targeted browser command was also run with `ARCHIFY_CHROME` pointing to Edge
 No fresh model-generation sessions were run. The existing native-JSON benchmark prompts do not invoke the changed compact compiler. An Explainer-focused matrix or narrower comparison scope still needs maintainer agreement before final review; no exemption is claimed. First-draft success, repair effort and speed improvements are unmeasured.
 
 This evidence branch keeps portable inputs, PNGs and summaries separate from the implementation diff and available through review and the resulting release cycle. Machine-specific paths and raw local logs are excluded. No original session records are claimed. [SHA-256 manifest](sha256.json) covers the published bundle files other than the manifest itself.
+
+## Fixed-input real-source replay
+
+A follow-up comparison covers ten source-backed compact Markdown inputs from the five pinned public benchmark projects: standard 5/10 → 10/10, showcase 4/10 → 9/10, no newly failing case or topology loss. Repeated serial CLI timings show no clear slowdown in the five common-success cases. This is maintenance-authored fixed-input evidence, not independent fresh-Agent generation. The Windows symlink limitation was resolved locally; 14 Node-only Explainer files now pass 123/123. [Full inputs, source links, before/after screenshots and timings](benchmark/README.md).

@@ -1,0 +1,756 @@
+TAP version 13
+# Subtest: explainer chart fences render static themed SVG without shipping the chart library
+ok 1 - explainer chart fences render static themed SVG without shipping the chart library
+  ---
+  duration_ms: 1339.0234
+  type: 'test'
+  ...
+# Subtest: explainer chart fences send native diagram types to shorthand and locate syntax errors
+ok 2 - explainer chart fences send native diagram types to shorthand and locate syntax errors
+  ---
+  duration_ms: 299.1545
+  type: 'test'
+  ...
+# Subtest: explainer chart CJK axis titles stand upright and task lists become checklists
+ok 3 - explainer chart CJK axis titles stand upright and task lists become checklists
+  ---
+  duration_ms: 1546.2747
+  type: 'test'
+  ...
+# Subtest: explainer charts label bar values and give pie slices their value and share
+ok 4 - explainer charts label bar values and give pie slices their value and share
+  ---
+  duration_ms: 2717.7684
+  type: 'test'
+  ...
+# Subtest: a data chart reads its CSV next to the draft, freezes it, and names a missing column
+ok 5 - a data chart reads its CSV next to the draft, freezes it, and names a missing column
+  ---
+  duration_ms: 1528.8054
+  type: 'test'
+  ...
+# Subtest: a blank data cell is missing data, never drawn as zero
+ok 6 - a blank data cell is missing data, never drawn as zero
+  ---
+  duration_ms: 34.2621
+  type: 'test'
+  ...
+# Subtest: zero native diagrams is a valid explainer family and CLI check dispatch
+ok 7 - zero native diagrams is a valid explainer family and CLI check dispatch
+  ---
+  duration_ms: 116.7694
+  type: 'test'
+  ...
+# Subtest: each frozen native diagram receives the existing native geometry checks
+ok 8 - each frozen native diagram receives the existing native geometry checks
+  ---
+  duration_ms: 535.1284
+  type: 'test'
+  ...
+# Subtest: a recomputed prepared-bundle digest cannot retain a stale content revision after resource changes
+ok 9 - a recomputed prepared-bundle digest cannot retain a stale content revision after resource changes
+  ---
+  duration_ms: 1.062
+  type: 'test'
+  ...
+# Subtest: immutable source, children and resource byte bindings fail on corruption
+ok 10 - immutable source, children and resource byte bindings fail on corruption
+  ---
+  duration_ms: 1.2726
+  type: 'test'
+  ...
+# Subtest: scanner ignores markup inside raw JSON and gives actionable HTML positions
+ok 11 - scanner ignores markup inside raw JSON and gives actionable HTML positions
+  ---
+  duration_ms: 0.5661
+  type: 'test'
+  ...
+# Subtest: scanner line locations include skipped raw payload lines without recounting prefixes
+ok 12 - scanner line locations include skipped raw payload lines without recounting prefixes
+  ---
+  duration_ms: 0.2042
+  type: 'test'
+  ...
+# Subtest: explainer CLI binds original draft bytes through validate, deliver and strict check
+ok 13 - explainer CLI binds original draft bytes through validate, deliver and strict check
+  ---
+  duration_ms: 1197.3068
+  type: 'test'
+  ...
+# Subtest: explainer CLI parse and semantic failures preserve an existing artifact and actionable locations
+ok 14 - explainer CLI parse and semantic failures preserve an existing artifact and actionable locations
+  ---
+  duration_ms: 917.1814
+  type: 'test'
+  ...
+# Subtest: explainer prepared resource mutation fails before overwriting last good HTML
+ok 15 - explainer prepared resource mutation fails before overwriting last good HTML
+  ---
+  duration_ms: 809.354
+  type: 'test'
+  ...
+# Subtest: explainer refuses a prepared bundle bound to different original source bytes
+ok 16 - explainer refuses a prepared bundle bound to different original source bytes
+  ---
+  duration_ms: 217.2022
+  type: 'test'
+  ...
+# Subtest: explainer direct render resolves contained resources against author directory
+ok 17 - explainer direct render resolves contained resources against author directory
+  ---
+  duration_ms: 249.4021
+  type: 'test'
+  ...
+# Subtest: explainer finalize opts into the browser gate and reports unavailability
+ok 18 - explainer finalize opts into the browser gate and reports unavailability
+  ---
+  duration_ms: 1367.1821
+  type: 'test'
+  ...
+# Subtest: explainer prepared bundle cannot follow same-byte draft into a different author directory
+ok 19 - explainer prepared bundle cannot follow same-byte draft into a different author directory
+  ---
+  duration_ms: 210.0439
+  type: 'test'
+  ...
+# Subtest: explainer public writing modes warn, reject strict drafts, and permit explicit off
+ok 20 - explainer public writing modes warn, reject strict drafts, and permit explicit off
+  ---
+  duration_ms: 1706.7409
+  type: 'test'
+  ...
+# Subtest: explainer prepared writing mode cannot silently change across stages
+ok 21 - explainer prepared writing mode cannot silently change across stages
+  ---
+  duration_ms: 224.6154
+  type: 'test'
+  ...
+# Subtest: default explainer finalize succeeds without discovering or launching a browser
+ok 22 - default explainer finalize succeeds without discovering or launching a browser
+  ---
+  duration_ms: 1318.9492
+  type: 'test'
+  ...
+# Subtest: explainer diagrams: compact shapes produce real native showcase HTML and semantic routes
+ok 23 - explainer diagrams: compact shapes produce real native showcase HTML and semantic routes
+  ---
+  duration_ms: 1941.2551
+  type: 'test'
+  ...
+# Subtest: explainer diagrams: all other native modes preserve their JSON source bytes
+ok 24 - explainer diagrams: all other native modes preserve their JSON source bytes
+  ---
+  duration_ms: 1297.0797
+  type: 'test'
+  ...
+# Subtest: explainer diagrams: inline native locale inherits its parent while explicit and source locales stay authoritative
+ok 25 - explainer diagrams: inline native locale inherits its parent while explicit and source locales stay authoritative
+  ---
+  duration_ms: 1244.3544
+  type: 'test'
+  ...
+# Subtest: explainer diagrams: structural changes decorate only explicit preview targets and keep canonical hash intact
+ok 26 - explainer diagrams: structural changes decorate only explicit preview targets and keep canonical hash intact
+  ---
+  duration_ms: 670.6567
+  type: 'test'
+  ...
+# Subtest: explainer diagrams: rejected native causes retain author line, component and repair example
+ok 27 - explainer diagrams: rejected native causes retain author line, component and repair example
+  ---
+  duration_ms: 193.9825
+  type: 'test'
+  ...
+# Subtest: explainer diagrams: source containment rejects traversal, symlinks, mismatch, and malformed JSON
+ok 28 - explainer diagrams: source containment rejects traversal, symlinks, mismatch, and malformed JSON
+  ---
+  duration_ms: 23.2376
+  type: 'test'
+  ...
+# Subtest: explainer diagrams: short phased workflows form one row with phase labels; long ones wrap into lanes
+ok 29 - explainer diagrams: short phased workflows form one row with phase labels; long ones wrap into lanes
+  ---
+  duration_ms: 3.2323
+  type: 'test'
+  ...
+# Subtest: explainer diagrams: sequence phase rows become native segments over the following messages
+ok 30 - explainer diagrams: sequence phase rows become native segments over the following messages
+  ---
+  duration_ms: 0.6067
+  type: 'test'
+  ...
+# Subtest: explainer diagrams: a linear workflow too wide for one row wraps into rows; questions get the decision mark
+ok 31 - explainer diagrams: a linear workflow too wide for one row wraps into rows; questions get the decision mark
+  ---
+  duration_ms: 1.1275
+  type: 'test'
+  ...
+# Subtest: explainer diagrams: a single upstream architecture node is centred against the column it feeds
+ok 32 - explainer diagrams: a single upstream architecture node is centred against the column it feeds
+  ---
+  duration_ms: 1.9586
+  type: 'test'
+  ...
+# Subtest: explainer diagrams: a phase that recurs later in the flow keeps phase rows instead of reordering the flow
+ok 33 - explainer diagrams: a phase that recurs later in the flow keeps phase rows instead of reordering the flow
+  ---
+  duration_ms: 0.3445
+  type: 'test'
+  ...
+# Subtest: explainer diagrams: converging retry branches keep the complete graph and pass native validation
+ok 34 - explainer diagrams: converging retry branches keep the complete graph and pass native validation
+  ---
+  duration_ms: 451.0083
+  type: 'test'
+  ...
+# Subtest: explainer diagrams: cyclic placement retains disconnected nodes, parallel returns and downstream exits
+ok 35 - explainer diagrams: cyclic placement retains disconnected nodes, parallel returns and downstream exits
+  ---
+  duration_ms: 1.0083
+  type: 'test'
+  ...
+# Subtest: explainer diagrams: cyclic architecture preserves renderable inputs at the native column limit
+ok 36 - explainer diagrams: cyclic architecture preserves renderable inputs at the native column limit
+  ---
+  duration_ms: 353.33
+  type: 'test'
+  ...
+# warning: in the working copy of 'removed.txt', LF will be replaced by CRLF the next time Git touches it
+# warning: in the working copy of 'sample.txt', LF will be replaced by CRLF the next time Git touches it
+# warning: in the working copy of 'sample.txt', LF will be replaced by CRLF the next time Git touches it
+# warning: in the working copy of 'added.txt', LF will be replaced by CRLF the next time Git touches it
+# warning: in the working copy of 'sample.txt', LF will be replaced by CRLF the next time Git touches it
+# warning: in the working copy of 'added.txt', LF will be replaced by CRLF the next time Git touches it
+# warning: in the working copy of 'added.txt', LF will be replaced by CRLF the next time Git touches it
+# Subtest: real git unified diff preserves bytes, real line numbers, file changes and git numstat counts
+ok 37 - real git unified diff preserves bytes, real line numbers, file changes and git numstat counts
+  ---
+  duration_ms: 457.2305
+  type: 'test'
+  ...
+# Subtest: simple diff fragments retain CRLF and never invent old or new line numbers
+ok 38 - simple diff fragments retain CRLF and never invent old or new line numbers
+  ---
+  duration_ms: 0.3169
+  type: 'test'
+  ...
+# Subtest: hunk ranges support zero-count insertions and deletions plus implicit count one
+ok 39 - hunk ranges support zero-count insertions and deletions plus implicit count one
+  ---
+  duration_ms: 0.2667
+  type: 'test'
+  ...
+# Subtest: hunk size mismatches, illegal rows and ranges produce actionable original-line diagnostics
+ok 40 - hunk size mismatches, illegal rows and ranges produce actionable original-line diagnostics
+  ---
+  duration_ms: 0.5949
+  type: 'test'
+  ...
+# Subtest: binary and combined diffs are rejected explicitly instead of being interpreted as text changes
+ok 41 - binary and combined diffs are rejected explicitly instead of being interpreted as text changes
+  ---
+  duration_ms: 0.1564
+  type: 'test'
+  ...
+# Subtest: git mode and rename-only metadata stay valid without invented content line numbers
+ok 42 - git mode and rename-only metadata stay valid without invented content line numbers
+  ---
+  duration_ms: 0.1901
+  type: 'test'
+  ...
+# Subtest: diff validation uses the shared secret scanner without leaking rejected values
+ok 43 - diff validation uses the shared secret scanner without leaking rejected values
+  ---
+  duration_ms: 0.5166
+  type: 'test'
+  ...
+# Subtest: fenced diff source locations use actual content lines and preserve internal CRLF
+ok 44 - fenced diff source locations use actual content lines and preserve internal CRLF
+  ---
+  duration_ms: 8.8878
+  type: 'test'
+  ...
+# Subtest: hunk content resembling file headers is counted as literal removed and added data
+ok 45 - hunk content resembling file headers is counted as literal removed and added data
+  ---
+  duration_ms: 0.3252
+  type: 'test'
+  ...
+# Subtest: a renamed file retains the old credential syntax for removed lines
+ok 46 - a renamed file retains the old credential syntax for removed lines
+  ---
+  duration_ms: 0.3356
+  type: 'test'
+  ...
+# Subtest: inline content preserves escaped literals and safe text while exposing reference semantics
+ok 47 - inline content preserves escaped literals and safe text while exposing reference semantics
+  ---
+  duration_ms: 2.5182
+  type: 'test'
+  ...
+# Subtest: unsupported or executable author input fails with located repair guidance
+ok 48 - unsupported or executable author input fails with located repair guidance
+  ---
+  duration_ms: 1.4748
+  type: 'test'
+  ...
+# Subtest: HTTP references preserve parentheses and escape attributes without evaluating label markup
+ok 49 - HTTP references preserve parentheses and escape attributes without evaluating label markup
+  ---
+  duration_ms: 0.2184
+  type: 'test'
+  ...
+# Subtest: typical-value qualifications become numbered real footnotes shared across text fields
+ok 50 - typical-value qualifications become numbered real footnotes shared across text fields
+  ---
+  duration_ms: 0.2273
+  type: 'test'
+  ...
+# Subtest: escaped backslashes do not consume a following closing emphasis delimiter
+ok 51 - escaped backslashes do not consume a following closing emphasis delimiter
+  ---
+  duration_ms: 0.178
+  type: 'test'
+  ...
+# Subtest: board preserves order, content widths and fills each row including the last
+ok 52 - board preserves order, content widths and fills each row including the last
+  ---
+  duration_ms: 1.8595
+  type: 'test'
+  ...
+# Subtest: native width is estimated from the prepared viewBox; authored spans stay exact
+ok 53 - native width is estimated from the prepared viewBox; authored spans stay exact
+  ---
+  duration_ms: 0.2465
+  type: 'test'
+  ...
+# Subtest: all three example HTML boards start with the conclusion and every panel row totals twelve
+ok 54 - all three example HTML boards start with the conclusion and every panel row totals twelve
+  ---
+  duration_ms: 492.9467
+  type: 'test'
+  ...
+# Subtest: tracked scratch package runs public explainer without dependencies and missing runtime fails closed
+ok 55 - tracked scratch package runs public explainer without dependencies and missing runtime fails closed
+  ---
+  duration_ms: 7393.9556
+  type: 'test'
+  ...
+# scratch snapshot tree 0175186464fb1f2f8604c1cf2ed87bbdf543171b; staged 200 files; no release archive or live installation
+# Subtest: explainer author families preserve literal values and normalize typed public data
+ok 56 - explainer author families preserve literal values and normalize typed public data
+  ---
+  duration_ms: 5.0615
+  type: 'test'
+  ...
+# Subtest: automatic heading IDs survive insertion and duplicate headings offer an explicit repair
+ok 57 - automatic heading IDs survive insertion and duplicate headings offer an explicit repair
+  ---
+  duration_ms: 0.6786
+  type: 'test'
+  ...
+# Subtest: panel offsets enable exact replacement without rewriting untouched source or CRLF
+ok 58 - panel offsets enable exact replacement without rewriting untouched source or CRLF
+  ---
+  duration_ms: 0.4361
+  type: 'test'
+  ...
+# Subtest: JSON is not reinterpreted and exact nested field lines survive schema diagnostics
+ok 59 - JSON is not reinterpreted and exact nested field lines survive schema diagnostics
+  ---
+  duration_ms: 3.1824
+  type: 'test'
+  ...
+# Subtest: native shorthand preserves api to redis and source file references stay explicit
+ok 60 - native shorthand preserves api to redis and source file references stay explicit
+  ---
+  duration_ms: 11.078
+  type: 'test'
+  ...
+# Subtest: restricted syntax errors contain a line, component, reason and repair example
+ok 61 - restricted syntax errors contain a line, component, reason and repair example
+  ---
+  duration_ms: 0.7871
+  type: 'test'
+  ...
+# Subtest: frozen real format-calibration drafts parse and validate without rewriting their syntax
+ok 62 - frozen real format-calibration drafts parse and validate without rewriting their syntax
+  ---
+  duration_ms: 5.873
+  type: 'test'
+  ...
+# Subtest: diagram cells retain literal pipes and source map keeps title location after metadata
+ok 63 - diagram cells retain literal pipes and source map keeps title location after metadata
+  ---
+  duration_ms: 0.4648
+  type: 'test'
+  ...
+# Subtest: answer reasons, scope, numbered source syntax and explicit spans normalize without hidden fields
+ok 64 - answer reasons, scope, numbered source syntax and explicit spans normalize without hidden fields
+  ---
+  duration_ms: 1.8752
+  type: 'test'
+  ...
+# Subtest: comparison row IDs stay stable
+ok 65 - comparison row IDs stay stable
+  ---
+  duration_ms: 0.9728
+  type: 'test'
+  ...
+# Subtest: reason lists immediately follow the conclusion and zero span reaches schema rejection
+ok 66 - reason lists immediately follow the conclusion and zero span reaches schema rejection
+  ---
+  duration_ms: 0.3631
+  type: 'test'
+  ...
+# Subtest: plain code fences become literal snippets, diff fences become diffs, and table corners keep their header
+ok 67 - plain code fences become literal snippets, diff fences become diffs, and table corners keep their header
+  ---
+  duration_ms: 2.0264
+  type: 'test'
+  ...
+# Subtest: a callout may take the following paragraph and may share its panel ID without failing
+ok 68 - a callout may take the following paragraph and may share its panel ID without failing
+  ---
+  duration_ms: 0.3256
+  type: 'test'
+  ...
+# Subtest: a comparison assessment may be followed by a citation
+ok 69 - a comparison assessment may be followed by a citation
+  ---
+  duration_ms: 0.1725
+  type: 'test'
+  ...
+# Subtest: a source cell ties a shorthand node to a declared source without entering the native spec
+ok 70 - a source cell ties a shorthand node to a declared source without entering the native spec
+  ---
+  duration_ms: 4.1686
+  type: 'test'
+  ...
+# Subtest: an authored page style is kept and limited to the shipped styles
+ok 71 - an authored page style is kept and limited to the shipped styles
+  ---
+  duration_ms: 0.8111
+  type: 'test'
+  ...
+# Subtest: node content references reuse explicit prose IDs and follow body edits without changing the native graph
+ok 72 - node content references reuse explicit prose IDs and follow body edits without changing the native graph
+  ---
+  duration_ms: 2.6461
+  type: 'test'
+  ...
+# Subtest: a badge-only comparison cell and a route written in the node column are accepted
+ok 73 - a badge-only comparison cell and a route written in the node column are accepted
+  ---
+  duration_ms: 0.3205
+  type: 'test'
+  ...
+# Subtest: panel patch preserves original source outside target token range
+ok 74 - panel patch preserves original source outside target token range
+  ---
+  duration_ms: 1580.0913
+  type: 'test'
+  ...
+# Subtest: patching referenced prose keeps the diagram and its frozen native artifact unchanged
+ok 75 - patching referenced prose keeps the diagram and its frozen native artifact unchanged
+  ---
+  duration_ms: 2277.5817
+  type: 'test'
+  ...
+# Subtest: panel patch rejects missing target and changed identity without overwriting existing output
+ok 76 - panel patch rejects missing target and changed identity without overwriting existing output
+  ---
+  duration_ms: 1333.467
+  type: 'test'
+  ...
+# Subtest: panel patch retains contained resources when unchanged original files are unavailable
+ok 77 - panel patch retains contained resources when unchanged original files are unavailable
+  ---
+  duration_ms: 1739.591
+  type: 'test'
+  ...
+# Subtest: restricted author draft panel patch preserves other authored text and stable panel IDs
+ok 78 - restricted author draft panel patch preserves other authored text and stable panel IDs
+  ---
+  duration_ms: 1381.2006
+  type: 'test'
+  ...
+# Subtest: panel patch applies explicit strict writing checks before publishing
+ok 79 - panel patch applies explicit strict writing checks before publishing
+  ---
+  duration_ms: 1634.3794
+  type: 'test'
+  ...
+# Subtest: panel patch retains source evidence when a changed diagram shares its source id
+ok 80 - panel patch retains source evidence when a changed diagram shares its source id
+  ---
+  duration_ms: 3585.904
+  type: 'test'
+  ...
+# Subtest: panel patch quality override validates every native child from frozen inputs
+ok 81 - panel patch quality override validates every native child from frozen inputs
+  ---
+  duration_ms: 4127.5825
+  type: 'test'
+  ...
+# Subtest: renderer: every shape remains statically readable and authored text cannot become markup
+ok 82 - renderer: every shape remains statically readable and authored text cannot become markup
+  ---
+  duration_ms: 41.5244
+  type: 'test'
+  ...
+# Subtest: renderer: canonical input, draft, child bytes and prepared bundle survive script-breaking contents
+ok 83 - renderer: canonical input, draft, child bytes and prepared bundle survive script-breaking contents
+  ---
+  duration_ms: 14.9894
+  type: 'test'
+  ...
+# Subtest: renderer: resources fail closed and native previews preserve identity without leaking styles
+ok 84 - renderer: resources fail closed and native previews preserve identity without leaking styles
+  ---
+  duration_ms: 9.5805
+  type: 'test'
+  ...
+# Subtest: renderer: no-script content includes scope, system theme and inert operation controls
+ok 85 - renderer: no-script content includes scope, system theme and inert operation controls
+  ---
+  duration_ms: 12.1867
+  type: 'test'
+  ...
+# Subtest: renderer: multiple native diagrams retain independent preview IDs and original payload hashes
+ok 86 - renderer: multiple native diagrams retain independent preview IDs and original payload hashes
+  ---
+  duration_ms: 9.9574
+  type: 'test'
+  ...
+# Subtest: renderer: content revision changes for frozen resources but ignores dependency filesystem relocation
+ok 87 - renderer: content revision changes for frozen resources but ignores dependency filesystem relocation
+  ---
+  duration_ms: 39.6159
+  type: 'test'
+  ...
+# Subtest: renderer: over-limit metrics disclose the excess and limit-only metrics imply no measurement
+ok 88 - renderer: over-limit metrics disclose the excess and limit-only metrics imply no measurement
+  ---
+  duration_ms: 3.3949
+  type: 'test'
+  ...
+# Subtest: renderer: only Chinese pages get Chinese controls; other languages fall back to English
+ok 89 - renderer: only Chinese pages get Chinese controls; other languages fall back to English
+  ---
+  duration_ms: 9.1489
+  type: 'test'
+  ...
+# Subtest: renderer: native diagram panels receive responsive space without changing the frozen native diagram
+ok 90 - renderer: native diagram panels receive responsive space without changing the frozen native diagram
+  ---
+  duration_ms: 4.228
+  type: 'test'
+  ...
+# Subtest: renderer: native system-dark aliases exclude print rules and printing overrides the noJS dark selector
+ok 91 - renderer: native system-dark aliases exclude print rules and printing overrides the noJS dark selector
+  ---
+  duration_ms: 4.9938
+  type: 'test'
+  ...
+# Subtest: renderer: source markers number first appearances including blank labels and remain plain text
+ok 92 - renderer: source markers number first appearances including blank labels and remain plain text
+  ---
+  duration_ms: 5.7624
+  type: 'test'
+  ...
+# Subtest: literal snippets render as copyable code and table corners keep their header
+ok 93 - literal snippets render as copyable code and table corners keep their header
+  ---
+  duration_ms: 3.6903
+  type: 'test'
+  ...
+# Subtest: explainer sources bind real pinned Git lines and freeze bytes without mutating authorship
+ok 94 - explainer sources bind real pinned Git lines and freeze bytes without mutating authorship
+  ---
+  duration_ms: 779.1001
+  type: 'test'
+  ...
+# Subtest: explainer derives a credential-free origin and HEAD; private credentials never reach source links
+ok 95 - explainer derives a credential-free origin and HEAD; private credentials never reach source links
+  ---
+  duration_ms: 1270.4504
+  type: 'test'
+  ...
+# Subtest: secret and escaping paths reject before Git can read any declared sources
+ok 96 - secret and escaping paths reject before Git can read any declared sources
+  ---
+  duration_ms: 1.3777
+  type: 'test'
+  ...
+# Subtest: repository verification rejects wrong ranges, origin and source revisions
+ok 97 - repository verification rejects wrong ranges, origin and source revisions
+  ---
+  duration_ms: 1049.249
+  type: 'test'
+  ...
+# Subtest: secret-like code never appears in results or diagnostics
+ok 98 - secret-like code never appears in results or diagnostics
+  ---
+  duration_ms: 1117.8511
+  type: 'test'
+  ...
+# Subtest: unquoted config credentials are blocked while environment and code references remain usable
+ok 99 - unquoted config credentials are blocked while environment and code references remain usable
+  ---
+  duration_ms: 2014.2943
+  type: 'test'
+  ...
+# Subtest: cited repository locations carry their pinned lines, unverifiable ones stay plain, and code blocks cannot trust web/example sources
+ok 100 - cited repository locations carry their pinned lines, unverifiable ones stay plain, and code blocks cannot trust web/example sources
+  ---
+  duration_ms: 959.0894
+  type: 'test'
+  ...
+# Subtest: local image bytes are embedded, digest-bound and preserved after the original changes
+ok 101 - local image bytes are embedded, digest-bound and preserved after the original changes
+  ---
+  duration_ms: 485.5478
+  type: 'test'
+  ...
+# Subtest: image containment rejects symlink files and directories, traversal, unsupported formats and oversize files
+ok 102 - image containment rejects symlink files and directories, traversal, unsupported formats and oversize files
+  ---
+  duration_ms: 464.4865
+  type: 'test'
+  ...
+# Subtest: resource ids are required and diagnostics use caller source positions without content leaks
+ok 103 - resource ids are required and diagnostics use caller source positions without content leaks
+  ---
+  duration_ms: 0.7631
+  type: 'test'
+  ...
+# Subtest: generated schema rejects injected execution, resources and author approval fields
+ok 104 - generated schema rejects injected execution, resources and author approval fields
+  ---
+  duration_ms: 3.3909
+  type: 'test'
+  ...
+# Subtest: comparison assessments remain per cell and invalid widths locate the offending row
+ok 105 - comparison assessments remain per cell and invalid widths locate the offending row
+  ---
+  duration_ms: 4.3415
+  type: 'test'
+  ...
+# Subtest: inline safety keeps literal code and diff untouched while rejecting HTML and unsafe links
+ok 106 - inline safety keeps literal code and diff untouched while rejecting HTML and unsafe links
+  ---
+  duration_ms: 3.0164
+  type: 'test'
+  ...
+# Subtest: diagram references name real diagram blocks and inline topology nodes
+ok 107 - diagram references name real diagram blocks and inline topology nodes
+  ---
+  duration_ms: 9.6545
+  type: 'test'
+  ...
+# Subtest: writing warnings are configurable and literal code is excluded from prose rules
+ok 108 - writing warnings are configurable and literal code is excluded from prose rules
+  ---
+  duration_ms: 2.5447
+  type: 'test'
+  ...
+# Subtest: global interactive IDs and source anchors cannot collide
+ok 109 - global interactive IDs and source anchors cannot collide
+  ---
+  duration_ms: 0.4647
+  type: 'test'
+  ...
+# Subtest: built-in answer is a legitimate block target while chrome IDs remain reserved
+ok 110 - built-in answer is a legitimate block target while chrome IDs remain reserved
+  ---
+  duration_ms: 0.349
+  type: 'test'
+  ...
+# Subtest: steps never silently discard a simultaneous node and route selection
+ok 111 - steps never silently discard a simultaneous node and route selection
+  ---
+  duration_ms: 2.6532
+  type: 'test'
+  ...
+# Subtest: source links resolve forward IDs and code requires a repository location
+ok 112 - source links resolve forward IDs and code requires a repository location
+  ---
+  duration_ms: 0.8037
+  type: 'test'
+  ...
+# Subtest: answer accepts at most four reasons and qualifier checks exclude scope and sources
+ok 113 - answer accepts at most four reasons and qualifier checks exclude scope and sources
+  ---
+  duration_ms: 1.5965
+  type: 'test'
+  ...
+# Subtest: writing: independently authored bilingual hints give concrete repairs without failing by default
+ok 114 - writing: independently authored bilingual hints give concrete repairs without failing by default
+  ---
+  duration_ms: 6.1375
+  type: 'test'
+  ...
+# Subtest: writing: direct technical prose and quoted URL bodies do not trigger phrase hints
+ok 115 - writing: direct technical prose and quoted URL bodies do not trigger phrase hints
+  ---
+  duration_ms: 0.771
+  type: 'test'
+  ...
+# Subtest: writing: long sentences count Han and English words, not punctuation or decimal dots
+ok 116 - writing: long sentences count Han and English words, not punctuation or decimal dots
+  ---
+  duration_ms: 0.3566
+  type: 'test'
+  ...
+# Subtest: writing: strict and off mode preserve explicit severity control
+ok 117 - writing: strict and off mode preserve explicit severity control
+  ---
+  duration_ms: 0.4564
+  type: 'test'
+  ...
+# Subtest: writing: source line offsets, component targets and diagnostic order survive repeated calls
+ok 118 - writing: source line offsets, component targets and diagnostic order survive repeated calls
+  ---
+  duration_ms: 0.3531
+  type: 'test'
+  ...
+# Subtest: writing: a URL with sentence punctuation is excluded from length but leaves the next sentence measurable
+ok 119 - writing: a URL with sentence punctuation is excluded from length but leaves the next sentence measurable
+  ---
+  duration_ms: 0.1725
+  type: 'test'
+  ...
+# Subtest: writing: URL masking preserves Chinese prose after bare and Markdown links
+ok 120 - writing: URL masking preserves Chinese prose after bare and Markdown links
+  ---
+  duration_ms: 1.261
+  type: 'test'
+  ...
+# Subtest: writing: English URL paths and balanced URL parentheses stay masked
+ok 121 - writing: English URL paths and balanced URL parentheses stay masked
+  ---
+  duration_ms: 0.3646
+  type: 'test'
+  ...
+# Subtest: writing: long paragraphs, an all-bold conclusion and a disclaimer-style scope get structural hints
+ok 122 - writing: long paragraphs, an all-bold conclusion and a disclaimer-style scope get structural hints
+  ---
+  duration_ms: 0.5422
+  type: 'test'
+  ...
+# Subtest: writing: Chinese and English controlled-language hints stay precise
+ok 123 - writing: Chinese and English controlled-language hints stay precise
+  ---
+  duration_ms: 0.5933
+  type: 'test'
+  ...
+1..123
+# tests 123
+# suites 0
+# pass 123
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 31833.6673

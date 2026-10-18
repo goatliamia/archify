@@ -1,0 +1,133 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "MCO: provider review outcomes",
+    "output": "graph.html",
+    "quality_profile": "standard",
+    "locale": "en"
+  },
+  "lanes": [
+    {
+      "id": "lane-0",
+      "label": "MCO: provider review outcomes · 1"
+    },
+    {
+      "id": "lane-1",
+      "label": "MCO: provider review outcomes · 2"
+    },
+    {
+      "id": "lane-2",
+      "label": "MCO: provider review outcomes · 3"
+    },
+    {
+      "id": "lane-3",
+      "label": "MCO: provider review outcomes · 4"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "request",
+      "label": "Accept review request",
+      "type": "frontend",
+      "width": 177,
+      "col": 0,
+      "lane": "lane-0"
+    },
+    {
+      "id": "providers",
+      "label": "Expand invocations",
+      "type": "backend",
+      "width": 157,
+      "col": 1,
+      "lane": "lane-0"
+    },
+    {
+      "id": "run",
+      "label": "Run providers",
+      "type": "backend",
+      "width": 124,
+      "col": 2,
+      "lane": "lane-0"
+    },
+    {
+      "id": "record",
+      "label": "Preserve each outcome",
+      "type": "backend",
+      "width": 177,
+      "col": 3,
+      "lane": "lane-0"
+    },
+    {
+      "id": "aggregate",
+      "label": "How many succeeded?",
+      "type": "backend",
+      "width": 164,
+      "icon": "decision",
+      "col": 3,
+      "lane": "lane-1"
+    },
+    {
+      "id": "complete",
+      "label": "Complete",
+      "type": "backend",
+      "col": 4,
+      "lane": "lane-1"
+    },
+    {
+      "id": "partial",
+      "label": "Partial",
+      "type": "backend",
+      "col": 4,
+      "lane": "lane-2"
+    },
+    {
+      "id": "failed",
+      "label": "Failed",
+      "type": "backend",
+      "col": 4,
+      "lane": "lane-3"
+    }
+  ],
+  "edges": [
+    {
+      "id": "request-to-providers-1",
+      "from": "request",
+      "to": "providers"
+    },
+    {
+      "id": "providers-to-run-1",
+      "from": "providers",
+      "to": "run"
+    },
+    {
+      "id": "run-to-record-1",
+      "from": "run",
+      "to": "record",
+      "label": "answer, failure or timeout"
+    },
+    {
+      "id": "record-to-aggregate-1",
+      "from": "record",
+      "to": "aggregate"
+    },
+    {
+      "id": "aggregate-to-complete-1",
+      "from": "aggregate",
+      "to": "complete",
+      "label": "all"
+    },
+    {
+      "id": "aggregate-to-partial-1",
+      "from": "aggregate",
+      "to": "partial",
+      "label": "some"
+    },
+    {
+      "id": "aggregate-to-failed-1",
+      "from": "aggregate",
+      "to": "failed",
+      "label": "none"
+    }
+  ]
+}

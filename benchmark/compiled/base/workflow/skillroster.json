@@ -1,0 +1,142 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "SkillRoster: inspect, apply and undo",
+    "output": "graph.html",
+    "quality_profile": "standard",
+    "locale": "en"
+  },
+  "lanes": [
+    {
+      "id": "lane-0",
+      "label": "SkillRoster: inspect, apply and undo · 1"
+    },
+    {
+      "id": "lane-1",
+      "label": "SkillRoster: inspect, apply and undo · 2"
+    },
+    {
+      "id": "lane-2",
+      "label": "SkillRoster: inspect, apply and undo · 3"
+    },
+    {
+      "id": "lane-3",
+      "label": "SkillRoster: inspect, apply and undo · 4"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "scan",
+      "label": "Inspect installed skills",
+      "type": "backend",
+      "width": 197,
+      "col": 0,
+      "lane": "lane-0"
+    },
+    {
+      "id": "plan",
+      "label": "Derive change plan",
+      "type": "backend",
+      "width": 157,
+      "col": 1,
+      "lane": "lane-0"
+    },
+    {
+      "id": "review",
+      "label": "Review and approve",
+      "type": "frontend",
+      "width": 157,
+      "col": 2,
+      "lane": "lane-0"
+    },
+    {
+      "id": "apply",
+      "label": "Apply checked changes",
+      "type": "backend",
+      "width": 177,
+      "col": 0,
+      "lane": "lane-1"
+    },
+    {
+      "id": "receipt",
+      "label": "Save receipt and backups",
+      "type": "database",
+      "width": 197,
+      "col": 1,
+      "lane": "lane-1"
+    },
+    {
+      "id": "undo",
+      "label": "Undo with checks",
+      "type": "backend",
+      "width": 144,
+      "col": 2,
+      "lane": "lane-1"
+    },
+    {
+      "id": "restore",
+      "label": "Restore prior files",
+      "type": "backend",
+      "width": 164,
+      "col": 0,
+      "lane": "lane-2"
+    },
+    {
+      "id": "blocked",
+      "label": "Refuse conflicting change",
+      "type": "backend",
+      "width": 203,
+      "col": 0,
+      "lane": "lane-3"
+    }
+  ],
+  "edges": [
+    {
+      "id": "scan-to-plan-1",
+      "from": "scan",
+      "to": "plan"
+    },
+    {
+      "id": "plan-to-review-1",
+      "from": "plan",
+      "to": "review"
+    },
+    {
+      "id": "review-to-apply-1",
+      "from": "review",
+      "to": "apply",
+      "label": "approved"
+    },
+    {
+      "id": "apply-to-receipt-1",
+      "from": "apply",
+      "to": "receipt",
+      "label": "verified"
+    },
+    {
+      "id": "apply-to-blocked-1",
+      "from": "apply",
+      "to": "blocked",
+      "label": "changed precondition"
+    },
+    {
+      "id": "receipt-to-undo-1",
+      "from": "receipt",
+      "to": "undo",
+      "label": "later undo request"
+    },
+    {
+      "id": "undo-to-restore-1",
+      "from": "undo",
+      "to": "restore",
+      "label": "fingerprints still match"
+    },
+    {
+      "id": "undo-to-blocked-1",
+      "from": "undo",
+      "to": "blocked",
+      "label": "conflict"
+    }
+  ]
+}

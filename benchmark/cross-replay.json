@@ -1,0 +1,544 @@
+{
+  "base": {
+    "kind": "same frozen native JSON on both runtimes; not first-draft Agent generation",
+    "origin": "base",
+    "provenance": {
+      "base": {
+        "revision": "824db3ad62bae7f7acde02c65f3c236d41e60b5c",
+        "dirty": []
+      },
+      "head": {
+        "revision": "7a9b2c939bfe8a85e3edc67c1a90e848954d9b5b",
+        "dirty": []
+      },
+      "benchmark": {
+        "inventory": [
+          {
+            "type": "architecture",
+            "name": "hive",
+            "sha256": "8fd47d629bc6ffb922921ac274756bd2eda63df57e343d47b0512433296024bd"
+          },
+          {
+            "type": "architecture",
+            "name": "mco",
+            "sha256": "563191a725ea5cd95641bf6fbe70dd8391a7f25c1024649c7b86ca88cd29d8fd"
+          },
+          {
+            "type": "architecture",
+            "name": "openpi",
+            "sha256": "5d7ae376dc99e5611c339a6d8601056ac7c07143e055898cb29278fe2e4fd772"
+          },
+          {
+            "type": "architecture",
+            "name": "skillroster",
+            "sha256": "7c3122b7db9f6a6a8849919d91ce1d43ec0656b567c488b348edd133cb609777"
+          },
+          {
+            "type": "architecture",
+            "name": "squad",
+            "sha256": "93cda7094b4db185e0885e5ab8f7122c40d293ad5f145c67e498991df1782055"
+          },
+          {
+            "type": "workflow",
+            "name": "hive",
+            "sha256": "976627111b5c13a6f5b13d797541e53f190f528b3e9c87e0ccef985040111d98"
+          },
+          {
+            "type": "workflow",
+            "name": "mco",
+            "sha256": "4f5aeabaffe04d5afe718f9a87fe7737c9ec679bff24513adf99fe0b078dcc06"
+          },
+          {
+            "type": "workflow",
+            "name": "openpi",
+            "sha256": "09792605a9c9dce23310f0a1b1ac63ad512ac89488a8db940ede9c44af379137"
+          },
+          {
+            "type": "workflow",
+            "name": "skillroster",
+            "sha256": "153bc291828568e449e997f02be6562219647d99479a5dadf3d8ab5f86606340"
+          },
+          {
+            "type": "workflow",
+            "name": "squad",
+            "sha256": "66ec61da08e1c7ca4310fad8a8bc56c423c56196ad3b540795b89bb053b69e9c"
+          }
+        ],
+        "sha256": "e9a8e6547843061406bd8584e176eaada426fd45dda382512ef1395d77145b15"
+      }
+    },
+    "results": [
+      {
+        "type": "architecture",
+        "name": "hive",
+        "base": {
+          "ok": false,
+          "problems": 5,
+          "codes": [
+            "other"
+          ],
+          "first": "- Label \"team actions\" overlaps component \"web\" — adjust labelDx/labelDy/labelSegment or set labelAt.",
+          "geometry": null
+        },
+        "head": {
+          "ok": false,
+          "problems": 5,
+          "codes": [
+            "other"
+          ],
+          "first": "- Label \"team actions\" overlaps component \"web\" — adjust labelDx/labelDy/labelSegment or set labelAt.",
+          "geometry": null
+        },
+        "note": ""
+      },
+      {
+        "type": "architecture",
+        "name": "mco",
+        "base": {
+          "ok": false,
+          "problems": 3,
+          "codes": [
+            "other"
+          ],
+          "first": "- Label \"review request\" overlaps component \"cli\" — adjust labelDx/labelDy/labelSegment or set labelAt.",
+          "geometry": null
+        },
+        "head": {
+          "ok": false,
+          "problems": 3,
+          "codes": [
+            "other"
+          ],
+          "first": "- Label \"review request\" overlaps component \"cli\" — adjust labelDx/labelDy/labelSegment or set labelAt.",
+          "geometry": null
+        },
+        "note": ""
+      },
+      {
+        "type": "architecture",
+        "name": "openpi",
+        "base": {
+          "ok": false,
+          "problems": 2,
+          "codes": [
+            "other"
+          ],
+          "first": "- Label \"delegate or inspect\" overlaps component \"parent\" — adjust labelDx/labelDy/labelSegment or set labelAt.",
+          "geometry": null
+        },
+        "head": {
+          "ok": false,
+          "problems": 2,
+          "codes": [
+            "other"
+          ],
+          "first": "- Label \"delegate or inspect\" overlaps component \"parent\" — adjust labelDx/labelDy/labelSegment or set labelAt.",
+          "geometry": null
+        },
+        "note": ""
+      },
+      {
+        "type": "architecture",
+        "name": "skillroster",
+        "base": {
+          "ok": false,
+          "problems": 1,
+          "codes": [
+            "other"
+          ],
+          "first": "- Label \"checked mutation\" overlaps component \"change\" — adjust labelDx/labelDy/labelSegment or set labelAt.",
+          "geometry": null
+        },
+        "head": {
+          "ok": false,
+          "problems": 1,
+          "codes": [
+            "other"
+          ],
+          "first": "- Label \"checked mutation\" overlaps component \"change\" — adjust labelDx/labelDy/labelSegment or set labelAt.",
+          "geometry": null
+        },
+        "note": ""
+      },
+      {
+        "type": "architecture",
+        "name": "squad",
+        "base": {
+          "ok": false,
+          "problems": 4,
+          "codes": [
+            "other"
+          ],
+          "first": "- Label \"assign or inspect\" overlaps component \"manager\" — adjust labelDx/labelDy/labelSegment or set labelAt.",
+          "geometry": null
+        },
+        "head": {
+          "ok": false,
+          "problems": 4,
+          "codes": [
+            "other"
+          ],
+          "first": "- Label \"assign or inspect\" overlaps component \"manager\" — adjust labelDx/labelDy/labelSegment or set labelAt.",
+          "geometry": null
+        },
+        "note": ""
+      },
+      {
+        "type": "workflow",
+        "name": "hive",
+        "base": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "4ba7a303a1c89c762780caacae985f0fcd057eaf34ddc133c775165054f2e58f"
+        },
+        "head": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "4ba7a303a1c89c762780caacae985f0fcd057eaf34ddc133c775165054f2e58f"
+        },
+        "note": ""
+      },
+      {
+        "type": "workflow",
+        "name": "mco",
+        "base": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "7983db3fa1190c67cd107addeee6a373b10013e207f5f2fbf98e2e8c8a162e59"
+        },
+        "head": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "7983db3fa1190c67cd107addeee6a373b10013e207f5f2fbf98e2e8c8a162e59"
+        },
+        "note": ""
+      },
+      {
+        "type": "workflow",
+        "name": "openpi",
+        "base": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "3b9fa776ce3f4203655bc43f80b2276a2b01bb0994b316a1402a4b149808a71e"
+        },
+        "head": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "3b9fa776ce3f4203655bc43f80b2276a2b01bb0994b316a1402a4b149808a71e"
+        },
+        "note": ""
+      },
+      {
+        "type": "workflow",
+        "name": "skillroster",
+        "base": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "8ad08fc1f519dcd2b8b8c1ba6efa3650cfc3883d5fdc821de5d7dde324198494"
+        },
+        "head": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "8ad08fc1f519dcd2b8b8c1ba6efa3650cfc3883d5fdc821de5d7dde324198494"
+        },
+        "note": ""
+      },
+      {
+        "type": "workflow",
+        "name": "squad",
+        "base": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "51636b6a0ae3fe12b202b0e6614091b19f928928b1783ea1a665244d63c6dcea"
+        },
+        "head": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "51636b6a0ae3fe12b202b0e6614091b19f928928b1783ea1a665244d63c6dcea"
+        },
+        "note": ""
+      }
+    ]
+  },
+  "head": {
+    "kind": "same frozen native JSON on both runtimes; not first-draft Agent generation",
+    "origin": "head",
+    "provenance": {
+      "base": {
+        "revision": "824db3ad62bae7f7acde02c65f3c236d41e60b5c",
+        "dirty": []
+      },
+      "head": {
+        "revision": "7a9b2c939bfe8a85e3edc67c1a90e848954d9b5b",
+        "dirty": []
+      },
+      "benchmark": {
+        "inventory": [
+          {
+            "type": "architecture",
+            "name": "hive",
+            "sha256": "393bcd103adc9f4779ff5764e97924b7b407b110f06de0a4f8261dac06b7a3b4"
+          },
+          {
+            "type": "architecture",
+            "name": "mco",
+            "sha256": "2944694b4126cc79837712da08a709749367e8a36929b5080d383f2fbf867fa8"
+          },
+          {
+            "type": "architecture",
+            "name": "openpi",
+            "sha256": "af3e8f578412ab23e05c361b37bbc2a69a08fcd8bdf5a3768b40552645e2f729"
+          },
+          {
+            "type": "architecture",
+            "name": "skillroster",
+            "sha256": "26ba2b91002c8380abea0b01b69f1d83ae721646f3babc690b1e06143cd8dad9"
+          },
+          {
+            "type": "architecture",
+            "name": "squad",
+            "sha256": "aa6cafc9166207d279638f541e8b24b038e0f2a1cba3909144cc1e31b3877afd"
+          },
+          {
+            "type": "workflow",
+            "name": "hive",
+            "sha256": "77b97d18f2663a097d090517588e84469fd574d6a0ee489644c054389c8ea669"
+          },
+          {
+            "type": "workflow",
+            "name": "mco",
+            "sha256": "4f5aeabaffe04d5afe718f9a87fe7737c9ec679bff24513adf99fe0b078dcc06"
+          },
+          {
+            "type": "workflow",
+            "name": "openpi",
+            "sha256": "09792605a9c9dce23310f0a1b1ac63ad512ac89488a8db940ede9c44af379137"
+          },
+          {
+            "type": "workflow",
+            "name": "skillroster",
+            "sha256": "153bc291828568e449e997f02be6562219647d99479a5dadf3d8ab5f86606340"
+          },
+          {
+            "type": "workflow",
+            "name": "squad",
+            "sha256": "5db00a3408ffe259c3aae7a5b2ac090cb980ed0ff31e54eebb4894206e8e6527"
+          }
+        ],
+        "sha256": "5d1f9921bceff62cf863a0eddf0becd6c114423a022285c6886485d33776e5a8"
+      }
+    },
+    "results": [
+      {
+        "type": "architecture",
+        "name": "hive",
+        "base": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "7daa055b50b3f2a1d42011daf626879a15a373066d04f2315ce55ecb6b98d9e8"
+        },
+        "head": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "7daa055b50b3f2a1d42011daf626879a15a373066d04f2315ce55ecb6b98d9e8"
+        },
+        "note": ""
+      },
+      {
+        "type": "architecture",
+        "name": "mco",
+        "base": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "b5880527851e3518ec12dcc3c0161a88ef24787c964606cba2e1d4b22b71162b"
+        },
+        "head": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "b5880527851e3518ec12dcc3c0161a88ef24787c964606cba2e1d4b22b71162b"
+        },
+        "note": ""
+      },
+      {
+        "type": "architecture",
+        "name": "openpi",
+        "base": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "8dfadd76fe892255b940fbf441029b85609654029ad2a20e1a6ff4c26fc99436"
+        },
+        "head": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "8dfadd76fe892255b940fbf441029b85609654029ad2a20e1a6ff4c26fc99436"
+        },
+        "note": ""
+      },
+      {
+        "type": "architecture",
+        "name": "skillroster",
+        "base": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "940317c16c69b08962edaeab30c4d67ab13543c42c7d4a3261634d8f49d0327c"
+        },
+        "head": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "940317c16c69b08962edaeab30c4d67ab13543c42c7d4a3261634d8f49d0327c"
+        },
+        "note": ""
+      },
+      {
+        "type": "architecture",
+        "name": "squad",
+        "base": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "9e321cb5a969d126af072b531df8b91da5ad2ec1e39f9e1f701927b75a53a0b9"
+        },
+        "head": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "9e321cb5a969d126af072b531df8b91da5ad2ec1e39f9e1f701927b75a53a0b9"
+        },
+        "note": ""
+      },
+      {
+        "type": "workflow",
+        "name": "hive",
+        "base": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "f1089f2fea1905f62652a0c532369b17e577449d872cdba28d8b501720c03298"
+        },
+        "head": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "f1089f2fea1905f62652a0c532369b17e577449d872cdba28d8b501720c03298"
+        },
+        "note": ""
+      },
+      {
+        "type": "workflow",
+        "name": "mco",
+        "base": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "7983db3fa1190c67cd107addeee6a373b10013e207f5f2fbf98e2e8c8a162e59"
+        },
+        "head": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "7983db3fa1190c67cd107addeee6a373b10013e207f5f2fbf98e2e8c8a162e59"
+        },
+        "note": ""
+      },
+      {
+        "type": "workflow",
+        "name": "openpi",
+        "base": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "3b9fa776ce3f4203655bc43f80b2276a2b01bb0994b316a1402a4b149808a71e"
+        },
+        "head": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "3b9fa776ce3f4203655bc43f80b2276a2b01bb0994b316a1402a4b149808a71e"
+        },
+        "note": ""
+      },
+      {
+        "type": "workflow",
+        "name": "skillroster",
+        "base": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "8ad08fc1f519dcd2b8b8c1ba6efa3650cfc3883d5fdc821de5d7dde324198494"
+        },
+        "head": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "8ad08fc1f519dcd2b8b8c1ba6efa3650cfc3883d5fdc821de5d7dde324198494"
+        },
+        "note": ""
+      },
+      {
+        "type": "workflow",
+        "name": "squad",
+        "base": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "e1bac454a2e0ea04912b152616fc74ba7fa26d67793c91a97b6148d3b6c7fddc"
+        },
+        "head": {
+          "ok": true,
+          "problems": 0,
+          "codes": [],
+          "first": "",
+          "geometry": "e1bac454a2e0ea04912b152616fc74ba7fa26d67793c91a97b6148d3b6c7fddc"
+        },
+        "note": ""
+      }
+    ]
+  }
+}

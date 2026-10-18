@@ -1,0 +1,21 @@
+{
+  "reviewer": "Codex maintenance author",
+  "independentReview": "not performed",
+  "conditions": {
+    "width": 1440,
+    "height": 900,
+    "theme": "light",
+    "style": "Classic",
+    "motion": "Still",
+    "zoom": "100%",
+    "deviceScaleFactor": 1
+  },
+  "additionalTallHeight": 1800,
+  "observations": {
+    "hive-workflow": "Author inspected both 900px and 1800px views. The old one-column stack needs scrolling; the candidate shows the seven nodes and separate next-message / explicit-retry returns in the initial viewport.",
+    "squad-workflow": "Author inspected both views. The candidate exposes all eight nodes and the invalid-worker branch. A long outer explicit-requeue route remains; passing checks do not make it an optimal layout.",
+    "mco-architecture": "Author inspected the candidate-only view. Request and outcome directions are visibly separate, with artifacts below the main invocation path. Base produced no standard-profile artifact.",
+    "skillroster-workflow": "Author inspected the unchanged standard view and both showcase failures. Apply and undo failure routes share an ambiguous corridor and collide at their destination; this acyclic problem exists on both revisions and is outside the cyclic fix."
+  },
+  "otherCases": "Screenshots captured; individual perceptual acceptance not asserted."
+}

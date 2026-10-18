@@ -1,0 +1,142 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Squad: leased task and explicit requeue",
+    "output": "graph.html",
+    "quality_profile": "standard",
+    "locale": "en"
+  },
+  "lanes": [
+    {
+      "id": "lane-0",
+      "label": "Squad: leased task and explicit requeue · 1"
+    },
+    {
+      "id": "lane-1",
+      "label": "Squad: leased task and explicit requeue · 2"
+    },
+    {
+      "id": "lane-2",
+      "label": "Squad: leased task and explicit requeue · 3"
+    },
+    {
+      "id": "lane-3",
+      "label": "Squad: leased task and explicit requeue · 4"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "assign",
+      "label": "Assign task",
+      "type": "backend",
+      "width": 111,
+      "col": 0,
+      "lane": "lane-0"
+    },
+    {
+      "id": "queued",
+      "label": "Queued task",
+      "type": "database",
+      "width": 111,
+      "col": 1,
+      "lane": "lane-0"
+    },
+    {
+      "id": "ack",
+      "label": "Worker may acknowledge?",
+      "type": "backend",
+      "width": 190,
+      "icon": "decision",
+      "col": 2,
+      "lane": "lane-0"
+    },
+    {
+      "id": "lease",
+      "label": "Acked with lease",
+      "type": "database",
+      "width": 144,
+      "col": 3,
+      "lane": "lane-0"
+    },
+    {
+      "id": "complete",
+      "label": "Owner completes task",
+      "type": "backend",
+      "width": 170,
+      "col": 3,
+      "lane": "lane-2"
+    },
+    {
+      "id": "result",
+      "label": "Read result summary",
+      "type": "frontend",
+      "width": 164,
+      "col": 4,
+      "lane": "lane-2"
+    },
+    {
+      "id": "requeue",
+      "label": "Explicit requeue",
+      "type": "backend",
+      "width": 144,
+      "col": 3,
+      "lane": "lane-3"
+    },
+    {
+      "id": "reject",
+      "label": "Reject invalid state",
+      "type": "backend",
+      "width": 170,
+      "col": 3,
+      "lane": "lane-1"
+    }
+  ],
+  "edges": [
+    {
+      "id": "assign-to-queued-1",
+      "from": "assign",
+      "to": "queued"
+    },
+    {
+      "id": "queued-to-ack-1",
+      "from": "queued",
+      "to": "ack"
+    },
+    {
+      "id": "ack-to-lease-1",
+      "from": "ack",
+      "to": "lease",
+      "label": "intended active worker"
+    },
+    {
+      "id": "ack-to-reject-1",
+      "from": "ack",
+      "to": "reject",
+      "label": "invalid worker or state"
+    },
+    {
+      "id": "lease-to-complete-1",
+      "from": "lease",
+      "to": "complete",
+      "label": "lease owner"
+    },
+    {
+      "id": "complete-to-result-1",
+      "from": "complete",
+      "to": "result"
+    },
+    {
+      "id": "lease-to-requeue-1",
+      "from": "lease",
+      "to": "requeue",
+      "label": "manager requests reassignment"
+    },
+    {
+      "id": "requeue-to-queued-1",
+      "from": "requeue",
+      "to": "queued",
+      "label": "reset lease and result"
+    }
+  ]
+}

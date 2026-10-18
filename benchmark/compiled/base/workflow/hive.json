@@ -1,0 +1,147 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Hive: queued dispatch delivery",
+    "output": "graph.html",
+    "quality_profile": "standard",
+    "locale": "en"
+  },
+  "lanes": [
+    {
+      "id": "lane-0",
+      "label": "Hive: queued dispatch delivery"
+    },
+    {
+      "id": "lane-1",
+      "label": "分支 1"
+    },
+    {
+      "id": "lane-2",
+      "label": "分支 2"
+    },
+    {
+      "id": "lane-3",
+      "label": "分支 3"
+    },
+    {
+      "id": "lane-4",
+      "label": "分支 4"
+    },
+    {
+      "id": "lane-5",
+      "label": "分支 5"
+    },
+    {
+      "id": "lane-6",
+      "label": "分支 6"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "accept",
+      "label": "Authorize message",
+      "type": "backend",
+      "width": 151,
+      "col": 0,
+      "lane": "lane-0"
+    },
+    {
+      "id": "queue",
+      "label": "Select queued message",
+      "type": "backend",
+      "width": 177,
+      "col": 0,
+      "lane": "lane-1"
+    },
+    {
+      "id": "active",
+      "label": "Active worker?",
+      "type": "backend",
+      "width": 131,
+      "icon": "decision",
+      "col": 0,
+      "lane": "lane-2"
+    },
+    {
+      "id": "write",
+      "label": "Write PTY envelope",
+      "type": "backend",
+      "width": 157,
+      "col": 0,
+      "lane": "lane-3"
+    },
+    {
+      "id": "ack",
+      "label": "Mark delivered",
+      "type": "backend",
+      "width": 131,
+      "col": 0,
+      "lane": "lane-4"
+    },
+    {
+      "id": "failed",
+      "label": "Record failure",
+      "type": "backend",
+      "width": 131,
+      "col": 0,
+      "lane": "lane-5"
+    },
+    {
+      "id": "done",
+      "label": "Stop draining",
+      "type": "backend",
+      "width": 124,
+      "col": 0,
+      "lane": "lane-6"
+    }
+  ],
+  "edges": [
+    {
+      "id": "accept-to-queue-1",
+      "from": "accept",
+      "to": "queue"
+    },
+    {
+      "id": "queue-to-active-1",
+      "from": "queue",
+      "to": "active"
+    },
+    {
+      "id": "active-to-write-1",
+      "from": "active",
+      "to": "write",
+      "label": "ready"
+    },
+    {
+      "id": "active-to-done-1",
+      "from": "active",
+      "to": "done",
+      "label": "no active run"
+    },
+    {
+      "id": "write-to-ack-1",
+      "from": "write",
+      "to": "ack",
+      "label": "written"
+    },
+    {
+      "id": "write-to-failed-1",
+      "from": "write",
+      "to": "failed",
+      "label": "PTY error"
+    },
+    {
+      "id": "ack-to-queue-1",
+      "from": "ack",
+      "to": "queue",
+      "label": "next queued message"
+    },
+    {
+      "id": "failed-to-queue-1",
+      "from": "failed",
+      "to": "queue",
+      "label": "next explicit drain"
+    }
+  ]
+}

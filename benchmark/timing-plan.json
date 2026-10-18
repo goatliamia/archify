@@ -1,0 +1,12 @@
+{
+  "recordedAt": "2026-10-18T08:01:21.317Z",
+  "warmupPairs": 1,
+  "measuredPairs": 5,
+  "fullCommand": "deliver explainer INPUT.md OUTPUT.html --quality standard --writing off --json",
+  "timedConcurrency": 1,
+  "order": "alternate base/head per repetition and per case",
+  "compilerWarmupIterations": 100,
+  "compilerBatches": 5,
+  "compilerIterationsPerBatch": 500,
+  "notes": "Same rows and identical Markdown in both arms. CLI timing includes process startup, parse, native generation, checks and delivery; excludes browser review and model authoring. Failures are not speedup evidence."
+}

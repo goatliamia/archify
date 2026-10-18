@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Hive: workbench and worker process",
+    "output": "graph.html",
+    "quality_profile": "standard",
+    "locale": "en"
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 1,
+    "cellW": 176,
+    "cellH": 76,
+    "gapX": 100,
+    "gapY": 110
+  },
+  "components": [
+    {
+      "id": "web",
+      "label": "Browser workbench",
+      "type": "frontend",
+      "row": 0,
+      "col": 0,
+      "size": [
+        129,
+        60
+      ]
+    },
+    {
+      "id": "api",
+      "label": "Server operations",
+      "type": "backend",
+      "row": 1,
+      "col": 0,
+      "size": [
+        129,
+        60
+      ]
+    },
+    {
+      "id": "store",
+      "label": "Dispatch store",
+      "type": "database",
+      "row": 2,
+      "col": 0
+    },
+    {
+      "id": "outbox",
+      "label": "Message outbox",
+      "type": "backend",
+      "row": 3,
+      "col": 0
+    },
+    {
+      "id": "runtime",
+      "label": "Agent runtime",
+      "type": "backend",
+      "row": 4,
+      "col": 0
+    },
+    {
+      "id": "worker",
+      "label": "Worker CLI process",
+      "type": "external",
+      "row": 5,
+      "col": 0,
+      "size": [
+        135,
+        60
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "web-to-api-1",
+      "from": "web",
+      "to": "api",
+      "label": "team actions"
+    },
+    {
+      "id": "api-to-store-1",
+      "from": "api",
+      "to": "store",
+      "label": "persist message"
+    },
+    {
+      "id": "api-to-outbox-1",
+      "from": "api",
+      "to": "outbox",
+      "label": "drain recipient"
+    },
+    {
+      "id": "outbox-to-runtime-1",
+      "from": "outbox",
+      "to": "runtime",
+      "label": "deliver envelope"
+    },
+    {
+      "id": "runtime-to-worker-1",
+      "from": "runtime",
+      "to": "worker",
+      "label": "PTY input"
+    },
+    {
+      "id": "worker-to-api-1",
+      "from": "worker",
+      "to": "api",
+      "label": "report message"
+    },
+    {
+      "id": "api-to-web-1",
+      "from": "api",
+      "to": "web",
+      "label": "status and messages"
+    }
+  ]
+}

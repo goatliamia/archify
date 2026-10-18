@@ -1,0 +1,44 @@
+{
+  "sourceChecks": [
+    {
+      "project": "openpi",
+      "sha": "677b4959108976b99fb63fb5029198b04aa51cb5",
+      "status": "clean"
+    },
+    {
+      "project": "hive",
+      "sha": "f8f1343da6595a232f0baba7f0ea5b5a58fe0e9c",
+      "status": "clean"
+    },
+    {
+      "project": "mco",
+      "sha": "3cfce130362dbcc2aedda6170d1a31e39cf67d3e",
+      "status": "clean"
+    },
+    {
+      "project": "squad",
+      "sha": "8146bcc1c38c439aedaf3ff44548c830654c8621",
+      "status": "clean"
+    },
+    {
+      "project": "skillroster",
+      "sha": "21d14c7cff25c66a016562e238e62d0538eb696f",
+      "status": "clean"
+    }
+  ],
+  "initialSetupFailures": [
+    {
+      "args": [
+        "fetch",
+        "--quiet",
+        "--depth=1",
+        "--filter=blob:none",
+        "https://github.com/openpi-dev/openpi",
+        "677b4959108976b99fb63fb5029198b04aa51cb5"
+      ],
+      "code": 128,
+      "output": "fatal: unable to access 'https://github.com/openpi-dev/openpi/': Recv failure: Connection was reset\n"
+    }
+  ],
+  "retry": "The OpenPI fetch initially failed with a connection reset; the same pinned commit was fetched again successfully by the parent shell and the final clean pin was verified. No source project was executed or installed."
+}

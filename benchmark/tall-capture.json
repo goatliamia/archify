@@ -1,0 +1,33 @@
+{
+  "viewport": {
+    "width": 1440,
+    "height": 1800
+  },
+  "theme": "light",
+  "results": [
+    {
+      "project": "hive",
+      "side": "base",
+      "file": "workflow-hive-base-tall.png",
+      "status": "captured"
+    },
+    {
+      "project": "hive",
+      "side": "head",
+      "file": "workflow-hive-head-tall.png",
+      "status": "captured"
+    },
+    {
+      "project": "squad",
+      "side": "base",
+      "file": "workflow-squad-base-tall.png",
+      "status": "captured"
+    },
+    {
+      "project": "squad",
+      "side": "head",
+      "file": "workflow-squad-head-tall.png",
+      "status": "captured"
+    }
+  ]
+}

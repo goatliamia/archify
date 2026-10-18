@@ -1,0 +1,23 @@
+{
+  "revision": "7a9b2c939bfe8a85e3edc67c1a90e848954d9b5b",
+  "node": "v22.23.2",
+  "windowsDeveloperMode": true,
+  "symbolicLinkCreation": {
+    "file": true,
+    "directory": true
+  },
+  "focusedSymlinkTests": {
+    "pass": 2,
+    "fail": 0,
+    "skip": 0
+  },
+  "freshNodeExplainer": {
+    "files": 14,
+    "tests": 123,
+    "pass": 123,
+    "fail": 0,
+    "skip": 0,
+    "cancelled": 0
+  },
+  "note": "Developer Mode was enabled with user authorization before this replay. The two previous EPERM fixture failures now pass without a test or product-code change."
+}

@@ -1,0 +1,122 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "OpenPI: delegate, observe and settle",
+    "output": "graph.html",
+    "quality_profile": "standard",
+    "locale": "en"
+  },
+  "lanes": [
+    {
+      "id": "lane-0",
+      "label": "OpenPI: delegate, observe and settle · 1"
+    },
+    {
+      "id": "lane-1",
+      "label": "OpenPI: delegate, observe and settle · 2"
+    },
+    {
+      "id": "lane-2",
+      "label": "OpenPI: delegate, observe and settle · 3"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "request",
+      "label": "Delegate task",
+      "type": "frontend",
+      "width": 124,
+      "col": 0,
+      "lane": "lane-0"
+    },
+    {
+      "id": "admit",
+      "label": "Admit child",
+      "type": "backend",
+      "width": 111,
+      "col": 1,
+      "lane": "lane-0"
+    },
+    {
+      "id": "session",
+      "label": "Start Pi session",
+      "type": "backend",
+      "width": 144,
+      "col": 2,
+      "lane": "lane-0"
+    },
+    {
+      "id": "events",
+      "label": "Observe events",
+      "type": "backend",
+      "width": 131,
+      "col": 3,
+      "lane": "lane-0"
+    },
+    {
+      "id": "settle",
+      "label": "Settle snapshot",
+      "type": "backend",
+      "width": 137,
+      "col": 4,
+      "lane": "lane-0"
+    },
+    {
+      "id": "result",
+      "label": "Return result",
+      "type": "frontend",
+      "width": 124,
+      "col": 4,
+      "lane": "lane-2"
+    },
+    {
+      "id": "cancel",
+      "label": "Cancel session",
+      "type": "backend",
+      "width": 131,
+      "col": 1,
+      "lane": "lane-1"
+    }
+  ],
+  "edges": [
+    {
+      "id": "request-to-admit-1",
+      "from": "request",
+      "to": "admit"
+    },
+    {
+      "id": "admit-to-session-1",
+      "from": "admit",
+      "to": "session"
+    },
+    {
+      "id": "session-to-events-1",
+      "from": "session",
+      "to": "events"
+    },
+    {
+      "id": "events-to-settle-1",
+      "from": "events",
+      "to": "settle",
+      "label": "finished or error"
+    },
+    {
+      "id": "settle-to-result-1",
+      "from": "settle",
+      "to": "result"
+    },
+    {
+      "id": "request-to-cancel-1",
+      "from": "request",
+      "to": "cancel",
+      "label": "caller cancels"
+    },
+    {
+      "id": "cancel-to-settle-1",
+      "from": "cancel",
+      "to": "settle",
+      "label": "bounded cleanup"
+    }
+  ]
+}

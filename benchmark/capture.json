@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "replay": "<benchmark>\\paired\\replay.json",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "theme": "light",
+  "captures": [
+    {
+      "type": "workflow",
+      "name": "openpi",
+      "side": "base",
+      "status": "pass",
+      "file": "workflow-openpi-base.png",
+      "resolvedTheme": "light"
+    },
+    {
+      "type": "workflow",
+      "name": "openpi",
+      "side": "head",
+      "status": "pass",
+      "file": "workflow-openpi-head.png",
+      "resolvedTheme": "light"
+    },
+    {
+      "type": "architecture",
+      "name": "openpi",
+      "side": "base",
+      "status": "not-rendered",
+      "reason": "render-missing"
+    },
+    {
+      "type": "architecture",
+      "name": "openpi",
+      "side": "head",
+      "status": "pass",
+      "file": "architecture-openpi-head.png",
+      "resolvedTheme": "light"
+    },
+    {
+      "type": "workflow",
+      "name": "hive",
+      "side": "base",
+      "status": "pass",
+      "file": "workflow-hive-base.png",
+      "resolvedTheme": "light"
+    },
+    {
+      "type": "workflow",
+      "name": "hive",
+      "side": "head",
+      "status": "pass",
+      "file": "workflow-hive-head.png",
+      "resolvedTheme": "light"
+    },
+    {
+      "type": "architecture",
+      "name": "hive",
+      "side": "base",
+      "status": "not-rendered",
+      "reason": "render-missing"
+    },
+    {
+      "type": "architecture",
+      "name": "hive",
+      "side": "head",
+      "status": "pass",
+      "file": "architecture-hive-head.png",
+      "resolvedTheme": "light"
+    },
+    {
+      "type": "workflow",
+      "name": "mco",
+      "side": "base",
+      "status": "pass",
+      "file": "workflow-mco-base.png",
+      "resolvedTheme": "light"
+    },
+    {
+      "type": "workflow",
+      "name": "mco",
+      "side": "head",
+      "status": "pass",
+      "file": "workflow-mco-head.png",
+      "resolvedTheme": "light"
+    },
+    {
+      "type": "architecture",
+      "name": "mco",
+      "side": "base",
+      "status": "not-rendered",
+      "reason": "render-missing"
+    },
+    {
+      "type": "architecture",
+      "name": "mco",
+      "side": "head",
+      "status": "pass",
+      "file": "architecture-mco-head.png",
+      "resolvedTheme": "light"
+    },
+    {
+      "type": "workflow",
+      "name": "squad",
+      "side": "base",
+      "status": "pass",
+      "file": "workflow-squad-base.png",
+      "resolvedTheme": "light"
+    },
+    {
+      "type": "workflow",
+      "name": "squad",
+      "side": "head",
+      "status": "pass",
+      "file": "workflow-squad-head.png",
+      "resolvedTheme": "light"
+    },
+    {
+      "type": "architecture",
+      "name": "squad",
+      "side": "base",
+      "status": "not-rendered",
+      "reason": "render-missing"
+    },
+    {
+      "type": "architecture",
+      "name": "squad",
+      "side": "head",
+      "status": "pass",
+      "file": "architecture-squad-head.png",
+      "resolvedTheme": "light"
+    },
+    {
+      "type": "workflow",
+      "name": "skillroster",
+      "side": "base",
+      "status": "pass",
+      "file": "workflow-skillroster-base.png",
+      "resolvedTheme": "light"
+    },
+    {
+      "type": "workflow",
+      "name": "skillroster",
+      "side": "head",
+      "status": "pass",
+      "file": "workflow-skillroster-head.png",
+      "resolvedTheme": "light"
+    },
+    {
+      "type": "architecture",
+      "name": "skillroster",
+      "side": "base",
+      "status": "not-rendered",
+      "reason": "render-missing"
+    },
+    {
+      "type": "architecture",
+      "name": "skillroster",
+      "side": "head",
+      "status": "pass",
+      "file": "architecture-skillroster-head.png",
+      "resolvedTheme": "light"
+    }
+  ]
+}

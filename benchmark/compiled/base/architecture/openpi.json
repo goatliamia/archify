@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "OpenPI: managed child sessions",
+    "output": "graph.html",
+    "quality_profile": "standard",
+    "locale": "en"
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 1,
+    "cellW": 176,
+    "cellH": 76,
+    "gapX": 100,
+    "gapY": 110
+  },
+  "components": [
+    {
+      "id": "parent",
+      "label": "Parent agent",
+      "type": "frontend",
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "tools",
+      "label": "Subagent tools",
+      "type": "backend",
+      "row": 1,
+      "col": 0
+    },
+    {
+      "id": "manager",
+      "label": "Subagent manager",
+      "type": "backend",
+      "row": 2,
+      "col": 0,
+      "size": [
+        122,
+        60
+      ]
+    },
+    {
+      "id": "session",
+      "label": "Pi child session",
+      "type": "backend",
+      "row": 3,
+      "col": 0,
+      "size": [
+        122,
+        60
+      ]
+    },
+    {
+      "id": "delivery",
+      "label": "Result inbox",
+      "type": "backend",
+      "row": 4,
+      "col": 0
+    }
+  ],
+  "connections": [
+    {
+      "id": "parent-to-tools-1",
+      "from": "parent",
+      "to": "tools",
+      "label": "delegate or inspect"
+    },
+    {
+      "id": "tools-to-manager-1",
+      "from": "tools",
+      "to": "manager",
+      "label": "spawn, wait, cancel"
+    },
+    {
+      "id": "manager-to-session-1",
+      "from": "manager",
+      "to": "session",
+      "label": "create and control"
+    },
+    {
+      "id": "session-to-manager-1",
+      "from": "session",
+      "to": "manager",
+      "label": "lifecycle events"
+    },
+    {
+      "id": "manager-to-delivery-1",
+      "from": "manager",
+      "to": "delivery",
+      "label": "settled snapshot"
+    },
+    {
+      "id": "delivery-to-parent-1",
+      "from": "delivery",
+      "to": "parent",
+      "label": "result follow-up"
+    }
+  ]
+}

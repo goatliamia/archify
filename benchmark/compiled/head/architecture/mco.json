@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "MCO: invocation and artifact boundary",
+    "output": "graph.html",
+    "quality_profile": "standard",
+    "locale": "en"
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 4,
+    "cellW": 176,
+    "cellH": 76,
+    "gapX": 100,
+    "gapY": 110
+  },
+  "components": [
+    {
+      "id": "cli",
+      "label": "Review CLI",
+      "type": "frontend",
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "runtime",
+      "label": "Invocation runtime",
+      "type": "backend",
+      "row": 0,
+      "col": 1,
+      "size": [
+        135,
+        60
+      ]
+    },
+    {
+      "id": "adapter",
+      "label": "Provider adapter",
+      "type": "backend",
+      "row": 0,
+      "col": 2,
+      "size": [
+        122,
+        60
+      ]
+    },
+    {
+      "id": "provider",
+      "label": "Provider process",
+      "type": "external",
+      "row": 0,
+      "col": 3,
+      "size": [
+        122,
+        60
+      ]
+    },
+    {
+      "id": "artifacts",
+      "label": "Answer artifacts",
+      "type": "database",
+      "row": 1,
+      "col": 2,
+      "size": [
+        122,
+        60
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "cli-to-runtime-1",
+      "from": "cli",
+      "to": "runtime",
+      "label": "review request"
+    },
+    {
+      "id": "runtime-to-adapter-1",
+      "from": "runtime",
+      "to": "adapter",
+      "label": "invocation"
+    },
+    {
+      "id": "adapter-to-provider-1",
+      "from": "adapter",
+      "to": "provider",
+      "label": "transport"
+    },
+    {
+      "id": "provider-to-adapter-1",
+      "from": "provider",
+      "to": "adapter",
+      "label": "answer events"
+    },
+    {
+      "id": "adapter-to-runtime-1",
+      "from": "adapter",
+      "to": "runtime",
+      "label": "decoded outcome"
+    },
+    {
+      "id": "runtime-to-artifacts-1",
+      "from": "runtime",
+      "to": "artifacts",
+      "label": "ordered answers and status"
+    },
+    {
+      "id": "runtime-to-cli-1",
+      "from": "runtime",
+      "to": "cli",
+      "label": "complete, partial or failed"
+    }
+  ]
+}
