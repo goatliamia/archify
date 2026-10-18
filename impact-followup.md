@@ -30,3 +30,9 @@ The new regression covers a complete 13-node cycle, retained return edge, native
 - The same 400 acyclic comparisons still report zero differences.
 
 The full 3332-case Node run, complete 298-case Chrome run and prior remote CI belong to the initial candidate and are retained with that SHA in the original report. They are reused for unaffected paths, not relabeled as fresh follow-up runs. Remote CI reruns on the follow-up commit. No fresh Agent generation session was run, and no benchmark exemption is claimed.
+
+## Additional acceptance compatibility check
+
+At the same follow-up head, a directed compatibility audit covered every cyclic directed graph on three labeled nodes without self-loops: 39 graphs × two node declaration orders × compact architecture/workflow = 156 paired inputs. Each base input passed the native standard check; all 156 remained renderable on candidate, with zero topology differences and zero newly rejected inputs. [Inputs](cyclic-acceptance-inputs.json) and [results](cyclic-acceptance.json) are portable, constructed evidence. The base/candidate compact compilers use the same native renderer, whose source is unchanged between the two revisions.
+
+This is a finite acceptance check, not a natural-language generation benchmark or a proof that every cyclic layout improves. The separate 13-node regression covers the native column-budget boundary. The observed benefit remains concrete: the original six-node/eight-edge retry case preserves its graph, clears three showcase errors, and uses a 796 × 404 required viewBox instead of 796 × 900. The follow-up restores the previously accepted 13-node cycle. No further performance optimization or renderer refactor is included.

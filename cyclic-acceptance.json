@@ -1,0 +1,15 @@
+{
+  "kind": "finite constructed compatibility audit; not a generation benchmark",
+  "base": "824db3ad62bae7f7acde02c65f3c236d41e60b5c",
+  "candidate": "7a9b2c939bfe8a85e3edc67c1a90e848954d9b5b",
+  "quality": "standard",
+  "planned": 156,
+  "completed": 156,
+  "baseAccepted": 156,
+  "baseRejected": 0,
+  "preserved": 156,
+  "regressions": [],
+  "topologyDifferences": [],
+  "nativeRenderer": "Shared candidate native renderer; native renderer sources are unchanged from base.",
+  "inputFile": "cyclic-acceptance-inputs.json"
+}

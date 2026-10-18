@@ -1,0 +1,2762 @@
+[
+  {
+    "mask": 5,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > a"
+    ]
+  },
+  {
+    "mask": 5,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > a"
+    ]
+  },
+  {
+    "mask": 5,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > a"
+    ]
+  },
+  {
+    "mask": 5,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > a"
+    ]
+  },
+  {
+    "mask": 7,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > a"
+    ]
+  },
+  {
+    "mask": 7,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > a"
+    ]
+  },
+  {
+    "mask": 7,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > a"
+    ]
+  },
+  {
+    "mask": 7,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > a"
+    ]
+  },
+  {
+    "mask": 13,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > a",
+      "b > c"
+    ]
+  },
+  {
+    "mask": 13,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > a",
+      "b > c"
+    ]
+  },
+  {
+    "mask": 13,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > a",
+      "b > c"
+    ]
+  },
+  {
+    "mask": 13,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > a",
+      "b > c"
+    ]
+  },
+  {
+    "mask": 15,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > a",
+      "b > c"
+    ]
+  },
+  {
+    "mask": 15,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > a",
+      "b > c"
+    ]
+  },
+  {
+    "mask": 15,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > a",
+      "b > c"
+    ]
+  },
+  {
+    "mask": 15,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > a",
+      "b > c"
+    ]
+  },
+  {
+    "mask": 18,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 18,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 18,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 18,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 19,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 19,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 19,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 19,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 21,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > a",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 21,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > a",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 21,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > a",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 21,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > a",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 22,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "b > a",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 22,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "b > a",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 22,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "b > a",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 22,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "b > a",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 23,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > a",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 23,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > a",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 23,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > a",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 23,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > a",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 25,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 25,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 25,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 25,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 26,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 26,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 26,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 26,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 27,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 27,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 27,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 27,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 29,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > a",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 29,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > a",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 29,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > a",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 29,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > a",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 30,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 30,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 30,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 30,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 31,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 31,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 31,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 31,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > a"
+    ]
+  },
+  {
+    "mask": 37,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 37,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 37,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 37,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 38,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "b > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 38,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "b > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 38,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "b > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 38,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "b > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 39,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 39,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 39,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 39,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 40,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 40,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 40,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 40,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 41,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 41,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 41,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 41,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 42,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 42,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 42,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 42,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 43,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 43,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 43,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 43,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 44,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "b > a",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 44,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "b > a",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 44,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "b > a",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 44,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "b > a",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 45,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > a",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 45,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > a",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 45,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > a",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 45,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > a",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 46,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 46,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 46,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 46,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 47,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 47,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 47,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 47,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 50,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 50,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 50,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 50,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 51,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 51,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 51,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 51,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 53,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > a",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 53,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > a",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 53,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > a",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 53,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > a",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 54,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "b > a",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 54,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "b > a",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 54,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "b > a",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 54,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "b > a",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 55,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > a",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 55,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > a",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 55,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > a",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 55,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > a",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 56,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 56,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 56,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 56,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 57,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 57,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 57,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 57,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 58,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 58,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 58,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 58,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 59,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 59,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 59,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 59,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 60,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "b > a",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 60,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "b > a",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 60,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "b > a",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 60,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "b > a",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 61,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > a",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 61,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "b > a",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 61,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > a",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 61,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "b > a",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 62,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 62,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 62,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 62,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 63,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "architecture",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 63,
+    "order": [
+      "a",
+      "b",
+      "c"
+    ],
+    "type": "workflow",
+    "rows": [
+      "a | A",
+      "b | B",
+      "c | C",
+      "a > b",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 63,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "architecture",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  },
+  {
+    "mask": 63,
+    "order": [
+      "c",
+      "b",
+      "a"
+    ],
+    "type": "workflow",
+    "rows": [
+      "c | C",
+      "b | B",
+      "a | A",
+      "a > b",
+      "a > c",
+      "b > a",
+      "b > c",
+      "c > a",
+      "c > b"
+    ]
+  }
+]
