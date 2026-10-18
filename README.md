@@ -94,3 +94,7 @@ A follow-up comparison covers ten source-backed compact Markdown inputs from the
 ## Robot review follow-up
 
 The three initial inline findings are fixed at `58967708f77cc961b5f698be7a26bd268962f90f`: declaration-row validation, legacy source-cell compatibility, and a native readability-budget guard for unfolding architecture cycles. Fresh checks pass 128/128 Node Explainer tests and 8/8 Chrome checks. [Reproduction, scope, results and remaining decisions](review-followup.md).
+
+## Native route acceptance follow-up
+
+At `522999d6d72a7dbb1c4dc6ff68c1ba8ecc99f710`, speculative native route and default-label checks protect cyclic architecture expansion. Both reproduced failures now render; 64 chorded-cycle inputs preserve all 55 base-accepted cases. [Scope, reproductions, fresh checks and limitations](route-followup.md).

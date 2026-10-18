@@ -1,0 +1,101 @@
+{
+  "kind": "serial fixed-input CLI timing after route-guard fix; no model-generation timing",
+  "previous": "58967708f77cc961b5f698be7a26bd268962f90f",
+  "candidate": "522999d6d72a7dbb1c4dc6ff68c1ba8ecc99f710",
+  "node": "v22.23.2",
+  "profile": "standard",
+  "warmupPairsPerInput": 1,
+  "measuredAlternatingPairsPerInput": 3,
+  "results": [
+    {
+      "id": "openpi-architecture",
+      "inputSha256": "a90c607b5cc97d4b1e5341d2c7bceb8575d0e104204574a56f82854f1fb672d2",
+      "previousMs": [
+        1416.5829000000003,
+        1384.6085000000003,
+        1388.2131000000008
+      ],
+      "candidateMs": [
+        1609.7165000000005,
+        1554.5589,
+        1521.083200000001
+      ],
+      "failures": [],
+      "previousMedianMs": 1388.2131000000008,
+      "candidateMedianMs": 1554.5589,
+      "medianRatio": 1.1198272801200329
+    },
+    {
+      "id": "hive-architecture",
+      "inputSha256": "53b5933bc3b721c72511d8535b5990164e882d79686529ce3683ec96187839d7",
+      "previousMs": [
+        1481.374499999998,
+        1414.8917000000001,
+        1506.9897999999994
+      ],
+      "candidateMs": [
+        1798.0282999999981,
+        1693.4995999999992,
+        1818.3309999999983
+      ],
+      "failures": [],
+      "previousMedianMs": 1481.374499999998,
+      "candidateMedianMs": 1798.0282999999981,
+      "medianRatio": 1.2137567509093754
+    },
+    {
+      "id": "mco-architecture",
+      "inputSha256": "74b9220acb8261bc85d4e4007ddc884acee0d7342d0680f13a7a3714d85fe480",
+      "previousMs": [
+        1373.2297999999973,
+        1482.3054999999986,
+        1413.626400000001
+      ],
+      "candidateMs": [
+        1518.1311999999998,
+        1657.7469999999958,
+        1547.6235000000015
+      ],
+      "failures": [],
+      "previousMedianMs": 1413.626400000001,
+      "candidateMedianMs": 1547.6235000000015,
+      "medianRatio": 1.0947896134367612
+    },
+    {
+      "id": "squad-architecture",
+      "inputSha256": "b2560b127d8f48135b20f06d83e6ffe56347b5555f220246d493ec15689ad196",
+      "previousMs": [
+        1415.561299999994,
+        1410.6265000000058,
+        1411.7018000000025
+      ],
+      "candidateMs": [
+        1560.7840999999971,
+        1570.8093999999983,
+        1578.5315999999948
+      ],
+      "failures": [],
+      "previousMedianMs": 1411.7018000000025,
+      "candidateMedianMs": 1570.8093999999983,
+      "medianRatio": 1.1127062386688147
+    },
+    {
+      "id": "skillroster-architecture",
+      "inputSha256": "d61a18d630ea3c33f1eaf381aaeef72e6116b8df70f29ed4784ad3cecb8b6cfe",
+      "previousMs": [
+        1735.9257999999973,
+        1848.4024999999965,
+        1661.9138999999996
+      ],
+      "candidateMs": [
+        1505.9002000000037,
+        1990.6299,
+        1792.3058999999994
+      ],
+      "failures": [],
+      "previousMedianMs": 1735.9257999999973,
+      "candidateMedianMs": 1792.3058999999994,
+      "medianRatio": 1.0324784043188955
+    }
+  ]
+}

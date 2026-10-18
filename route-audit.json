@@ -1,0 +1,2522 @@
+{
+  "kind": "route-quality fix compatibility replay",
+  "base": "824db3ad62bae7f7acde02c65f3c236d41e60b5c",
+  "previous": "58967708f77cc961b5f698be7a26bd268962f90f",
+  "sourceSha256": "960fb7643e80af279b3c04f988b606bceb2c91df622d1b540018702d93fe0a33",
+  "nativeSourceSha256": {
+    "render-architecture.mjs": "839b776e5a59f0775eb7a544ffb238bb6ff16bd285a1329937ac6d097eef0536",
+    "routing.mjs": "1ef30185d526eb65905124d6d47873027522aed9b6b23d0511ffa4a074c27835"
+  },
+  "benchmark": {
+    "models": [
+      {
+        "id": "openpi-workflow",
+        "changed": false,
+        "topologyPreserved": true
+      },
+      {
+        "id": "openpi-architecture",
+        "changed": false,
+        "topologyPreserved": true
+      },
+      {
+        "id": "hive-workflow",
+        "changed": false,
+        "topologyPreserved": true
+      },
+      {
+        "id": "hive-architecture",
+        "changed": false,
+        "topologyPreserved": true
+      },
+      {
+        "id": "mco-workflow",
+        "changed": false,
+        "topologyPreserved": true
+      },
+      {
+        "id": "mco-architecture",
+        "changed": false,
+        "topologyPreserved": true
+      },
+      {
+        "id": "squad-workflow",
+        "changed": false,
+        "topologyPreserved": true
+      },
+      {
+        "id": "squad-architecture",
+        "changed": false,
+        "topologyPreserved": true
+      },
+      {
+        "id": "skillroster-workflow",
+        "changed": false,
+        "topologyPreserved": true
+      },
+      {
+        "id": "skillroster-architecture",
+        "changed": false,
+        "topologyPreserved": true
+      }
+    ],
+    "deliveries": [
+      {
+        "id": "openpi-workflow",
+        "type": "workflow",
+        "quality": "standard",
+        "ok": true,
+        "viewBox": "0 0 1017 528",
+        "svgSha256": "1705e19c00c169cb9e7e4d32f64f1939828796277b1baf4f7e7716060d15f4cc"
+      },
+      {
+        "id": "openpi-workflow",
+        "type": "workflow",
+        "quality": "showcase",
+        "ok": true,
+        "viewBox": "0 0 1017 528",
+        "svgSha256": "f30ee9fae5fdeb3a91171e56e7e2e63622ba73d541fbf829603a1db7c802a8cd"
+      },
+      {
+        "id": "openpi-architecture",
+        "type": "architecture",
+        "quality": "standard",
+        "ok": true,
+        "viewBox": "0 0 1030 394",
+        "svgSha256": "81befc8f3762c3ee9e9981574b1a549343ae1be29cdc716f9cd524e704cf95c3"
+      },
+      {
+        "id": "openpi-architecture",
+        "type": "architecture",
+        "quality": "showcase",
+        "ok": true,
+        "viewBox": "0 0 1030 394",
+        "svgSha256": "1cd0a075c960b8b1a65906862a2ef963fdb9f9196472a9a2b3dc3464e17c45c6"
+      },
+      {
+        "id": "hive-workflow",
+        "type": "workflow",
+        "quality": "standard",
+        "ok": true,
+        "viewBox": "0 0 1082 404",
+        "svgSha256": "a5c27c848cd90db0823f35b695f43acaf6d2763fabd68823f8d949bccfb3a740"
+      },
+      {
+        "id": "hive-workflow",
+        "type": "workflow",
+        "quality": "showcase",
+        "ok": true,
+        "viewBox": "0 0 1082 404",
+        "svgSha256": "19590a5c9370b7041d10a95e37c610abe3f54e845dc5fa13b4afc10c343c9d1d"
+      },
+      {
+        "id": "hive-architecture",
+        "type": "architecture",
+        "quality": "standard",
+        "ok": true,
+        "viewBox": "0 0 1319 394",
+        "svgSha256": "73e56c16d4e79c2e3ee496973fc10d3da16b4b37f232630340228766cef49165"
+      },
+      {
+        "id": "hive-architecture",
+        "type": "architecture",
+        "quality": "showcase",
+        "ok": true,
+        "viewBox": "0 0 1319 394",
+        "svgSha256": "3ddec401b15bd52ab36ac827358ccc37e98c2723cb815ba7fe98a47a3f2bbec1"
+      },
+      {
+        "id": "mco-workflow",
+        "type": "workflow",
+        "quality": "standard",
+        "ok": true,
+        "viewBox": "0 0 1051 652",
+        "svgSha256": "b54e4a875aedd5cf5b9de028c33992eda37dbb11b1e0e475c0e8f9667ebfe9f7"
+      },
+      {
+        "id": "mco-workflow",
+        "type": "workflow",
+        "quality": "showcase",
+        "ok": true,
+        "viewBox": "0 0 1051 652",
+        "svgSha256": "8412c3e32d7bff26959bbc093cdde1e5ae4082a28f8d6c69c7404ed7321fe578"
+      },
+      {
+        "id": "mco-architecture",
+        "type": "architecture",
+        "quality": "standard",
+        "ok": true,
+        "viewBox": "0 0 1030 394",
+        "svgSha256": "07dc8911a56896b485f0963a22036ff6cdf3ed4109879aee380edc482ec1fcc2"
+      },
+      {
+        "id": "mco-architecture",
+        "type": "architecture",
+        "quality": "showcase",
+        "ok": true,
+        "viewBox": "0 0 1030 394",
+        "svgSha256": "263de7ed5fb8ced07f5d00fe2e6e7ba0f15598c937fa4c6dd06d94f6e50ffc3e"
+      },
+      {
+        "id": "squad-workflow",
+        "type": "workflow",
+        "quality": "standard",
+        "ok": true,
+        "viewBox": "0 0 1125 652",
+        "svgSha256": "589b9c9db15016ebf76a649c7a41499b64ec51a8b825f305b63c1d11a6c83e04"
+      },
+      {
+        "id": "squad-workflow",
+        "type": "workflow",
+        "quality": "showcase",
+        "ok": true,
+        "viewBox": "0 0 1125 652",
+        "svgSha256": "226a69311e05569b2b1e4f824c63803025088dfee3d58b8d8af1dca2959a4d86"
+      },
+      {
+        "id": "squad-architecture",
+        "type": "architecture",
+        "quality": "standard",
+        "ok": true,
+        "viewBox": "0 0 1028 394",
+        "svgSha256": "0c8ce122f3c2c18682b9fa07fc35d32b3603922c18638d1b0fd2a644cff79c29"
+      },
+      {
+        "id": "squad-architecture",
+        "type": "architecture",
+        "quality": "showcase",
+        "ok": true,
+        "viewBox": "0 0 1028 394",
+        "svgSha256": "23b22cca733c68781ba54de884723ba86d39e52d470e484cd29533a808b27e0a"
+      },
+      {
+        "id": "skillroster-workflow",
+        "type": "workflow",
+        "quality": "standard",
+        "ok": true,
+        "viewBox": "0 0 1449 652",
+        "svgSha256": "9cdb079d7136d5d664ffc38605a756d09fd7bcd19cb65a9f4b64f5d86e899b71"
+      },
+      {
+        "id": "skillroster-workflow",
+        "type": "workflow",
+        "quality": "showcase",
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor",
+          "composition/arrowhead-collision"
+        ]
+      },
+      {
+        "id": "skillroster-architecture",
+        "type": "architecture",
+        "quality": "standard",
+        "ok": true,
+        "viewBox": "0 0 1332 394",
+        "svgSha256": "f9a7dc8c859969ff0b377a42082449ea6a7e25e48da1c2b7f19401e6cf0b6f2c"
+      },
+      {
+        "id": "skillroster-architecture",
+        "type": "architecture",
+        "quality": "showcase",
+        "ok": true,
+        "viewBox": "0 0 1332 394",
+        "svgSha256": "8dcecd270cbeefad7d416a0f8a13d89379b065c4f72024276dd75b73e863b5ea"
+      }
+    ],
+    "fixedNative": [
+      {
+        "id": "openpi-architecture",
+        "quality": "standard",
+        "before": {
+          "ok": true,
+          "viewBox": "0 0 1030 394",
+          "svgSha256": "81befc8f3762c3ee9e9981574b1a549343ae1be29cdc716f9cd524e704cf95c3"
+        },
+        "after": {
+          "ok": true,
+          "viewBox": "0 0 1030 394",
+          "svgSha256": "81befc8f3762c3ee9e9981574b1a549343ae1be29cdc716f9cd524e704cf95c3"
+        },
+        "equivalent": true
+      },
+      {
+        "id": "openpi-architecture",
+        "quality": "showcase",
+        "before": {
+          "ok": true,
+          "viewBox": "0 0 1030 394",
+          "svgSha256": "1cd0a075c960b8b1a65906862a2ef963fdb9f9196472a9a2b3dc3464e17c45c6"
+        },
+        "after": {
+          "ok": true,
+          "viewBox": "0 0 1030 394",
+          "svgSha256": "1cd0a075c960b8b1a65906862a2ef963fdb9f9196472a9a2b3dc3464e17c45c6"
+        },
+        "equivalent": true
+      },
+      {
+        "id": "hive-architecture",
+        "quality": "standard",
+        "before": {
+          "ok": true,
+          "viewBox": "0 0 1319 394",
+          "svgSha256": "73e56c16d4e79c2e3ee496973fc10d3da16b4b37f232630340228766cef49165"
+        },
+        "after": {
+          "ok": true,
+          "viewBox": "0 0 1319 394",
+          "svgSha256": "73e56c16d4e79c2e3ee496973fc10d3da16b4b37f232630340228766cef49165"
+        },
+        "equivalent": true
+      },
+      {
+        "id": "hive-architecture",
+        "quality": "showcase",
+        "before": {
+          "ok": true,
+          "viewBox": "0 0 1319 394",
+          "svgSha256": "3ddec401b15bd52ab36ac827358ccc37e98c2723cb815ba7fe98a47a3f2bbec1"
+        },
+        "after": {
+          "ok": true,
+          "viewBox": "0 0 1319 394",
+          "svgSha256": "3ddec401b15bd52ab36ac827358ccc37e98c2723cb815ba7fe98a47a3f2bbec1"
+        },
+        "equivalent": true
+      },
+      {
+        "id": "mco-architecture",
+        "quality": "standard",
+        "before": {
+          "ok": true,
+          "viewBox": "0 0 1030 394",
+          "svgSha256": "07dc8911a56896b485f0963a22036ff6cdf3ed4109879aee380edc482ec1fcc2"
+        },
+        "after": {
+          "ok": true,
+          "viewBox": "0 0 1030 394",
+          "svgSha256": "07dc8911a56896b485f0963a22036ff6cdf3ed4109879aee380edc482ec1fcc2"
+        },
+        "equivalent": true
+      },
+      {
+        "id": "mco-architecture",
+        "quality": "showcase",
+        "before": {
+          "ok": true,
+          "viewBox": "0 0 1030 394",
+          "svgSha256": "263de7ed5fb8ced07f5d00fe2e6e7ba0f15598c937fa4c6dd06d94f6e50ffc3e"
+        },
+        "after": {
+          "ok": true,
+          "viewBox": "0 0 1030 394",
+          "svgSha256": "263de7ed5fb8ced07f5d00fe2e6e7ba0f15598c937fa4c6dd06d94f6e50ffc3e"
+        },
+        "equivalent": true
+      },
+      {
+        "id": "squad-architecture",
+        "quality": "standard",
+        "before": {
+          "ok": true,
+          "viewBox": "0 0 1028 394",
+          "svgSha256": "0c8ce122f3c2c18682b9fa07fc35d32b3603922c18638d1b0fd2a644cff79c29"
+        },
+        "after": {
+          "ok": true,
+          "viewBox": "0 0 1028 394",
+          "svgSha256": "0c8ce122f3c2c18682b9fa07fc35d32b3603922c18638d1b0fd2a644cff79c29"
+        },
+        "equivalent": true
+      },
+      {
+        "id": "squad-architecture",
+        "quality": "showcase",
+        "before": {
+          "ok": true,
+          "viewBox": "0 0 1028 394",
+          "svgSha256": "23b22cca733c68781ba54de884723ba86d39e52d470e484cd29533a808b27e0a"
+        },
+        "after": {
+          "ok": true,
+          "viewBox": "0 0 1028 394",
+          "svgSha256": "23b22cca733c68781ba54de884723ba86d39e52d470e484cd29533a808b27e0a"
+        },
+        "equivalent": true
+      },
+      {
+        "id": "skillroster-architecture",
+        "quality": "standard",
+        "before": {
+          "ok": true,
+          "viewBox": "0 0 1332 394",
+          "svgSha256": "f9a7dc8c859969ff0b377a42082449ea6a7e25e48da1c2b7f19401e6cf0b6f2c"
+        },
+        "after": {
+          "ok": true,
+          "viewBox": "0 0 1332 394",
+          "svgSha256": "f9a7dc8c859969ff0b377a42082449ea6a7e25e48da1c2b7f19401e6cf0b6f2c"
+        },
+        "equivalent": true
+      },
+      {
+        "id": "skillroster-architecture",
+        "quality": "showcase",
+        "before": {
+          "ok": true,
+          "viewBox": "0 0 1332 394",
+          "svgSha256": "8dcecd270cbeefad7d416a0f8a13d89379b065c4f72024276dd75b73e863b5ea"
+        },
+        "after": {
+          "ok": true,
+          "viewBox": "0 0 1332 394",
+          "svgSha256": "8dcecd270cbeefad7d416a0f8a13d89379b065c4f72024276dd75b73e863b5ea"
+        },
+        "equivalent": true
+      }
+    ]
+  },
+  "cyclic": {
+    "planned": 64,
+    "completed": 64,
+    "baseAccepted": 55,
+    "preserved": 55,
+    "topologyDifferences": 0,
+    "regressions": [],
+    "cases": [
+      {
+        "sample": 0,
+        "count": 5,
+        "reversed": false,
+        "quality": "showcase",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n0 | step",
+          "n3 > n0",
+          "n0 > n2 | step",
+          "n1 > n4"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "e5f4aad22197a3116873365157c051f46fe3f06b781c69563db90409e2284422"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "4f17ef0ae331a6f8ad0ad0ced1c7afddd96221fe8513cae95c40a24d698d10cb"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 0,
+        "count": 5,
+        "reversed": false,
+        "quality": "standard",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n0 | step",
+          "n3 > n0",
+          "n0 > n2 | step",
+          "n1 > n4"
+        ],
+        "base": {
+          "ok": false,
+          "codes": [
+            "layout/constraint"
+          ]
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "94c5f38457595661f24a518f26a480ea8a9152628f7c75f55c25ac9199347389"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 0,
+        "count": 5,
+        "reversed": true,
+        "quality": "showcase",
+        "rows": [
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n0 | step",
+          "n3 > n0",
+          "n0 > n2 | step",
+          "n1 > n4"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "60e3a0fbdc8e2331cbd56f6d313b1970b7b66c852958599271b17210b083a3a4"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "4c1899e844a2244af1eaadf7386d93ef792040c87e74d50f7466e5b7c4ccb670"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 0,
+        "count": 5,
+        "reversed": true,
+        "quality": "standard",
+        "rows": [
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n0 | step",
+          "n3 > n0",
+          "n0 > n2 | step",
+          "n1 > n4"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "d1da512fcb0c3ea0360d9a7067e816eb2510e2962797064211294f4c823f205b"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "0750e333f4f7671d640f549a2b54a7d02ba6e8168da496c3b02cf67a5e92de3e"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 1,
+        "count": 6,
+        "reversed": false,
+        "quality": "showcase",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n5 | Node 5",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n5",
+          "n5 > n0",
+          "n0 > n4",
+          "n2 > n0",
+          "n1 > n5"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 224 1138",
+          "svgSha256": "3c37866eeff4fa66957d9de36011e49dc6f273d4912773834cf61e8c92b82f9e"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "04f8d630f7f67f5c2a9ba91acb1a8aee84f84b3bf0e04f49cab09d5af58240cb"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 1,
+        "count": 6,
+        "reversed": false,
+        "quality": "standard",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n5 | Node 5",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n5",
+          "n5 > n0",
+          "n0 > n4",
+          "n2 > n0",
+          "n1 > n5"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 224 1138",
+          "svgSha256": "960ed06c32c55d52bf55af64779697020887f460fa57469ae78b189ae4f12890"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "2976aaa47f0e5b80fb0bea43e7344e0ab8ef2d4a763a94772219afb76503f29e"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 1,
+        "count": 6,
+        "reversed": true,
+        "quality": "showcase",
+        "rows": [
+          "n5 | Node 5",
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n5",
+          "n5 > n0",
+          "n0 > n4",
+          "n2 > n0",
+          "n1 > n5"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 224 1138",
+          "svgSha256": "115629c9479c2aa9938a79c03a06a5570555446402edf8ff500c1b69ae70c9cd"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "0dd0cde68edbc1369f86c86c15b987a006de82773180b10452b4341b2b2ea482"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 1,
+        "count": 6,
+        "reversed": true,
+        "quality": "standard",
+        "rows": [
+          "n5 | Node 5",
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n5",
+          "n5 > n0",
+          "n0 > n4",
+          "n2 > n0",
+          "n1 > n5"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 224 1138",
+          "svgSha256": "0fee616a066172a0a12132e49d2987198493aea9cde19948771c7fb3163829bb"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "39e6e8214037b1dc5f279439e724de30626ecbaf0405239253713e32ca4f5542"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 2,
+        "count": 5,
+        "reversed": false,
+        "quality": "showcase",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n0",
+          "n2 > n0",
+          "n1 > n0",
+          "n4 > n1"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 224 952",
+          "svgSha256": "aea075e8fdb403394a72e70746ea6e8ab05748e52098334952dcde4d58bd0aa6"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "292e44c1848368f594e0745b689da475c0275fbe347ab2d87509ff3681a3b25d"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 2,
+        "count": 5,
+        "reversed": false,
+        "quality": "standard",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n0",
+          "n2 > n0",
+          "n1 > n0",
+          "n4 > n1"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 224 952",
+          "svgSha256": "ad86793d94325f24840cc4f9a27495799f9c4aad7b6e2fb9b0fcddbf0a4b4083"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "4deb2d0ee1b308fb7a0c4bc2b74cf4b2a50c6753c847f9b21f666a6cb7c2e029"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 2,
+        "count": 5,
+        "reversed": true,
+        "quality": "showcase",
+        "rows": [
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n0",
+          "n2 > n0",
+          "n1 > n0",
+          "n4 > n1"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 224 952",
+          "svgSha256": "1642275597005098ba61aad0f6edb8567b67fa598a9d4b96141564909a3125ba"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "cee71d32cf52923c3fe50c351ba023f165e9bbac0c02c1f019a9d4b39fb6dbe4"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 2,
+        "count": 5,
+        "reversed": true,
+        "quality": "standard",
+        "rows": [
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n0",
+          "n2 > n0",
+          "n1 > n0",
+          "n4 > n1"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 224 952",
+          "svgSha256": "33baef2802cf78762db7a8bd7d4f388c1131eb715574345a6bba14c38ec61b5f"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "a6c77d64da112d401fcb52bf1b55cbf12a7aa2b1995a5456f4e3782aa4b16562"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 3,
+        "count": 6,
+        "reversed": false,
+        "quality": "showcase",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n5 | Node 5",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n5 | step",
+          "n5 > n0",
+          "n5 > n1 | step",
+          "n3 > n1",
+          "n3 > n0 | step"
+        ],
+        "base": {
+          "ok": false,
+          "codes": [
+            "layout/route-out-of-bounds"
+          ]
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "b5e2f7811b22ddbb2579a76094a87a6cdd04cf0c345e9b3d77eb7fd25a2783f7"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 3,
+        "count": 6,
+        "reversed": false,
+        "quality": "standard",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n5 | Node 5",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n5 | step",
+          "n5 > n0",
+          "n5 > n1 | step",
+          "n3 > n1",
+          "n3 > n0 | step"
+        ],
+        "base": {
+          "ok": false,
+          "codes": [
+            "layout/constraint",
+            "layout/constraint",
+            "layout/constraint"
+          ]
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "ab08de84fa798e3d86b42942cd48a63bb738ce8db28721872308a73ea24087ff"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 3,
+        "count": 6,
+        "reversed": true,
+        "quality": "showcase",
+        "rows": [
+          "n5 | Node 5",
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n5 | step",
+          "n5 > n0",
+          "n5 > n1 | step",
+          "n3 > n1",
+          "n3 > n0 | step"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 1138",
+          "svgSha256": "8ee89d8b82f4c0a99f6b2fe0975501e02d8c3ce68304f9ab81a7c2f391631481"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 203 1138",
+          "svgSha256": "8ee89d8b82f4c0a99f6b2fe0975501e02d8c3ce68304f9ab81a7c2f391631481"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 3,
+        "count": 6,
+        "reversed": true,
+        "quality": "standard",
+        "rows": [
+          "n5 | Node 5",
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n5 | step",
+          "n5 > n0",
+          "n5 > n1 | step",
+          "n3 > n1",
+          "n3 > n0 | step"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 1138",
+          "svgSha256": "97f4c1f7ac584735ccdf5ff833a52c8074b532879f8d2560edf2a13180422d06"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 203 1138",
+          "svgSha256": "97f4c1f7ac584735ccdf5ff833a52c8074b532879f8d2560edf2a13180422d06"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 4,
+        "count": 5,
+        "reversed": false,
+        "quality": "showcase",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n0",
+          "n1 > n3",
+          "n4 > n1",
+          "n1 > n4"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "d731c441bd643ec6766d4a77bda4882ceee8379e559aa953b6dd992b0c2d93cf"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "b989511c22acb1ee6ef1047aa11e16beb91da03e8657616e5e1615ed8505e55e"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 4,
+        "count": 5,
+        "reversed": false,
+        "quality": "standard",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n0",
+          "n1 > n3",
+          "n4 > n1",
+          "n1 > n4"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "ad3afd37d37b3951957f47b8e13b645431e25ea1ae66052ba6efc2c19db4b7e4"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "2201986aad06ae97638f4fcdfbdbc00e2b93de83299fb5dd19062cf13a0d9e13"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 4,
+        "count": 5,
+        "reversed": true,
+        "quality": "showcase",
+        "rows": [
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n0",
+          "n1 > n3",
+          "n4 > n1",
+          "n1 > n4"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "1a32c590a016130799a12e626d46ef39eb159f1dae9446d7d9e5bd67f0355dc9"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "8705b04937709176484b875baf5685ef5a87bbfd0a6fd8c62602d90bd936689b"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 4,
+        "count": 5,
+        "reversed": true,
+        "quality": "standard",
+        "rows": [
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n0",
+          "n1 > n3",
+          "n4 > n1",
+          "n1 > n4"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "457f1e1a2c8e84cc32aab65d72baae50e45f7d5f80709f0a447164bfd0dfd6c5"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "87d923998a248bd88366040e0650c9d1991357370768fac10be6b85010ae681e"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 5,
+        "count": 6,
+        "reversed": false,
+        "quality": "showcase",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n5 | Node 5",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n5",
+          "n5 > n0",
+          "n3 > n2",
+          "n1 > n4",
+          "n0 > n3"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 224 1138",
+          "svgSha256": "8a77a02891d6062c51afcf6d7a682e5399a03faf5f135e02f8826de452f8dff7"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "694612ba3e1436bf1394bd5adc3d5feb23f99420f9c8573a472445e41d12c1d7"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 5,
+        "count": 6,
+        "reversed": false,
+        "quality": "standard",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n5 | Node 5",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n5",
+          "n5 > n0",
+          "n3 > n2",
+          "n1 > n4",
+          "n0 > n3"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 224 1138",
+          "svgSha256": "48e0095d8b724a67fed43770dc137ee9b96ebaa0b4634d2d7e4256fe167b9400"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "be43213baf119108574ff1a9d82357d4d3c1426e865c5514d99badddad842c59"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 5,
+        "count": 6,
+        "reversed": true,
+        "quality": "showcase",
+        "rows": [
+          "n5 | Node 5",
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n5",
+          "n5 > n0",
+          "n3 > n2",
+          "n1 > n4",
+          "n0 > n3"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 224 1138",
+          "svgSha256": "bc9aef37f09ffb0e6ba194abb5ed384b5fdc2ce14f86ce4717e7e4625517c19d"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "457bba1b522f01aaee18e9e99270c4a909c5dd7e35821f26327a65f438320e15"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 5,
+        "count": 6,
+        "reversed": true,
+        "quality": "standard",
+        "rows": [
+          "n5 | Node 5",
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n5",
+          "n5 > n0",
+          "n3 > n2",
+          "n1 > n4",
+          "n0 > n3"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 224 1138",
+          "svgSha256": "b4f64a5ed008fc34031cd0ecfac7ab9214ccf7099d7a88c505aa3e9a8e1e3f85"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "53422824ee46dd88fa00dcd7791b935a64194ae303e2216d4b89f19d33bb4be5"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 6,
+        "count": 5,
+        "reversed": false,
+        "quality": "showcase",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n0 | step",
+          "n1 > n4",
+          "n3 > n1 | step",
+          "n4 > n3"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "562ff1aa9afbdeda29ebf07e919a79a5aa4f5721e6e5614b2cdcd61af20f6f7b"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "cba18b0a5884f51ed5ca32fdd45790ce318c1b8357b184a42cb824be64fb9e32"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 6,
+        "count": 5,
+        "reversed": false,
+        "quality": "standard",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n0 | step",
+          "n1 > n4",
+          "n3 > n1 | step",
+          "n4 > n3"
+        ],
+        "base": {
+          "ok": false,
+          "codes": [
+            "layout/constraint",
+            "layout/constraint"
+          ]
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "0ac0238ec21444538b9751941cec0f7928c2099b853bb0a351dd9d1c2bb8db41"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 6,
+        "count": 5,
+        "reversed": true,
+        "quality": "showcase",
+        "rows": [
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n0 | step",
+          "n1 > n4",
+          "n3 > n1 | step",
+          "n4 > n3"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "cad43b0775b3acb03ade1bf36fa5e1a62e215d4cb340a3ab13969d61e2f274b3"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "6a23f071dffae557ade98d2ebbf81412af590fc4ce48066b4f42ad558ee18bf8"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 6,
+        "count": 5,
+        "reversed": true,
+        "quality": "standard",
+        "rows": [
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n0 | step",
+          "n1 > n4",
+          "n3 > n1 | step",
+          "n4 > n3"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "72ef5abf8fedfdbd61dc58f68b66893efa7b5082e34cb43ab680736413325412"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "af12624ce224e715f12c5608f425675363271a59b3d30452bc29340fdf2bc594"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 7,
+        "count": 6,
+        "reversed": false,
+        "quality": "showcase",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n5 | Node 5",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n5",
+          "n5 > n0",
+          "n5 > n1",
+          "n5 > n2",
+          "n5 > n4"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 1138",
+          "svgSha256": "9896070b54823d6989410cfc8a7198cc21c60dc33129937245cc5f9e2e7f8b1f"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "28a392365d8bda010bcceda83e3d395a024c7f7fc9ecc899825ee3a68195cf76"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 7,
+        "count": 6,
+        "reversed": false,
+        "quality": "standard",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n5 | Node 5",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n5",
+          "n5 > n0",
+          "n5 > n1",
+          "n5 > n2",
+          "n5 > n4"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 1138",
+          "svgSha256": "4d343d412310c27ff129203b95d1f940f6ebcae7ff79e6018a93a7dbb0ae2fbc"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "0e1ae30532ba765eed447418909b0f6ab469319fc0482d6880d14b1d98efaae9"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 7,
+        "count": 6,
+        "reversed": true,
+        "quality": "showcase",
+        "rows": [
+          "n5 | Node 5",
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n5",
+          "n5 > n0",
+          "n5 > n1",
+          "n5 > n2",
+          "n5 > n4"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 1138",
+          "svgSha256": "71bfcf5c3b06aef77ac30c1abe509a3872e7ae67990e7eebf17fc603b66e0a59"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "e51e24c34e7738518f87ab2d9cd1738c82581bcfebee317194ceaded3a95eb3d"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 7,
+        "count": 6,
+        "reversed": true,
+        "quality": "standard",
+        "rows": [
+          "n5 | Node 5",
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n5",
+          "n5 > n0",
+          "n5 > n1",
+          "n5 > n2",
+          "n5 > n4"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 1138",
+          "svgSha256": "404a1e661c9a813736c7ad0aca24dff9e9594fbe176a70b3c0488ac7874d7832"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "33d4a234e1afcec8bcf6e6740ec9a6971ac125e1bed5df9d412161cb54ca8803"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 8,
+        "count": 5,
+        "reversed": false,
+        "quality": "showcase",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n0",
+          "n2 > n4",
+          "n4 > n3",
+          "n4 > n1"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "84e2d1b50ddede3b661dd159c313beb85bad9b507626be9369e2734b418ffaf3"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "d0f51b0580d97cdf838eaee23e08cacbfbea25808eeaa2f3fd9a2ce8f81d73b3"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 8,
+        "count": 5,
+        "reversed": false,
+        "quality": "standard",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n0",
+          "n2 > n4",
+          "n4 > n3",
+          "n4 > n1"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "8da9fdf405ba5e89118cdcb54ce8f13f8533a8312d8ab344a88c8a5acb30dc18"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "4143a12174704ba83eb818ff25dcff73d0c3c3a4f26780128d021fb25b65edad"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 8,
+        "count": 5,
+        "reversed": true,
+        "quality": "showcase",
+        "rows": [
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n0",
+          "n2 > n4",
+          "n4 > n3",
+          "n4 > n1"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "d9a816038bb07ec1128a2e8b047c05a239b31dd62bb85dc1b454e46f74ab1037"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "eb657dc0389a0887a206c3790124e53d80034b5016376b1f2589577ff79bf034"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 8,
+        "count": 5,
+        "reversed": true,
+        "quality": "standard",
+        "rows": [
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n0",
+          "n2 > n4",
+          "n4 > n3",
+          "n4 > n1"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "2e89829f6d6fe65ca55e31afb5a096963591ea2cc4556d88ef6bbf3f29c938ed"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "7500e154902e813da1fa1b0b5842ca5cb581ee790e820287a3c2e2796dc90617"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 9,
+        "count": 6,
+        "reversed": false,
+        "quality": "showcase",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n5 | Node 5",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n5 | step",
+          "n5 > n0",
+          "n4 > n3 | step",
+          "n0 > n3",
+          "n0 > n2 | step"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 200 1138",
+          "svgSha256": "5848b37fd3c3fe8780a5a2894fbefd6680953243f661197d9bbe0d1ef4e27580"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "67347e7778f02ba1ad20375b764b979962c476e20af9684a333eb34e049181b7"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 9,
+        "count": 6,
+        "reversed": false,
+        "quality": "standard",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n5 | Node 5",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n5 | step",
+          "n5 > n0",
+          "n4 > n3 | step",
+          "n0 > n3",
+          "n0 > n2 | step"
+        ],
+        "base": {
+          "ok": false,
+          "codes": [
+            "layout/constraint",
+            "layout/constraint"
+          ]
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "3ca4e861967bee31525f895406a022efc944f283669752ed93da2947e0dd5ee6"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 9,
+        "count": 6,
+        "reversed": true,
+        "quality": "showcase",
+        "rows": [
+          "n5 | Node 5",
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n5 | step",
+          "n5 > n0",
+          "n4 > n3 | step",
+          "n0 > n3",
+          "n0 > n2 | step"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 200 1138",
+          "svgSha256": "9497003e13f3d05bec6ad1e58a017c6bd4a557cdc19db43ba91b8ae6ed92e311"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 200 1138",
+          "svgSha256": "9497003e13f3d05bec6ad1e58a017c6bd4a557cdc19db43ba91b8ae6ed92e311"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 9,
+        "count": 6,
+        "reversed": true,
+        "quality": "standard",
+        "rows": [
+          "n5 | Node 5",
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n5 | step",
+          "n5 > n0",
+          "n4 > n3 | step",
+          "n0 > n3",
+          "n0 > n2 | step"
+        ],
+        "base": {
+          "ok": false,
+          "codes": [
+            "layout/constraint"
+          ]
+        },
+        "candidate": {
+          "ok": false,
+          "codes": [
+            "layout/constraint"
+          ]
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 10,
+        "count": 5,
+        "reversed": false,
+        "quality": "showcase",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n0",
+          "n0 > n2",
+          "n4 > n3",
+          "n1 > n4"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 976",
+          "svgSha256": "2ca602798edf8a183da9fcb0aac11c85f1b3db808f78a783cbea53ba68cd1339"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "cedbf89c97486f571f009f367a45dea4c24249e0dd2efe472d6bc20d3ee42004"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 10,
+        "count": 5,
+        "reversed": false,
+        "quality": "standard",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n0",
+          "n0 > n2",
+          "n4 > n3",
+          "n1 > n4"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 976",
+          "svgSha256": "38a980452a40c04a798414ce1ae380fb21a7fe88e8e479e45d0ac405d8b53f98"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "636908c0cf3a65e3f2236010f84bde88b4523c93a4de9785f060a2480ebe055a"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 10,
+        "count": 5,
+        "reversed": true,
+        "quality": "showcase",
+        "rows": [
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n0",
+          "n0 > n2",
+          "n4 > n3",
+          "n1 > n4"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "3cb84f6d55f66b1453999e50dfc8afeb1f7dddd49b9ac73b42b5654ff5aa2aa4"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "bfc2655ef297fc3375e4952c9a85a4bf8b5bb8f93644547534ea0d36257bca20"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 10,
+        "count": 5,
+        "reversed": true,
+        "quality": "standard",
+        "rows": [
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n0",
+          "n0 > n2",
+          "n4 > n3",
+          "n1 > n4"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "3f6d7a1f10526ec9900a95175dab7abfd15db36a52704c219d19979bc49b5e40"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "8263a5a07e09c5f9ddf647b052acca060f4f51eedae43dbdf74ba1086db8fc23"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 11,
+        "count": 6,
+        "reversed": false,
+        "quality": "showcase",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n5 | Node 5",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n5",
+          "n5 > n0",
+          "n3 > n5",
+          "n1 > n5",
+          "n0 > n5"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 1138",
+          "svgSha256": "709d637ea97670d2c203a6f7d10a87ff3a6f00e7b889035f4ef07c96024483e3"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "42155122761563670ec207040198ea28b4ec3868a9d2aa975da329888f4c394e"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 11,
+        "count": 6,
+        "reversed": false,
+        "quality": "standard",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n5 | Node 5",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n5",
+          "n5 > n0",
+          "n3 > n5",
+          "n1 > n5",
+          "n0 > n5"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 1138",
+          "svgSha256": "54195774f52b26599193e6cefcc5a74e1973f7fe355b02c924ebcf40dbcca785"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "331235b67f0d1ba8731d13afd55014743db59a32c7b30d472686af85fe0a8593"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 11,
+        "count": 6,
+        "reversed": true,
+        "quality": "showcase",
+        "rows": [
+          "n5 | Node 5",
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n5",
+          "n5 > n0",
+          "n3 > n5",
+          "n1 > n5",
+          "n0 > n5"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 1138",
+          "svgSha256": "27f27d0c3cd051448e9568f68594b8940b8c6aeef5a3fcf568f6435836c0199b"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "b513fc66e7fd6b93f34d6aabeeaf0bfc00be622b2be78399a841b52bc9c83f7b"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 11,
+        "count": 6,
+        "reversed": true,
+        "quality": "standard",
+        "rows": [
+          "n5 | Node 5",
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n5",
+          "n5 > n0",
+          "n3 > n5",
+          "n1 > n5",
+          "n0 > n5"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 1138",
+          "svgSha256": "2b17caeddb8a789daa089659087f3d8ea33b9aa1b809e24cca9d506de5e53992"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "104504d9ce7e30c7067c8f0530ada3af4ae2cc056a47f29ef25af2613beef823"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 12,
+        "count": 5,
+        "reversed": false,
+        "quality": "showcase",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n0 | step",
+          "n0 > n4",
+          "n3 > n1 | step",
+          "n4 > n3"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "48c8c1dd5194b4c926d1a2b082ce2012c116f5681a51c40bc8c9739cd7ac0f4f"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "48c8c1dd5194b4c926d1a2b082ce2012c116f5681a51c40bc8c9739cd7ac0f4f"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 12,
+        "count": 5,
+        "reversed": false,
+        "quality": "standard",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n0 | step",
+          "n0 > n4",
+          "n3 > n1 | step",
+          "n4 > n3"
+        ],
+        "base": {
+          "ok": false,
+          "codes": [
+            "layout/constraint",
+            "layout/constraint"
+          ]
+        },
+        "candidate": {
+          "ok": false,
+          "codes": [
+            "layout/constraint",
+            "layout/constraint"
+          ]
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 12,
+        "count": 5,
+        "reversed": true,
+        "quality": "showcase",
+        "rows": [
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n0 | step",
+          "n0 > n4",
+          "n3 > n1 | step",
+          "n4 > n3"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "2ce81b84d8b5a854f1e9748d1c298b97b8eeff765671269b66177bca2d424639"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "2618f2a6bda7ba5aa9d5d60e03d0aca7b2106163cbc357bb404527cbe78beed5"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 12,
+        "count": 5,
+        "reversed": true,
+        "quality": "standard",
+        "rows": [
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n0 | step",
+          "n0 > n4",
+          "n3 > n1 | step",
+          "n4 > n3"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "0427eb97b1eb79d67dffde81d18d3ebb61b26abcdb17dad6c6b1686a2fa11069"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "c18f77ab7ffced6fccda172358bc57f013382a43bbb06d7fa6b212dfd92088d0"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 13,
+        "count": 6,
+        "reversed": false,
+        "quality": "showcase",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n5 | Node 5",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n5",
+          "n5 > n0",
+          "n3 > n5",
+          "n2 > n0",
+          "n2 > n1"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 1138",
+          "svgSha256": "eb029e3590d3202170fa3dfcff41228656c6185fc99228434540a93c81ff0b6c"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "d9a8da4347bb5552452412176fae46b7684288affb4afa25f0a370b85551a6b5"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 13,
+        "count": 6,
+        "reversed": false,
+        "quality": "standard",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n5 | Node 5",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n5",
+          "n5 > n0",
+          "n3 > n5",
+          "n2 > n0",
+          "n2 > n1"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 1138",
+          "svgSha256": "f6ef7cf58e43b265a269cca8de2c540a957992b2fbc42853ba056c8d713a6a17"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "1d041f18a4c552515f2daf4d8dd288aa5a6189fc611a6e1827690e5bae505677"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 13,
+        "count": 6,
+        "reversed": true,
+        "quality": "showcase",
+        "rows": [
+          "n5 | Node 5",
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n5",
+          "n5 > n0",
+          "n3 > n5",
+          "n2 > n0",
+          "n2 > n1"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 1138",
+          "svgSha256": "f589395f8af117ba4bd3e4c43d6936dae9a0d7436a8c86bd65cde9431be0fc4a"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "3ec41c5c812379f0d537558202090fc841b43ebc3b7909a7165b6d3e8b145fbd"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 13,
+        "count": 6,
+        "reversed": true,
+        "quality": "standard",
+        "rows": [
+          "n5 | Node 5",
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n5",
+          "n5 > n0",
+          "n3 > n5",
+          "n2 > n0",
+          "n2 > n1"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 1138",
+          "svgSha256": "caf855b8c83a5397fe5ed073ce34d4e9b41ab9105e708f797f8d27f4eaaae9c3"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "1ad10be1e0ad5aff132cbbb84fe0d268ea51544d6c81fe0458a33961ca1a1f86"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 14,
+        "count": 5,
+        "reversed": false,
+        "quality": "showcase",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n0",
+          "n3 > n0",
+          "n2 > n0",
+          "n4 > n3"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "5fcc570219e98856ae0ab282b9bbfaaf78073879f0582a7f5e4c325955b9f562"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "20515a408c4ec180fdcf7a9f3ca2c8bf28feabebbd568783b92f4f635189af2b"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 14,
+        "count": 5,
+        "reversed": false,
+        "quality": "standard",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n0",
+          "n3 > n0",
+          "n2 > n0",
+          "n4 > n3"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "5ac817a4e1d2a46e0c49e0de0321263069c4099d34f78d645d3a0f6a9b56715f"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "6cb23bd52235ac264195421e0d87115b4c0001936687c1d3838592184066982a"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 14,
+        "count": 5,
+        "reversed": true,
+        "quality": "showcase",
+        "rows": [
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n0",
+          "n3 > n0",
+          "n2 > n0",
+          "n4 > n3"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "04ab4d6b47e409ad01c372e75e6b12c04e1c27f1f6e736c2c1d8f880c6273427"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "a5165675c9cf00065e4902307531db49100c046dfa22fa4d5e5be8e7fd11bda1"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 14,
+        "count": 5,
+        "reversed": true,
+        "quality": "standard",
+        "rows": [
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1",
+          "n1 > n2",
+          "n2 > n3",
+          "n3 > n4",
+          "n4 > n0",
+          "n3 > n0",
+          "n2 > n0",
+          "n4 > n3"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 203 952",
+          "svgSha256": "31c4e63d8c6545b5bf1741111b6f23ffa4a9f81cf70319801db4477d7c3e3daa"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1304 232",
+          "svgSha256": "36eaa7eaa8548c85ee9628fc9273e843f5f63c2f256a826fbb49b3907b5442cd"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 15,
+        "count": 6,
+        "reversed": false,
+        "quality": "showcase",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n5 | Node 5",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n5 | step",
+          "n5 > n0",
+          "n4 > n3 | step",
+          "n0 > n5",
+          "n3 > n1 | step"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 224 1138",
+          "svgSha256": "c9f41ce2683aacaf684cb9737ce680197e260765bee12e276bb9137103a8c9df"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "67e63d1577e4d4305abf3be89f5a9754d72c64dd5e22d7c23078d523bf05c6b9"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 15,
+        "count": 6,
+        "reversed": false,
+        "quality": "standard",
+        "rows": [
+          "n0 | Node 0",
+          "n1 | Node 1",
+          "n2 | Node 2",
+          "n3 | Node 3",
+          "n4 | Node 4",
+          "n5 | Node 5",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n5 | step",
+          "n5 > n0",
+          "n4 > n3 | step",
+          "n0 > n5",
+          "n3 > n1 | step"
+        ],
+        "base": {
+          "ok": false,
+          "codes": [
+            "layout/constraint",
+            "layout/constraint",
+            "layout/constraint"
+          ]
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "efec364ebaa6896788a35f55fa8682f4bfe8a36e99c4b75940cf30532bb6e72e"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 15,
+        "count": 6,
+        "reversed": true,
+        "quality": "showcase",
+        "rows": [
+          "n5 | Node 5",
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n5 | step",
+          "n5 > n0",
+          "n4 > n3 | step",
+          "n0 > n5",
+          "n3 > n1 | step"
+        ],
+        "base": {
+          "ok": true,
+          "viewBox": "0 0 224 1138",
+          "svgSha256": "206bb28a4f3a9b8433559024b68acb26af416e3c5013e930e068a30a3ed25816"
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "b9dad14eb0046854c4207be7c0fcebbac95dbadbc913c1cd3d9b80c3aa33c224"
+        },
+        "topologyPreserved": true
+      },
+      {
+        "sample": 15,
+        "count": 6,
+        "reversed": true,
+        "quality": "standard",
+        "rows": [
+          "n5 | Node 5",
+          "n4 | Node 4",
+          "n3 | Node 3",
+          "n2 | Node 2",
+          "n1 | Node 1",
+          "n0 | Node 0",
+          "n0 > n1 | step",
+          "n1 > n2",
+          "n2 > n3 | step",
+          "n3 > n4",
+          "n4 > n5 | step",
+          "n5 > n0",
+          "n4 > n3 | step",
+          "n0 > n5",
+          "n3 > n1 | step"
+        ],
+        "base": {
+          "ok": false,
+          "codes": [
+            "layout/constraint"
+          ]
+        },
+        "candidate": {
+          "ok": true,
+          "viewBox": "0 0 1580 232",
+          "svgSha256": "6df2e2d51962f9a67cf0bddd31487140790b7b2c8675a94b3a75ff0455cf2842"
+        },
+        "topologyPreserved": true
+      }
+    ]
+  },
+  "candidate": "522999d6d72a7dbb1c4dc6ff68c1ba8ecc99f710"
+}

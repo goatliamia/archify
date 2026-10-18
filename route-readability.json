@@ -1,0 +1,2383 @@
+{
+  "kind": "constructed readability-boundary compatibility replay",
+  "base": "824db3ad62bae7f7acde02c65f3c236d41e60b5c",
+  "nativeRenderer": "Both compact models checked through the current native renderer; the route-configuration extraction is separately compared using fixed native inputs.",
+  "sourceSha256": "960fb7643e80af279b3c04f988b606bceb2c91df622d1b540018702d93fe0a33",
+  "planned": 64,
+  "completed": 64,
+  "baseAccepted": 64,
+  "preserved": 64,
+  "topologyDifferences": 0,
+  "regressions": [],
+  "cases": [
+    {
+      "count": 6,
+      "suffix": "",
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1138"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 6,
+        "viewBox": "0 0 1580 211"
+      }
+    },
+    {
+      "count": 6,
+      "suffix": "",
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1138"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 6,
+        "viewBox": "0 0 1580 211"
+      }
+    },
+    {
+      "count": 6,
+      "suffix": "",
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1138"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 6,
+        "viewBox": "0 0 1580 232"
+      }
+    },
+    {
+      "count": 6,
+      "suffix": "",
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1138"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 6,
+        "viewBox": "0 0 1580 232"
+      }
+    },
+    {
+      "count": 6,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1138"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1138"
+      }
+    },
+    {
+      "count": 6,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1138"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1138"
+      }
+    },
+    {
+      "count": 6,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1138"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1138"
+      }
+    },
+    {
+      "count": 6,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1138"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1138"
+      }
+    },
+    {
+      "count": 7,
+      "suffix": "",
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1324"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 7,
+        "viewBox": "0 0 1856 211"
+      }
+    },
+    {
+      "count": 7,
+      "suffix": "",
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1324"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 7,
+        "viewBox": "0 0 1856 211"
+      }
+    },
+    {
+      "count": 7,
+      "suffix": "",
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1324"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 7,
+        "viewBox": "0 0 1856 232"
+      }
+    },
+    {
+      "count": 7,
+      "suffix": "",
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1324"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 7,
+        "viewBox": "0 0 1856 232"
+      }
+    },
+    {
+      "count": 7,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1324"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1324"
+      }
+    },
+    {
+      "count": 7,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1324"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1324"
+      }
+    },
+    {
+      "count": 7,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1324"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1324"
+      }
+    },
+    {
+      "count": 7,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1324"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1324"
+      }
+    },
+    {
+      "count": 8,
+      "suffix": "",
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n7 | Node 7",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1510"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 8,
+        "viewBox": "0 0 2132 211"
+      }
+    },
+    {
+      "count": 8,
+      "suffix": "",
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n7 | Node 7",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1510"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 8,
+        "viewBox": "0 0 2132 211"
+      }
+    },
+    {
+      "count": 8,
+      "suffix": "",
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n7 | Node 7",
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1510"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 8,
+        "viewBox": "0 0 2132 232"
+      }
+    },
+    {
+      "count": 8,
+      "suffix": "",
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n7 | Node 7",
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1510"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 8,
+        "viewBox": "0 0 2132 232"
+      }
+    },
+    {
+      "count": 8,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1510"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1510"
+      }
+    },
+    {
+      "count": 8,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1510"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1510"
+      }
+    },
+    {
+      "count": 8,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1510"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1510"
+      }
+    },
+    {
+      "count": 8,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1510"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1510"
+      }
+    },
+    {
+      "count": 9,
+      "suffix": "",
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n7 | Node 7",
+        "n8 | Node 8",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1696"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 9,
+        "viewBox": "0 0 2408 211"
+      }
+    },
+    {
+      "count": 9,
+      "suffix": "",
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n7 | Node 7",
+        "n8 | Node 8",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1696"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 9,
+        "viewBox": "0 0 2408 211"
+      }
+    },
+    {
+      "count": 9,
+      "suffix": "",
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n8 | Node 8",
+        "n7 | Node 7",
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1696"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 9,
+        "viewBox": "0 0 2408 232"
+      }
+    },
+    {
+      "count": 9,
+      "suffix": "",
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n8 | Node 8",
+        "n7 | Node 7",
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1696"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 9,
+        "viewBox": "0 0 2408 232"
+      }
+    },
+    {
+      "count": 9,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n8 | Node 8 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1696"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1696"
+      }
+    },
+    {
+      "count": 9,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n8 | Node 8 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1696"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1696"
+      }
+    },
+    {
+      "count": 9,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n8 | Node 8 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1696"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1696"
+      }
+    },
+    {
+      "count": 9,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n8 | Node 8 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1696"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1696"
+      }
+    },
+    {
+      "count": 10,
+      "suffix": "",
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n7 | Node 7",
+        "n8 | Node 8",
+        "n9 | Node 9",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1882"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1882"
+      }
+    },
+    {
+      "count": 10,
+      "suffix": "",
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n7 | Node 7",
+        "n8 | Node 8",
+        "n9 | Node 9",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1882"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1882"
+      }
+    },
+    {
+      "count": 10,
+      "suffix": "",
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n9 | Node 9",
+        "n8 | Node 8",
+        "n7 | Node 7",
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1882"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1882"
+      }
+    },
+    {
+      "count": 10,
+      "suffix": "",
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n9 | Node 9",
+        "n8 | Node 8",
+        "n7 | Node 7",
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1882"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 1882"
+      }
+    },
+    {
+      "count": 10,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n8 | Node 8 with a deliberately long architecture label",
+        "n9 | Node 9 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1882"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1882"
+      }
+    },
+    {
+      "count": 10,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n8 | Node 8 with a deliberately long architecture label",
+        "n9 | Node 9 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1882"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1882"
+      }
+    },
+    {
+      "count": 10,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n9 | Node 9 with a deliberately long architecture label",
+        "n8 | Node 8 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1882"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1882"
+      }
+    },
+    {
+      "count": 10,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n9 | Node 9 with a deliberately long architecture label",
+        "n8 | Node 8 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1882"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 429 1882"
+      }
+    },
+    {
+      "count": 11,
+      "suffix": "",
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n7 | Node 7",
+        "n8 | Node 8",
+        "n9 | Node 9",
+        "n10 | Node 10",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 2068"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 2068"
+      }
+    },
+    {
+      "count": 11,
+      "suffix": "",
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n7 | Node 7",
+        "n8 | Node 8",
+        "n9 | Node 9",
+        "n10 | Node 10",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 2068"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 2068"
+      }
+    },
+    {
+      "count": 11,
+      "suffix": "",
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n10 | Node 10",
+        "n9 | Node 9",
+        "n8 | Node 8",
+        "n7 | Node 7",
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 200 2068"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 200 2068"
+      }
+    },
+    {
+      "count": 11,
+      "suffix": "",
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n10 | Node 10",
+        "n9 | Node 9",
+        "n8 | Node 8",
+        "n7 | Node 7",
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 200 2068"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 200 2068"
+      }
+    },
+    {
+      "count": 11,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n8 | Node 8 with a deliberately long architecture label",
+        "n9 | Node 9 with a deliberately long architecture label",
+        "n10 | Node 10 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2068"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2068"
+      }
+    },
+    {
+      "count": 11,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n8 | Node 8 with a deliberately long architecture label",
+        "n9 | Node 9 with a deliberately long architecture label",
+        "n10 | Node 10 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2068"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2068"
+      }
+    },
+    {
+      "count": 11,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n10 | Node 10 with a deliberately long architecture label",
+        "n9 | Node 9 with a deliberately long architecture label",
+        "n8 | Node 8 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2068"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2068"
+      }
+    },
+    {
+      "count": 11,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n10 | Node 10 with a deliberately long architecture label",
+        "n9 | Node 9 with a deliberately long architecture label",
+        "n8 | Node 8 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2068"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2068"
+      }
+    },
+    {
+      "count": 12,
+      "suffix": "",
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n7 | Node 7",
+        "n8 | Node 8",
+        "n9 | Node 9",
+        "n10 | Node 10",
+        "n11 | Node 11",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n11",
+        "n11 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 2254"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 2254"
+      }
+    },
+    {
+      "count": 12,
+      "suffix": "",
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n7 | Node 7",
+        "n8 | Node 8",
+        "n9 | Node 9",
+        "n10 | Node 10",
+        "n11 | Node 11",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n11",
+        "n11 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 2254"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 2254"
+      }
+    },
+    {
+      "count": 12,
+      "suffix": "",
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n11 | Node 11",
+        "n10 | Node 10",
+        "n9 | Node 9",
+        "n8 | Node 8",
+        "n7 | Node 7",
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n11",
+        "n11 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 2254"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 2254"
+      }
+    },
+    {
+      "count": 12,
+      "suffix": "",
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n11 | Node 11",
+        "n10 | Node 10",
+        "n9 | Node 9",
+        "n8 | Node 8",
+        "n7 | Node 7",
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n11",
+        "n11 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 2254"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 2254"
+      }
+    },
+    {
+      "count": 12,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n8 | Node 8 with a deliberately long architecture label",
+        "n9 | Node 9 with a deliberately long architecture label",
+        "n10 | Node 10 with a deliberately long architecture label",
+        "n11 | Node 11 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n11",
+        "n11 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2254"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2254"
+      }
+    },
+    {
+      "count": 12,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n8 | Node 8 with a deliberately long architecture label",
+        "n9 | Node 9 with a deliberately long architecture label",
+        "n10 | Node 10 with a deliberately long architecture label",
+        "n11 | Node 11 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n11",
+        "n11 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2254"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2254"
+      }
+    },
+    {
+      "count": 12,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n11 | Node 11 with a deliberately long architecture label",
+        "n10 | Node 10 with a deliberately long architecture label",
+        "n9 | Node 9 with a deliberately long architecture label",
+        "n8 | Node 8 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n11",
+        "n11 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2254"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2254"
+      }
+    },
+    {
+      "count": 12,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n11 | Node 11 with a deliberately long architecture label",
+        "n10 | Node 10 with a deliberately long architecture label",
+        "n9 | Node 9 with a deliberately long architecture label",
+        "n8 | Node 8 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n11",
+        "n11 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2254"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2254"
+      }
+    },
+    {
+      "count": 13,
+      "suffix": "",
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n7 | Node 7",
+        "n8 | Node 8",
+        "n9 | Node 9",
+        "n10 | Node 10",
+        "n11 | Node 11",
+        "n12 | Node 12",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n11",
+        "n11 > n12",
+        "n12 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 2440"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 2440"
+      }
+    },
+    {
+      "count": 13,
+      "suffix": "",
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n7 | Node 7",
+        "n8 | Node 8",
+        "n9 | Node 9",
+        "n10 | Node 10",
+        "n11 | Node 11",
+        "n12 | Node 12",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n11",
+        "n11 > n12",
+        "n12 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 2440"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 2440"
+      }
+    },
+    {
+      "count": 13,
+      "suffix": "",
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n12 | Node 12",
+        "n11 | Node 11",
+        "n10 | Node 10",
+        "n9 | Node 9",
+        "n8 | Node 8",
+        "n7 | Node 7",
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n11",
+        "n11 > n12",
+        "n12 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 2440"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 2440"
+      }
+    },
+    {
+      "count": 13,
+      "suffix": "",
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n12 | Node 12",
+        "n11 | Node 11",
+        "n10 | Node 10",
+        "n9 | Node 9",
+        "n8 | Node 8",
+        "n7 | Node 7",
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n11",
+        "n11 > n12",
+        "n12 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 2440"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 203 2440"
+      }
+    },
+    {
+      "count": 13,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n8 | Node 8 with a deliberately long architecture label",
+        "n9 | Node 9 with a deliberately long architecture label",
+        "n10 | Node 10 with a deliberately long architecture label",
+        "n11 | Node 11 with a deliberately long architecture label",
+        "n12 | Node 12 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n11",
+        "n11 > n12",
+        "n12 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2440"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2440"
+      }
+    },
+    {
+      "count": 13,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n8 | Node 8 with a deliberately long architecture label",
+        "n9 | Node 9 with a deliberately long architecture label",
+        "n10 | Node 10 with a deliberately long architecture label",
+        "n11 | Node 11 with a deliberately long architecture label",
+        "n12 | Node 12 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n11",
+        "n11 > n12",
+        "n12 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2440"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2440"
+      }
+    },
+    {
+      "count": 13,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n12 | Node 12 with a deliberately long architecture label",
+        "n11 | Node 11 with a deliberately long architecture label",
+        "n10 | Node 10 with a deliberately long architecture label",
+        "n9 | Node 9 with a deliberately long architecture label",
+        "n8 | Node 8 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n11",
+        "n11 > n12",
+        "n12 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2440"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2440"
+      }
+    },
+    {
+      "count": 13,
+      "suffix": " with a deliberately long architecture label",
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n12 | Node 12 with a deliberately long architecture label",
+        "n11 | Node 11 with a deliberately long architecture label",
+        "n10 | Node 10 with a deliberately long architecture label",
+        "n9 | Node 9 with a deliberately long architecture label",
+        "n8 | Node 8 with a deliberately long architecture label",
+        "n7 | Node 7 with a deliberately long architecture label",
+        "n6 | Node 6 with a deliberately long architecture label",
+        "n5 | Node 5 with a deliberately long architecture label",
+        "n4 | Node 4 with a deliberately long architecture label",
+        "n3 | Node 3 with a deliberately long architecture label",
+        "n2 | Node 2 with a deliberately long architecture label",
+        "n1 | Node 1 with a deliberately long architecture label",
+        "n0 | Node 0 with a deliberately long architecture label",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n10",
+        "n10 > n11",
+        "n11 > n12",
+        "n12 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2440"
+      },
+      "candidate": {
+        "ok": true,
+        "cols": 1,
+        "viewBox": "0 0 433 2440"
+      }
+    }
+  ],
+  "candidate": "522999d6d72a7dbb1c4dc6ff68c1ba8ecc99f710"
+}
