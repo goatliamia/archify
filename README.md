@@ -1,5 +1,7 @@
 # Explainer cyclic layout and node explanations
 
+Follow-up: [impact diagnosis and column-budget compatibility fix](impact-followup.md). The broad comparison below retains its original candidate SHA.
+
 Base: `824db3ad62bae7f7acde02c65f3c236d41e60b5c` (dev). Candidate: `8bb803ef0c27a5602bf74330f16a78c66864749c`.
 
 ## Result and scope

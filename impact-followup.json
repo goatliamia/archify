@@ -1,0 +1,253 @@
+{
+  "base": "824db3ad62bae7f7acde02c65f3c236d41e60b5c",
+  "initialCandidate": "8bb803ef0c27a5602bf74330f16a78c66864749c",
+  "head": "7a9b2c939bfe8a85e3edc67c1a90e848954d9b5b",
+  "kind": "constructed impact and compatibility probe; no model-generation session",
+  "node": {
+    "tests": 123,
+    "pass": 121,
+    "fail": 2,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "chrome": {
+    "tests": 8,
+    "pass": 8,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "edge": {
+    "tests": 8,
+    "pass": 8,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "nodeFailures": [
+    {
+      "file": "test/explainer-diagrams.test.mjs",
+      "line": 165,
+      "reason": "EPERM creating a symlink"
+    },
+    {
+      "file": "test/explainer-sources.test.mjs",
+      "line": 167,
+      "reason": "EPERM creating a symlink"
+    }
+  ],
+  "generated": "passed",
+  "isolatedExplainerPackage": "passed",
+  "zipSha256": "1c8dbf21a3c41ca47519d73d25da318c91926b519c1e5b40be665569efedb9bc",
+  "acyclicComparisons": 400,
+  "acyclicDifferences": 0,
+  "before": [
+    {
+      "withLabels": true,
+      "size": 12,
+      "version": "base",
+      "phase": "native",
+      "codes": [
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render"
+      ],
+      "message": "Label \"next\" overlaps component \"n0\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [78, 120, 30, 14]\n  component \"n0\" rect: [40, 80, 120, 60]\n  Suggested fix: set labelAt [93, 154] or set labelDy 24 (below); or set labelAt [93, 72] or set labelDy -58 (above)"
+    },
+    {
+      "withLabels": true,
+      "size": 12,
+      "version": "candidate",
+      "columns": 12,
+      "nodes": 12,
+      "edges": 12,
+      "nativeOk": true
+    },
+    {
+      "withLabels": true,
+      "size": 13,
+      "version": "base",
+      "phase": "native",
+      "codes": [
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render"
+      ],
+      "message": "Label \"next\" overlaps component \"n0\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [78, 120, 30, 14]\n  component \"n0\" rect: [40, 80, 120, 60]\n  Suggested fix: set labelAt [93, 154] or set labelDy 24 (below); or set labelAt [93, 72] or set labelDy -58 (above)"
+    },
+    {
+      "withLabels": true,
+      "size": 13,
+      "version": "candidate",
+      "phase": "shorthand",
+      "codes": [
+        "explainer/diagram-shorthand-limit"
+      ],
+      "message": "This architecture needs more than twelve native grid columns."
+    },
+    {
+      "withLabels": false,
+      "size": 12,
+      "version": "base",
+      "columns": 1,
+      "nodes": 12,
+      "edges": 12,
+      "nativeOk": true
+    },
+    {
+      "withLabels": false,
+      "size": 12,
+      "version": "candidate",
+      "columns": 12,
+      "nodes": 12,
+      "edges": 12,
+      "nativeOk": true
+    },
+    {
+      "withLabels": false,
+      "size": 13,
+      "version": "base",
+      "columns": 1,
+      "nodes": 13,
+      "edges": 13,
+      "nativeOk": true
+    },
+    {
+      "withLabels": false,
+      "size": 13,
+      "version": "candidate",
+      "phase": "shorthand",
+      "codes": [
+        "explainer/diagram-shorthand-limit"
+      ],
+      "message": "This architecture needs more than twelve native grid columns."
+    }
+  ],
+  "after": [
+    {
+      "withLabels": true,
+      "size": 12,
+      "version": "base",
+      "phase": "native",
+      "codes": [
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render"
+      ],
+      "message": "Label \"next\" overlaps component \"n0\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [78, 120, 30, 14]\n  component \"n0\" rect: [40, 80, 120, 60]\n  Suggested fix: set labelAt [93, 154] or set labelDy 24 (below); or set labelAt [93, 72] or set labelDy -58 (above)"
+    },
+    {
+      "withLabels": true,
+      "size": 12,
+      "version": "candidate",
+      "columns": 12,
+      "nodes": 12,
+      "edges": 12,
+      "nativeOk": true
+    },
+    {
+      "withLabels": true,
+      "size": 13,
+      "version": "base",
+      "phase": "native",
+      "codes": [
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render"
+      ],
+      "message": "Label \"next\" overlaps component \"n0\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [78, 120, 30, 14]\n  component \"n0\" rect: [40, 80, 120, 60]\n  Suggested fix: set labelAt [93, 154] or set labelDy 24 (below); or set labelAt [93, 72] or set labelDy -58 (above)"
+    },
+    {
+      "withLabels": true,
+      "size": 13,
+      "version": "candidate",
+      "phase": "native",
+      "codes": [
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render",
+        "explainer/diagram-render"
+      ],
+      "message": "Label \"next\" overlaps component \"n0\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [78, 120, 30, 14]\n  component \"n0\" rect: [40, 80, 120, 60]\n  Suggested fix: set labelAt [93, 154] or set labelDy 24 (below); or set labelAt [93, 72] or set labelDy -58 (above)"
+    },
+    {
+      "withLabels": false,
+      "size": 12,
+      "version": "base",
+      "columns": 1,
+      "nodes": 12,
+      "edges": 12,
+      "nativeOk": true
+    },
+    {
+      "withLabels": false,
+      "size": 12,
+      "version": "candidate",
+      "columns": 12,
+      "nodes": 12,
+      "edges": 12,
+      "nativeOk": true
+    },
+    {
+      "withLabels": false,
+      "size": 13,
+      "version": "base",
+      "columns": 1,
+      "nodes": 13,
+      "edges": 13,
+      "nativeOk": true
+    },
+    {
+      "withLabels": false,
+      "size": 13,
+      "version": "candidate",
+      "columns": 1,
+      "nodes": 13,
+      "edges": 13,
+      "nativeOk": true
+    }
+  ],
+  "reused": "Full Node regression, complete Chrome inventory and remote CI from the initial candidate retain their original SHA; current-head remote CI will rerun after push."
+}
