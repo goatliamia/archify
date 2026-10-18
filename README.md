@@ -90,3 +90,7 @@ This evidence branch keeps portable inputs, PNGs and summaries separate from the
 ## Fixed-input real-source replay
 
 A follow-up comparison covers ten source-backed compact Markdown inputs from the five pinned public benchmark projects: standard 5/10 → 10/10, showcase 4/10 → 9/10, no newly failing case or topology loss. Repeated serial CLI timings show no clear slowdown in the five common-success cases. This is maintenance-authored fixed-input evidence, not independent fresh-Agent generation. The Windows symlink limitation was resolved locally; 14 Node-only Explainer files now pass 123/123. [Full inputs, source links, before/after screenshots and timings](benchmark/README.md).
+
+## Robot review follow-up
+
+The three initial inline findings are fixed at `58967708f77cc961b5f698be7a26bd268962f90f`: declaration-row validation, legacy source-cell compatibility, and a native readability-budget guard for unfolding architecture cycles. Fresh checks pass 128/128 Node Explainer tests and 8/8 Chrome checks. [Reproduction, scope, results and remaining decisions](review-followup.md).
