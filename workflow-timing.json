@@ -1,0 +1,102 @@
+{
+  "kind": "serial packaged workflow CLI comparison; no model generation",
+  "previous": "522999d6d72a7dbb1c4dc6ff68c1ba8ecc99f710",
+  "sourceSha256": "2669a9d0ecffb2c2d3f95aaf5d848d21c5aeb69f8fd77078bbb4ac648edbd9bd",
+  "node": "v22.23.2",
+  "profile": "standard",
+  "warmupPairsPerInput": 1,
+  "measuredAlternatingPairsPerInput": 3,
+  "results": [
+    {
+      "id": "openpi-workflow",
+      "inputSha256": "4d5aaed69cd42aea59199455111e7a878e14ef236a220c6d121c07db5eacedd7",
+      "previousMs": [
+        1157.7847000000002,
+        1162.0692,
+        1246.3909000000003
+      ],
+      "candidateMs": [
+        1331.6801,
+        1342.0380999999998,
+        1464.1310000000003
+      ],
+      "failures": [],
+      "previousMedianMs": 1162.0692,
+      "candidateMedianMs": 1342.0380999999998,
+      "medianRatio": 1.154869348572357
+    },
+    {
+      "id": "hive-workflow",
+      "inputSha256": "e858902f80b2323feb316099f46ba7d0bce45683e917ef8422c2e0a03c65bb67",
+      "previousMs": [
+        1232.2681999999986,
+        1267.2988000000005,
+        1132.5797999999995
+      ],
+      "candidateMs": [
+        1932.5815000000002,
+        1885.3767000000007,
+        1739.7279000000017
+      ],
+      "failures": [],
+      "previousMedianMs": 1232.2681999999986,
+      "candidateMedianMs": 1885.3767000000007,
+      "medianRatio": 1.5300051563450252
+    },
+    {
+      "id": "mco-workflow",
+      "inputSha256": "f12c0538bd6152b9685a6ad3fb18696709226061d188d39866c9994c1c8277fa",
+      "previousMs": [
+        1130.7265999999981,
+        1145.2605999999978,
+        1123.7906000000003
+      ],
+      "candidateMs": [
+        1292.792400000002,
+        1434.2629000000015,
+        1420.8037999999979
+      ],
+      "failures": [],
+      "previousMedianMs": 1130.7265999999981,
+      "candidateMedianMs": 1420.8037999999979,
+      "medianRatio": 1.256540528895314
+    },
+    {
+      "id": "squad-workflow",
+      "inputSha256": "81c0c91b75428cf7f6eb0fee7a7164bf95831547687edb53e90f28efb2076dea",
+      "previousMs": [
+        1134.1812999999966,
+        1112.3174,
+        1134.8429000000033
+      ],
+      "candidateMs": [
+        1693.1520999999993,
+        1674.9487999999983,
+        1684.5539999999964
+      ],
+      "failures": [],
+      "previousMedianMs": 1134.1812999999966,
+      "candidateMedianMs": 1684.5539999999964,
+      "medianRatio": 1.4852598962793704
+    },
+    {
+      "id": "skillroster-workflow",
+      "inputSha256": "4da1c88b6df1ea7f7235cdeef00be16006cdc04b6edc5cbfc2d049fbf0f20356",
+      "previousMs": [
+        1317.368300000002,
+        1194.6709000000046,
+        1255.0690000000031
+      ],
+      "candidateMs": [
+        1451.8395999999993,
+        1359.0265999999974,
+        1371.4653000000035
+      ],
+      "failures": [],
+      "previousMedianMs": 1255.0690000000031,
+      "candidateMedianMs": 1371.4653000000035,
+      "medianRatio": 1.092740956871694
+    }
+  ],
+  "candidate": "915980766764689fcc9a231fc29f4a42e764c68a"
+}

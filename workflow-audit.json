@@ -1,0 +1,2921 @@
+{
+  "kind": "constructed workflow cycle acceptance replay",
+  "base": "824db3ad62bae7f7acde02c65f3c236d41e60b5c",
+  "previous": "522999d6d72a7dbb1c4dc6ff68c1ba8ecc99f710",
+  "sourceSha256": "2669a9d0ecffb2c2d3f95aaf5d848d21c5aeb69f8fd77078bbb4ac648edbd9bd",
+  "planned": 68,
+  "completed": 68,
+  "baseAccepted": 53,
+  "preserved": 53,
+  "topologyDifferences": 0,
+  "regressions": [],
+  "cases": [
+    {
+      "sample": 0,
+      "count": 8,
+      "phases": false,
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | N0",
+        "n1 | N1",
+        "n2 | N2",
+        "n3 | N3",
+        "n4 | N4",
+        "n5 | N5",
+        "n6 | N6",
+        "n7 | N7",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n1 > n0",
+        "n1 > n3",
+        "n4 > n2"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 768 1148"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      }
+    },
+    {
+      "sample": 0,
+      "count": 8,
+      "phases": false,
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | N0",
+        "n1 | N1",
+        "n2 | N2",
+        "n3 | N3",
+        "n4 | N4",
+        "n5 | N5",
+        "n6 | N6",
+        "n7 | N7",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n1 > n0",
+        "n1 > n3",
+        "n4 > n2"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 768 1148"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      }
+    },
+    {
+      "sample": 0,
+      "count": 8,
+      "phases": false,
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n7 | N7",
+        "n6 | N6",
+        "n5 | N5",
+        "n4 | N4",
+        "n3 | N3",
+        "n2 | N2",
+        "n1 | N1",
+        "n0 | N0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n1 > n0",
+        "n1 > n3",
+        "n4 > n2"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 1148"
+      },
+      "parent": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 780 1148"
+      }
+    },
+    {
+      "sample": 0,
+      "count": 8,
+      "phases": false,
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n7 | N7",
+        "n6 | N6",
+        "n5 | N5",
+        "n4 | N4",
+        "n3 | N3",
+        "n2 | N2",
+        "n1 | N1",
+        "n0 | N0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n1 > n0",
+        "n1 > n3",
+        "n4 > n2"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 1148"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 780 1148"
+      }
+    },
+    {
+      "sample": 1,
+      "count": 8,
+      "phases": false,
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n7 | Node 7",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n7 > n3",
+        "n4 > n7",
+        "n3 > n1"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 1148"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      }
+    },
+    {
+      "sample": 1,
+      "count": 8,
+      "phases": false,
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n7 | Node 7",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n7 > n3",
+        "n4 > n7",
+        "n3 > n1"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 1148"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      }
+    },
+    {
+      "sample": 1,
+      "count": 8,
+      "phases": false,
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n7 | Node 7",
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n7 > n3",
+        "n4 > n7",
+        "n3 > n1"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 1148"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      }
+    },
+    {
+      "sample": 1,
+      "count": 8,
+      "phases": false,
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n7 | Node 7",
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n7 > n3",
+        "n4 > n7",
+        "n3 > n1"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 1148"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      }
+    },
+    {
+      "sample": 2,
+      "count": 10,
+      "phases": false,
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | N0",
+        "n1 | N1",
+        "n2 | N2",
+        "n3 | N3",
+        "n4 | N4",
+        "n5 | N5",
+        "n6 | N6",
+        "n7 | N7",
+        "n8 | N8",
+        "n9 | N9",
+        "n0 > n1 | step",
+        "n1 > n2",
+        "n2 > n3 | step",
+        "n3 > n4",
+        "n4 > n5 | step",
+        "n5 > n6",
+        "n6 > n7 | step",
+        "n7 > n8",
+        "n8 > n9 | step",
+        "n9 > n0",
+        "n5 > n2 | step",
+        "n7 > n1",
+        "n5 > n0 | step"
+      ],
+      "base": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "parent": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor",
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "candidate": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      }
+    },
+    {
+      "sample": 2,
+      "count": 10,
+      "phases": false,
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | N0",
+        "n1 | N1",
+        "n2 | N2",
+        "n3 | N3",
+        "n4 | N4",
+        "n5 | N5",
+        "n6 | N6",
+        "n7 | N7",
+        "n8 | N8",
+        "n9 | N9",
+        "n0 > n1 | step",
+        "n1 > n2",
+        "n2 > n3 | step",
+        "n3 > n4",
+        "n4 > n5 | step",
+        "n5 > n6",
+        "n6 > n7 | step",
+        "n7 > n8",
+        "n8 > n9 | step",
+        "n9 > n0",
+        "n5 > n2 | step",
+        "n7 > n1",
+        "n5 > n0 | step"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 796 1396"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 1008 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 796 1396"
+      }
+    },
+    {
+      "sample": 2,
+      "count": 10,
+      "phases": false,
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n9 | N9",
+        "n8 | N8",
+        "n7 | N7",
+        "n6 | N6",
+        "n5 | N5",
+        "n4 | N4",
+        "n3 | N3",
+        "n2 | N2",
+        "n1 | N1",
+        "n0 | N0",
+        "n0 > n1 | step",
+        "n1 > n2",
+        "n2 > n3 | step",
+        "n3 > n4",
+        "n4 > n5 | step",
+        "n5 > n6",
+        "n6 > n7 | step",
+        "n7 > n8",
+        "n8 > n9 | step",
+        "n9 > n0",
+        "n5 > n2 | step",
+        "n7 > n1",
+        "n5 > n0 | step"
+      ],
+      "base": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "parent": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "candidate": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      }
+    },
+    {
+      "sample": 2,
+      "count": 10,
+      "phases": false,
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n9 | N9",
+        "n8 | N8",
+        "n7 | N7",
+        "n6 | N6",
+        "n5 | N5",
+        "n4 | N4",
+        "n3 | N3",
+        "n2 | N2",
+        "n1 | N1",
+        "n0 | N0",
+        "n0 > n1 | step",
+        "n1 > n2",
+        "n2 > n3 | step",
+        "n3 > n4",
+        "n4 > n5 | step",
+        "n5 > n6",
+        "n6 > n7 | step",
+        "n7 > n8",
+        "n8 > n9 | step",
+        "n9 > n0",
+        "n5 > n2 | step",
+        "n7 > n1",
+        "n5 > n0 | step"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 796 1396"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 808 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 796 1396"
+      }
+    },
+    {
+      "sample": 3,
+      "count": 8,
+      "phases": true,
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "lane first | First",
+        "lane second | Second",
+        "n0 | Node 0 | backend | first",
+        "n1 | Node 1 | backend | first",
+        "n2 | Node 2 | backend | first",
+        "n3 | Node 3 | backend | first",
+        "n4 | Node 4 | backend | second",
+        "n5 | Node 5 | backend | second",
+        "n6 | Node 6 | backend | second",
+        "n7 | Node 7 | backend | second",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n5 > n7",
+        "n4 > n2",
+        "n5 > n2"
+      ],
+      "base": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "parent": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "candidate": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      }
+    },
+    {
+      "sample": 3,
+      "count": 8,
+      "phases": true,
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "lane first | First",
+        "lane second | Second",
+        "n0 | Node 0 | backend | first",
+        "n1 | Node 1 | backend | first",
+        "n2 | Node 2 | backend | first",
+        "n3 | Node 3 | backend | first",
+        "n4 | Node 4 | backend | second",
+        "n5 | Node 5 | backend | second",
+        "n6 | Node 6 | backend | second",
+        "n7 | Node 7 | backend | second",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n5 > n7",
+        "n4 > n2",
+        "n5 > n2"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 792 404"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 792 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 792 404"
+      }
+    },
+    {
+      "sample": 3,
+      "count": 8,
+      "phases": true,
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "lane first | First",
+        "lane second | Second",
+        "n7 | Node 7 | backend | second",
+        "n6 | Node 6 | backend | second",
+        "n5 | Node 5 | backend | second",
+        "n4 | Node 4 | backend | second",
+        "n3 | Node 3 | backend | first",
+        "n2 | Node 2 | backend | first",
+        "n1 | Node 1 | backend | first",
+        "n0 | Node 0 | backend | first",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n5 > n7",
+        "n4 > n2",
+        "n5 > n2"
+      ],
+      "base": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "parent": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor",
+          "composition/ambiguous-corridor",
+          "composition/arrowhead-collision"
+        ]
+      },
+      "candidate": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      }
+    },
+    {
+      "sample": 3,
+      "count": 8,
+      "phases": true,
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "lane first | First",
+        "lane second | Second",
+        "n7 | Node 7 | backend | second",
+        "n6 | Node 6 | backend | second",
+        "n5 | Node 5 | backend | second",
+        "n4 | Node 4 | backend | second",
+        "n3 | Node 3 | backend | first",
+        "n2 | Node 2 | backend | first",
+        "n1 | Node 1 | backend | first",
+        "n0 | Node 0 | backend | first",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n5 > n7",
+        "n4 > n2",
+        "n5 > n2"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 792 404"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 792 404"
+      }
+    },
+    {
+      "sample": 4,
+      "count": 6,
+      "phases": false,
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | N0",
+        "n1 | N1",
+        "n2 | N2",
+        "n3 | N3",
+        "n4 | N4",
+        "n5 | N5",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n0",
+        "n0 > n4",
+        "n1 > n3",
+        "n2 > n5"
+      ],
+      "base": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 788 280"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 788 280"
+      }
+    },
+    {
+      "sample": 4,
+      "count": 6,
+      "phases": false,
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | N0",
+        "n1 | N1",
+        "n2 | N2",
+        "n3 | N3",
+        "n4 | N4",
+        "n5 | N5",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n0",
+        "n0 > n4",
+        "n1 > n3",
+        "n2 > n5"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 900"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 788 280"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 788 280"
+      }
+    },
+    {
+      "sample": 4,
+      "count": 6,
+      "phases": false,
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n5 | N5",
+        "n4 | N4",
+        "n3 | N3",
+        "n2 | N2",
+        "n1 | N1",
+        "n0 | N0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n0",
+        "n0 > n4",
+        "n1 > n3",
+        "n2 > n5"
+      ],
+      "base": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "parent": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "candidate": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      }
+    },
+    {
+      "sample": 4,
+      "count": 6,
+      "phases": false,
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n5 | N5",
+        "n4 | N4",
+        "n3 | N3",
+        "n2 | N2",
+        "n1 | N1",
+        "n0 | N0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n0",
+        "n0 > n4",
+        "n1 > n3",
+        "n2 > n5"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 900"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 800 280"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 780 900"
+      }
+    },
+    {
+      "sample": 5,
+      "count": 8,
+      "phases": false,
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n7 | Node 7",
+        "n0 > n1 | step",
+        "n1 > n2",
+        "n2 > n3 | step",
+        "n3 > n4",
+        "n4 > n5 | step",
+        "n5 > n6",
+        "n6 > n7 | step",
+        "n7 > n0",
+        "n7 > n3 | step",
+        "n2 > n4",
+        "n1 > n6 | step"
+      ],
+      "base": {
+        "ok": false,
+        "codes": [
+          "composition/proper-crossing",
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "parent": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "candidate": {
+        "ok": false,
+        "codes": [
+          "composition/proper-crossing",
+          "composition/ambiguous-corridor"
+        ]
+      }
+    },
+    {
+      "sample": 5,
+      "count": 8,
+      "phases": false,
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n7 | Node 7",
+        "n0 > n1 | step",
+        "n1 > n2",
+        "n2 > n3 | step",
+        "n3 > n4",
+        "n4 > n5 | step",
+        "n5 > n6",
+        "n6 > n7 | step",
+        "n7 > n0",
+        "n7 > n3 | step",
+        "n2 > n4",
+        "n1 > n6 | step"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 768 1148"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 802 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 768 1148"
+      }
+    },
+    {
+      "sample": 5,
+      "count": 8,
+      "phases": false,
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n7 | Node 7",
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1 | step",
+        "n1 > n2",
+        "n2 > n3 | step",
+        "n3 > n4",
+        "n4 > n5 | step",
+        "n5 > n6",
+        "n6 > n7 | step",
+        "n7 > n0",
+        "n7 > n3 | step",
+        "n2 > n4",
+        "n1 > n6 | step"
+      ],
+      "base": {
+        "ok": false,
+        "codes": [
+          "composition/proper-crossing",
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 802 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 802 404"
+      }
+    },
+    {
+      "sample": 5,
+      "count": 8,
+      "phases": false,
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n7 | Node 7",
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1 | step",
+        "n1 > n2",
+        "n2 > n3 | step",
+        "n3 > n4",
+        "n4 > n5 | step",
+        "n5 > n6",
+        "n6 > n7 | step",
+        "n7 > n0",
+        "n7 > n3 | step",
+        "n2 > n4",
+        "n1 > n6 | step"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 768 1148"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 802 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 802 404"
+      }
+    },
+    {
+      "sample": 6,
+      "count": 10,
+      "phases": false,
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | N0",
+        "n1 | N1",
+        "n2 | N2",
+        "n3 | N3",
+        "n4 | N4",
+        "n5 | N5",
+        "n6 | N6",
+        "n7 | N7",
+        "n8 | N8",
+        "n9 | N9",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n0",
+        "n7 > n4",
+        "n1 > n0",
+        "n4 > n1"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 768 1396"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      }
+    },
+    {
+      "sample": 6,
+      "count": 10,
+      "phases": false,
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | N0",
+        "n1 | N1",
+        "n2 | N2",
+        "n3 | N3",
+        "n4 | N4",
+        "n5 | N5",
+        "n6 | N6",
+        "n7 | N7",
+        "n8 | N8",
+        "n9 | N9",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n0",
+        "n7 > n4",
+        "n1 > n0",
+        "n4 > n1"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 768 1396"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      }
+    },
+    {
+      "sample": 6,
+      "count": 10,
+      "phases": false,
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n9 | N9",
+        "n8 | N8",
+        "n7 | N7",
+        "n6 | N6",
+        "n5 | N5",
+        "n4 | N4",
+        "n3 | N3",
+        "n2 | N2",
+        "n1 | N1",
+        "n0 | N0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n0",
+        "n7 > n4",
+        "n1 > n0",
+        "n4 > n1"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 768 1396"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 796 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 796 404"
+      }
+    },
+    {
+      "sample": 6,
+      "count": 10,
+      "phases": false,
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n9 | N9",
+        "n8 | N8",
+        "n7 | N7",
+        "n6 | N6",
+        "n5 | N5",
+        "n4 | N4",
+        "n3 | N3",
+        "n2 | N2",
+        "n1 | N1",
+        "n0 | N0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n0",
+        "n7 > n4",
+        "n1 > n0",
+        "n4 > n1"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 768 1396"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 796 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 796 404"
+      }
+    },
+    {
+      "sample": 7,
+      "count": 8,
+      "phases": true,
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "lane first | First",
+        "lane second | Second",
+        "n0 | Node 0 | backend | first",
+        "n1 | Node 1 | backend | first",
+        "n2 | Node 2 | backend | first",
+        "n3 | Node 3 | backend | first",
+        "n4 | Node 4 | backend | second",
+        "n5 | Node 5 | backend | second",
+        "n6 | Node 6 | backend | second",
+        "n7 | Node 7 | backend | second",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n4 > n6",
+        "n0 > n4",
+        "n4 > n3"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      }
+    },
+    {
+      "sample": 7,
+      "count": 8,
+      "phases": true,
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "lane first | First",
+        "lane second | Second",
+        "n0 | Node 0 | backend | first",
+        "n1 | Node 1 | backend | first",
+        "n2 | Node 2 | backend | first",
+        "n3 | Node 3 | backend | first",
+        "n4 | Node 4 | backend | second",
+        "n5 | Node 5 | backend | second",
+        "n6 | Node 6 | backend | second",
+        "n7 | Node 7 | backend | second",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n4 > n6",
+        "n0 > n4",
+        "n4 > n3"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      }
+    },
+    {
+      "sample": 7,
+      "count": 8,
+      "phases": true,
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "lane first | First",
+        "lane second | Second",
+        "n7 | Node 7 | backend | second",
+        "n6 | Node 6 | backend | second",
+        "n5 | Node 5 | backend | second",
+        "n4 | Node 4 | backend | second",
+        "n3 | Node 3 | backend | first",
+        "n2 | Node 2 | backend | first",
+        "n1 | Node 1 | backend | first",
+        "n0 | Node 0 | backend | first",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n4 > n6",
+        "n0 > n4",
+        "n4 > n3"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      }
+    },
+    {
+      "sample": 7,
+      "count": 8,
+      "phases": true,
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "lane first | First",
+        "lane second | Second",
+        "n7 | Node 7 | backend | second",
+        "n6 | Node 6 | backend | second",
+        "n5 | Node 5 | backend | second",
+        "n4 | Node 4 | backend | second",
+        "n3 | Node 3 | backend | first",
+        "n2 | Node 2 | backend | first",
+        "n1 | Node 1 | backend | first",
+        "n0 | Node 0 | backend | first",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n4 > n6",
+        "n0 > n4",
+        "n4 > n3"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      }
+    },
+    {
+      "sample": 8,
+      "count": 6,
+      "phases": false,
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | N0",
+        "n1 | N1",
+        "n2 | N2",
+        "n3 | N3",
+        "n4 | N4",
+        "n5 | N5",
+        "n0 > n1 | step",
+        "n1 > n2",
+        "n2 > n3 | step",
+        "n3 > n4",
+        "n4 > n5 | step",
+        "n5 > n0",
+        "n1 > n4 | step",
+        "n5 > n3",
+        "n4 > n2 | step"
+      ],
+      "base": {
+        "ok": false,
+        "codes": [
+          "composition/proper-crossing",
+          "composition/proper-crossing",
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 806 280"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 806 280"
+      }
+    },
+    {
+      "sample": 8,
+      "count": 6,
+      "phases": false,
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | N0",
+        "n1 | N1",
+        "n2 | N2",
+        "n3 | N3",
+        "n4 | N4",
+        "n5 | N5",
+        "n0 > n1 | step",
+        "n1 > n2",
+        "n2 > n3 | step",
+        "n3 > n4",
+        "n4 > n5 | step",
+        "n5 > n0",
+        "n1 > n4 | step",
+        "n5 > n3",
+        "n4 > n2 | step"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 900"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 806 280"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 806 280"
+      }
+    },
+    {
+      "sample": 8,
+      "count": 6,
+      "phases": false,
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n5 | N5",
+        "n4 | N4",
+        "n3 | N3",
+        "n2 | N2",
+        "n1 | N1",
+        "n0 | N0",
+        "n0 > n1 | step",
+        "n1 > n2",
+        "n2 > n3 | step",
+        "n3 > n4",
+        "n4 > n5 | step",
+        "n5 > n0",
+        "n1 > n4 | step",
+        "n5 > n3",
+        "n4 > n2 | step"
+      ],
+      "base": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor",
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 804 280"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 804 280"
+      }
+    },
+    {
+      "sample": 8,
+      "count": 6,
+      "phases": false,
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n5 | N5",
+        "n4 | N4",
+        "n3 | N3",
+        "n2 | N2",
+        "n1 | N1",
+        "n0 | N0",
+        "n0 > n1 | step",
+        "n1 > n2",
+        "n2 > n3 | step",
+        "n3 > n4",
+        "n4 > n5 | step",
+        "n5 > n0",
+        "n1 > n4 | step",
+        "n5 > n3",
+        "n4 > n2 | step"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 768 900"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 800 280"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 800 280"
+      }
+    },
+    {
+      "sample": 9,
+      "count": 8,
+      "phases": false,
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n7 | Node 7",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n2 > n1",
+        "n1 > n3",
+        "n6 > n4"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 1148"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      }
+    },
+    {
+      "sample": 9,
+      "count": 8,
+      "phases": false,
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n7 | Node 7",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n2 > n1",
+        "n1 > n3",
+        "n6 > n4"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 1148"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      }
+    },
+    {
+      "sample": 9,
+      "count": 8,
+      "phases": false,
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n7 | Node 7",
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n2 > n1",
+        "n1 > n3",
+        "n6 > n4"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 796 1148"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      }
+    },
+    {
+      "sample": 9,
+      "count": 8,
+      "phases": false,
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n7 | Node 7",
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n2 > n1",
+        "n1 > n3",
+        "n6 > n4"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 796 1148"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      }
+    },
+    {
+      "sample": 10,
+      "count": 10,
+      "phases": false,
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | N0",
+        "n1 | N1",
+        "n2 | N2",
+        "n3 | N3",
+        "n4 | N4",
+        "n5 | N5",
+        "n6 | N6",
+        "n7 | N7",
+        "n8 | N8",
+        "n9 | N9",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n0",
+        "n2 > n4",
+        "n6 > n9",
+        "n8 > n6"
+      ],
+      "base": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      }
+    },
+    {
+      "sample": 10,
+      "count": 10,
+      "phases": false,
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | N0",
+        "n1 | N1",
+        "n2 | N2",
+        "n3 | N3",
+        "n4 | N4",
+        "n5 | N5",
+        "n6 | N6",
+        "n7 | N7",
+        "n8 | N8",
+        "n9 | N9",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n0",
+        "n2 > n4",
+        "n6 > n9",
+        "n8 > n6"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 768 1396"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      }
+    },
+    {
+      "sample": 10,
+      "count": 10,
+      "phases": false,
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n9 | N9",
+        "n8 | N8",
+        "n7 | N7",
+        "n6 | N6",
+        "n5 | N5",
+        "n4 | N4",
+        "n3 | N3",
+        "n2 | N2",
+        "n1 | N1",
+        "n0 | N0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n0",
+        "n2 > n4",
+        "n6 > n9",
+        "n8 > n6"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 1396"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      }
+    },
+    {
+      "sample": 10,
+      "count": 10,
+      "phases": false,
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n9 | N9",
+        "n8 | N8",
+        "n7 | N7",
+        "n6 | N6",
+        "n5 | N5",
+        "n4 | N4",
+        "n3 | N3",
+        "n2 | N2",
+        "n1 | N1",
+        "n0 | N0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n8",
+        "n8 > n9",
+        "n9 > n0",
+        "n2 > n4",
+        "n6 > n9",
+        "n8 > n6"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 1396"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      }
+    },
+    {
+      "sample": 11,
+      "count": 8,
+      "phases": true,
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "lane first | First",
+        "lane second | Second",
+        "n0 | Node 0 | backend | first",
+        "n1 | Node 1 | backend | first",
+        "n2 | Node 2 | backend | first",
+        "n3 | Node 3 | backend | first",
+        "n4 | Node 4 | backend | second",
+        "n5 | Node 5 | backend | second",
+        "n6 | Node 6 | backend | second",
+        "n7 | Node 7 | backend | second",
+        "n0 > n1 | step",
+        "n1 > n2",
+        "n2 > n3 | step",
+        "n3 > n4",
+        "n4 > n5 | step",
+        "n5 > n6",
+        "n6 > n7 | step",
+        "n7 > n0",
+        "n3 > n2 | step",
+        "n3 > n6",
+        "n1 > n6 | step"
+      ],
+      "base": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "parent": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "candidate": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      }
+    },
+    {
+      "sample": 11,
+      "count": 8,
+      "phases": true,
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "lane first | First",
+        "lane second | Second",
+        "n0 | Node 0 | backend | first",
+        "n1 | Node 1 | backend | first",
+        "n2 | Node 2 | backend | first",
+        "n3 | Node 3 | backend | first",
+        "n4 | Node 4 | backend | second",
+        "n5 | Node 5 | backend | second",
+        "n6 | Node 6 | backend | second",
+        "n7 | Node 7 | backend | second",
+        "n0 > n1 | step",
+        "n1 > n2",
+        "n2 > n3 | step",
+        "n3 > n4",
+        "n4 > n5 | step",
+        "n5 > n6",
+        "n6 > n7 | step",
+        "n7 > n0",
+        "n3 > n2 | step",
+        "n3 > n6",
+        "n1 > n6 | step"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 792 404"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 792 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 792 404"
+      }
+    },
+    {
+      "sample": 11,
+      "count": 8,
+      "phases": true,
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "lane first | First",
+        "lane second | Second",
+        "n7 | Node 7 | backend | second",
+        "n6 | Node 6 | backend | second",
+        "n5 | Node 5 | backend | second",
+        "n4 | Node 4 | backend | second",
+        "n3 | Node 3 | backend | first",
+        "n2 | Node 2 | backend | first",
+        "n1 | Node 1 | backend | first",
+        "n0 | Node 0 | backend | first",
+        "n0 > n1 | step",
+        "n1 > n2",
+        "n2 > n3 | step",
+        "n3 > n4",
+        "n4 > n5 | step",
+        "n5 > n6",
+        "n6 > n7 | step",
+        "n7 > n0",
+        "n3 > n2 | step",
+        "n3 > n6",
+        "n1 > n6 | step"
+      ],
+      "base": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 798 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 798 404"
+      }
+    },
+    {
+      "sample": 11,
+      "count": 8,
+      "phases": true,
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "lane first | First",
+        "lane second | Second",
+        "n7 | Node 7 | backend | second",
+        "n6 | Node 6 | backend | second",
+        "n5 | Node 5 | backend | second",
+        "n4 | Node 4 | backend | second",
+        "n3 | Node 3 | backend | first",
+        "n2 | Node 2 | backend | first",
+        "n1 | Node 1 | backend | first",
+        "n0 | Node 0 | backend | first",
+        "n0 > n1 | step",
+        "n1 > n2",
+        "n2 > n3 | step",
+        "n3 > n4",
+        "n4 > n5 | step",
+        "n5 > n6",
+        "n6 > n7 | step",
+        "n7 > n0",
+        "n3 > n2 | step",
+        "n3 > n6",
+        "n1 > n6 | step"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 804 404"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 798 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 798 404"
+      }
+    },
+    {
+      "sample": 12,
+      "count": 6,
+      "phases": false,
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | N0",
+        "n1 | N1",
+        "n2 | N2",
+        "n3 | N3",
+        "n4 | N4",
+        "n5 | N5",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n0",
+        "n2 > n1",
+        "n5 > n4",
+        "n1 > n4"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 900"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 788 280"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 788 280"
+      }
+    },
+    {
+      "sample": 12,
+      "count": 6,
+      "phases": false,
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | N0",
+        "n1 | N1",
+        "n2 | N2",
+        "n3 | N3",
+        "n4 | N4",
+        "n5 | N5",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n0",
+        "n2 > n1",
+        "n5 > n4",
+        "n1 > n4"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 900"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 788 280"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 788 280"
+      }
+    },
+    {
+      "sample": 12,
+      "count": 6,
+      "phases": false,
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n5 | N5",
+        "n4 | N4",
+        "n3 | N3",
+        "n2 | N2",
+        "n1 | N1",
+        "n0 | N0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n0",
+        "n2 > n1",
+        "n5 > n4",
+        "n1 > n4"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 900"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 788 280"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 788 280"
+      }
+    },
+    {
+      "sample": 12,
+      "count": 6,
+      "phases": false,
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n5 | N5",
+        "n4 | N4",
+        "n3 | N3",
+        "n2 | N2",
+        "n1 | N1",
+        "n0 | N0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n0",
+        "n2 > n1",
+        "n5 > n4",
+        "n1 > n4"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 900"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 788 280"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 788 280"
+      }
+    },
+    {
+      "sample": 13,
+      "count": 8,
+      "phases": false,
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n7 | Node 7",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n7 > n6",
+        "n2 > n7",
+        "n4 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 1148"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      }
+    },
+    {
+      "sample": 13,
+      "count": 8,
+      "phases": false,
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | Node 0",
+        "n1 | Node 1",
+        "n2 | Node 2",
+        "n3 | Node 3",
+        "n4 | Node 4",
+        "n5 | Node 5",
+        "n6 | Node 6",
+        "n7 | Node 7",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n7 > n6",
+        "n2 > n7",
+        "n4 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 768 1148"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      }
+    },
+    {
+      "sample": 13,
+      "count": 8,
+      "phases": false,
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n7 | Node 7",
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n7 > n6",
+        "n2 > n7",
+        "n4 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 1148"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      }
+    },
+    {
+      "sample": 13,
+      "count": 8,
+      "phases": false,
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n7 | Node 7",
+        "n6 | Node 6",
+        "n5 | Node 5",
+        "n4 | Node 4",
+        "n3 | Node 3",
+        "n2 | Node 2",
+        "n1 | Node 1",
+        "n0 | Node 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n7 > n6",
+        "n2 > n7",
+        "n4 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 1148"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 784 404"
+      }
+    },
+    {
+      "sample": 14,
+      "count": 10,
+      "phases": false,
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | N0",
+        "n1 | N1",
+        "n2 | N2",
+        "n3 | N3",
+        "n4 | N4",
+        "n5 | N5",
+        "n6 | N6",
+        "n7 | N7",
+        "n8 | N8",
+        "n9 | N9",
+        "n0 > n1 | step",
+        "n1 > n2",
+        "n2 > n3 | step",
+        "n3 > n4",
+        "n4 > n5 | step",
+        "n5 > n6",
+        "n6 > n7 | step",
+        "n7 > n8",
+        "n8 > n9 | step",
+        "n9 > n0",
+        "n1 > n8 | step",
+        "n2 > n8",
+        "n8 > n3 | step"
+      ],
+      "base": {
+        "ok": false,
+        "codes": [
+          "composition/proper-crossing",
+          "composition/ambiguous-corridor",
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "parent": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor",
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "candidate": {
+        "ok": false,
+        "codes": [
+          "composition/proper-crossing",
+          "composition/ambiguous-corridor",
+          "composition/ambiguous-corridor"
+        ]
+      }
+    },
+    {
+      "sample": 14,
+      "count": 10,
+      "phases": false,
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | N0",
+        "n1 | N1",
+        "n2 | N2",
+        "n3 | N3",
+        "n4 | N4",
+        "n5 | N5",
+        "n6 | N6",
+        "n7 | N7",
+        "n8 | N8",
+        "n9 | N9",
+        "n0 > n1 | step",
+        "n1 > n2",
+        "n2 > n3 | step",
+        "n3 > n4",
+        "n4 > n5 | step",
+        "n5 > n6",
+        "n6 > n7 | step",
+        "n7 > n8",
+        "n8 > n9 | step",
+        "n9 > n0",
+        "n1 > n8 | step",
+        "n2 > n8",
+        "n8 > n3 | step"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 768 1396"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 1008 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 768 1396"
+      }
+    },
+    {
+      "sample": 14,
+      "count": 10,
+      "phases": false,
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n9 | N9",
+        "n8 | N8",
+        "n7 | N7",
+        "n6 | N6",
+        "n5 | N5",
+        "n4 | N4",
+        "n3 | N3",
+        "n2 | N2",
+        "n1 | N1",
+        "n0 | N0",
+        "n0 > n1 | step",
+        "n1 > n2",
+        "n2 > n3 | step",
+        "n3 > n4",
+        "n4 > n5 | step",
+        "n5 > n6",
+        "n6 > n7 | step",
+        "n7 > n8",
+        "n8 > n9 | step",
+        "n9 > n0",
+        "n1 > n8 | step",
+        "n2 > n8",
+        "n8 > n3 | step"
+      ],
+      "base": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "parent": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      },
+      "candidate": {
+        "ok": false,
+        "codes": [
+          "composition/ambiguous-corridor"
+        ]
+      }
+    },
+    {
+      "sample": 14,
+      "count": 10,
+      "phases": false,
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n9 | N9",
+        "n8 | N8",
+        "n7 | N7",
+        "n6 | N6",
+        "n5 | N5",
+        "n4 | N4",
+        "n3 | N3",
+        "n2 | N2",
+        "n1 | N1",
+        "n0 | N0",
+        "n0 > n1 | step",
+        "n1 > n2",
+        "n2 > n3 | step",
+        "n3 > n4",
+        "n4 > n5 | step",
+        "n5 > n6",
+        "n6 > n7 | step",
+        "n7 > n8",
+        "n8 > n9 | step",
+        "n9 > n0",
+        "n1 > n8 | step",
+        "n2 > n8",
+        "n8 > n3 | step"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 768 1396"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 808 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 768 1396"
+      }
+    },
+    {
+      "sample": 15,
+      "count": 8,
+      "phases": true,
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "lane first | First",
+        "lane second | Second",
+        "n0 | Node 0 | backend | first",
+        "n1 | Node 1 | backend | first",
+        "n2 | Node 2 | backend | first",
+        "n3 | Node 3 | backend | first",
+        "n4 | Node 4 | backend | second",
+        "n5 | Node 5 | backend | second",
+        "n6 | Node 6 | backend | second",
+        "n7 | Node 7 | backend | second",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n7 > n6",
+        "n6 > n0",
+        "n3 > n7"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      }
+    },
+    {
+      "sample": 15,
+      "count": 8,
+      "phases": true,
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "lane first | First",
+        "lane second | Second",
+        "n0 | Node 0 | backend | first",
+        "n1 | Node 1 | backend | first",
+        "n2 | Node 2 | backend | first",
+        "n3 | Node 3 | backend | first",
+        "n4 | Node 4 | backend | second",
+        "n5 | Node 5 | backend | second",
+        "n6 | Node 6 | backend | second",
+        "n7 | Node 7 | backend | second",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n7 > n6",
+        "n6 > n0",
+        "n3 > n7"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      }
+    },
+    {
+      "sample": 15,
+      "count": 8,
+      "phases": true,
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "lane first | First",
+        "lane second | Second",
+        "n7 | Node 7 | backend | second",
+        "n6 | Node 6 | backend | second",
+        "n5 | Node 5 | backend | second",
+        "n4 | Node 4 | backend | second",
+        "n3 | Node 3 | backend | first",
+        "n2 | Node 2 | backend | first",
+        "n1 | Node 1 | backend | first",
+        "n0 | Node 0 | backend | first",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n7 > n6",
+        "n6 > n0",
+        "n3 > n7"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      }
+    },
+    {
+      "sample": 15,
+      "count": 8,
+      "phases": true,
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "lane first | First",
+        "lane second | Second",
+        "n7 | Node 7 | backend | second",
+        "n6 | Node 6 | backend | second",
+        "n5 | Node 5 | backend | second",
+        "n4 | Node 4 | backend | second",
+        "n3 | Node 3 | backend | first",
+        "n2 | Node 2 | backend | first",
+        "n1 | Node 1 | backend | first",
+        "n0 | Node 0 | backend | first",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0",
+        "n7 > n6",
+        "n6 > n0",
+        "n3 > n7"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      },
+      "parent": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 780 404"
+      }
+    },
+    {
+      "sample": 16,
+      "count": 8,
+      "phases": false,
+      "reversed": false,
+      "quality": "showcase",
+      "rows": [
+        "n0 | A detailed verification step with a long label that stays readable on its own row 0",
+        "n1 | A detailed verification step with a long label that stays readable on its own row 1",
+        "n2 | A detailed verification step with a long label that stays readable on its own row 2",
+        "n3 | A detailed verification step with a long label that stays readable on its own row 3",
+        "n4 | A detailed verification step with a long label that stays readable on its own row 4",
+        "n5 | A detailed verification step with a long label that stays readable on its own row 5",
+        "n6 | A detailed verification step with a long label that stays readable on its own row 6",
+        "n7 | A detailed verification step with a long label that stays readable on its own row 7",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 1015 1148"
+      },
+      "parent": {
+        "ok": false,
+        "codes": [
+          "explainer/diagram-shorthand-limit"
+        ]
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 1015 1148"
+      }
+    },
+    {
+      "sample": 16,
+      "count": 8,
+      "phases": false,
+      "reversed": false,
+      "quality": "standard",
+      "rows": [
+        "n0 | A detailed verification step with a long label that stays readable on its own row 0",
+        "n1 | A detailed verification step with a long label that stays readable on its own row 1",
+        "n2 | A detailed verification step with a long label that stays readable on its own row 2",
+        "n3 | A detailed verification step with a long label that stays readable on its own row 3",
+        "n4 | A detailed verification step with a long label that stays readable on its own row 4",
+        "n5 | A detailed verification step with a long label that stays readable on its own row 5",
+        "n6 | A detailed verification step with a long label that stays readable on its own row 6",
+        "n7 | A detailed verification step with a long label that stays readable on its own row 7",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 1015 1148"
+      },
+      "parent": {
+        "ok": false,
+        "codes": [
+          "explainer/diagram-shorthand-limit"
+        ]
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 1015 1148"
+      }
+    },
+    {
+      "sample": 16,
+      "count": 8,
+      "phases": false,
+      "reversed": true,
+      "quality": "showcase",
+      "rows": [
+        "n7 | A detailed verification step with a long label that stays readable on its own row 7",
+        "n6 | A detailed verification step with a long label that stays readable on its own row 6",
+        "n5 | A detailed verification step with a long label that stays readable on its own row 5",
+        "n4 | A detailed verification step with a long label that stays readable on its own row 4",
+        "n3 | A detailed verification step with a long label that stays readable on its own row 3",
+        "n2 | A detailed verification step with a long label that stays readable on its own row 2",
+        "n1 | A detailed verification step with a long label that stays readable on its own row 1",
+        "n0 | A detailed verification step with a long label that stays readable on its own row 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 1015 1148"
+      },
+      "parent": {
+        "ok": false,
+        "codes": [
+          "explainer/diagram-shorthand-limit"
+        ]
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 1015 1148"
+      }
+    },
+    {
+      "sample": 16,
+      "count": 8,
+      "phases": false,
+      "reversed": true,
+      "quality": "standard",
+      "rows": [
+        "n7 | A detailed verification step with a long label that stays readable on its own row 7",
+        "n6 | A detailed verification step with a long label that stays readable on its own row 6",
+        "n5 | A detailed verification step with a long label that stays readable on its own row 5",
+        "n4 | A detailed verification step with a long label that stays readable on its own row 4",
+        "n3 | A detailed verification step with a long label that stays readable on its own row 3",
+        "n2 | A detailed verification step with a long label that stays readable on its own row 2",
+        "n1 | A detailed verification step with a long label that stays readable on its own row 1",
+        "n0 | A detailed verification step with a long label that stays readable on its own row 0",
+        "n0 > n1",
+        "n1 > n2",
+        "n2 > n3",
+        "n3 > n4",
+        "n4 > n5",
+        "n5 > n6",
+        "n6 > n7",
+        "n7 > n0"
+      ],
+      "base": {
+        "ok": true,
+        "viewBox": "0 0 1015 1148"
+      },
+      "parent": {
+        "ok": false,
+        "codes": [
+          "explainer/diagram-shorthand-limit"
+        ]
+      },
+      "candidate": {
+        "ok": true,
+        "viewBox": "0 0 1015 1148"
+      }
+    }
+  ],
+  "benchmarkModels": [
+    {
+      "id": "openpi-workflow",
+      "changed": false,
+      "topologyPreserved": true
+    },
+    {
+      "id": "openpi-architecture",
+      "changed": false,
+      "topologyPreserved": true
+    },
+    {
+      "id": "hive-workflow",
+      "changed": false,
+      "topologyPreserved": true
+    },
+    {
+      "id": "hive-architecture",
+      "changed": false,
+      "topologyPreserved": true
+    },
+    {
+      "id": "mco-workflow",
+      "changed": false,
+      "topologyPreserved": true
+    },
+    {
+      "id": "mco-architecture",
+      "changed": false,
+      "topologyPreserved": true
+    },
+    {
+      "id": "squad-workflow",
+      "changed": false,
+      "topologyPreserved": true
+    },
+    {
+      "id": "squad-architecture",
+      "changed": false,
+      "topologyPreserved": true
+    },
+    {
+      "id": "skillroster-workflow",
+      "changed": false,
+      "topologyPreserved": true
+    },
+    {
+      "id": "skillroster-architecture",
+      "changed": false,
+      "topologyPreserved": true
+    }
+  ],
+  "parentAccepted": 54,
+  "parentRegressions": [],
+  "topologyComparison": {
+    "compared": 68,
+    "nodeArrayOrderChanges": 6,
+    "contentDifferences": 0,
+    "method": "Compare node identities/labels/types/icons sorted by id and the complete authored edge lists; placement ordering is not topology."
+  },
+  "candidate": "915980766764689fcc9a231fc29f4a42e764c68a"
+}

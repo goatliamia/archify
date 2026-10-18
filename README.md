@@ -98,3 +98,7 @@ The three initial inline findings are fixed at `58967708f77cc961b5f698be7a26bd26
 ## Native route acceptance follow-up
 
 At `522999d6d72a7dbb1c4dc6ff68c1ba8ecc99f710`, speculative native route and default-label checks protect cyclic architecture expansion. Both reproduced failures now render; 64 chorded-cycle inputs preserve all 55 base-accepted cases. [Scope, reproductions, fresh checks and limitations](route-followup.md).
+
+## Cyclic workflow acceptance follow-up
+
+At `915980766764689fcc9a231fc29f4a42e764c68a`, folded workflow candidates reuse the native compiler before acceptance. All 53 base-accepted and 54 parent-accepted inputs in a 68-input corpus remain accepted; the final Node suite passes 130/130 and Chrome/Edge each pass 8/8. [Reproduction, scope, checks and measured cost](workflow-followup.md).

@@ -1,0 +1,69 @@
+{
+  "candidate": "915980766764689fcc9a231fc29f4a42e764c68a",
+  "reviewedParent": "522999d6d72a7dbb1c4dc6ff68c1ba8ecc99f710",
+  "base": "824db3ad62bae7f7acde02c65f3c236d41e60b5c",
+  "handledComment": 4306710810,
+  "checks": {
+    "explainer": {
+      "files": 14,
+      "tests": 130,
+      "passed": 130,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "chrome": {
+      "tests": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0
+    },
+    "edge": {
+      "tests": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0
+    },
+    "packagedExplainerSmoke": "passed without dependencies",
+    "zip": {
+      "files": 200,
+      "node": "v22.23.2",
+      "zlib": "1.3.1-e00f703",
+      "sha256": "d05bf1fc682a95a896f6dbefa3e9b1fd7728d0e3a33d7b6994d3f80836fbed8a",
+      "reproducible": true
+    },
+    "constructedWorkflow": {
+      "inputs": 68,
+      "baseAccepted": 53,
+      "baseAcceptancePreserved": 53,
+      "parentAccepted": 54,
+      "parentRegressions": 0,
+      "topologyDifferences": 0,
+      "nodeArrayOrderChanges": 6
+    },
+    "acyclic": {
+      "comparisons": 400,
+      "differences": 0
+    },
+    "realSourceModels": {
+      "compared": 10,
+      "changed": 0
+    }
+  },
+  "scope": "Native compiler, Viewer, schemas, authoring syntax and preparation/cache contracts are unchanged. Native renderer/generated/golden results from the parent are reused for identical inputs and native sources.",
+  "timing": {
+    "inputs": 5,
+    "measuredAlternatingPairsPerInput": 3,
+    "warmupPairsPerInput": 1,
+    "failedDeliveries": 0,
+    "minimumMedianRatio": 1.092740956871694,
+    "maximumMedianRatio": 1.5300051563450252,
+    "description": "Additional local cost, not a speed improvement."
+  },
+  "limits": [
+    "Finite constructed and maintenance-authored inputs are not independent Agent-generation evidence.",
+    "Scope agreement and the independent generation pilot remain maintainer decisions.",
+    "New-head remote CI and incremental robot reviews run separately.",
+    "Old Chrome cleanup failures and earlier test timings retain their original revisions."
+  ]
+}
