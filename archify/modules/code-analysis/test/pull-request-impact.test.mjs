@@ -88,6 +88,19 @@ test('existing transitive reach measurements can change even when that module an
   assert.equal(impact.records.some(r=>r.kind==='definition-text'&&r.path==='core/shared.ts'),false);
 });
 
+test('a new file concentration finding keeps its own source anchor beside independent or incoming dependency changes',t=>{
+  const original={'domain/large.ts':'export const first=1;\nexport const second=2;\n','other/a.ts':'export const a=1;\n','other/b.ts':'export const b=1;\n'};
+  for(const extra of [{},{'other/a.ts':"import {b} from './b';\nexport const a=b;\n"},{'other/a.ts':"import {first} from '../domain/large';\nexport const a=first;\n"}]){
+    const {impact,sides}=pair(t,original,{...original,...extra,'domain/large.ts':original['domain/large.ts']+'export const third=3;\n'},{rules:{coupling:{concentration:{fileLines:3}}}});
+    const finding=sides.head.findings.diagnostics.find(f=>f.code==='coupling/concentration'&&f.subject.file==='domain/large.ts');
+    assert.ok(finding);assert.equal(sides.base.findings.diagnostics.some(f=>f.id===finding.id),false);
+    const record=impact.records.find(r=>r.kind==='structural-finding-added'&&r.findingId===finding.id);
+    assert.ok(record);assert.equal(record.path,finding.subject.file);
+    assert.deepEqual(record.locations.find(loc=>loc.side==='head'),{side:'head',file:finding.subject.file,line:1});
+    assert.ok(record.locations.every(loc=>loc.file===finding.subject.file));
+  }
+});
+
 test('type-only to value import is a dependency change even when file endpoints are identical',t=>{
   const original={'a.ts':"import type {B} from './b';export const a:B|null=null;\n",'b.ts':"import {a} from './a';export interface B{x:number};export const b=a;\n"};
   const {impact,sides}=pair(t,original,{...original,'a.ts':"import {b} from './b';export const a=b;\n"});

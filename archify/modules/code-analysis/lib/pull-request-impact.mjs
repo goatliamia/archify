@@ -6,6 +6,7 @@ import { questionCalls } from './question-calls.mjs';
 import { questionIncoming, indexIncoming } from './question-incoming.mjs';
 import { readInside } from './evidence.mjs';
 import { comparability } from './review.mjs';
+import { locationsOf } from './task.mjs';
 
 const LIMITS = { files: 32, definitions: 80, bytes: 4 * 1024 * 1024, records: 160, references: 5 };
 const key = (...parts) => JSON.stringify(parts);
@@ -194,16 +195,19 @@ export function buildPullRequestImpact({baseFacts,headFacts,baseGraph,headGraph,
       }
     }
   }
-  // A new native structural finding needs a changed dependency witness. Merely
-  // getting a different evidence digest never promotes an existing finding.
+  // Reuse the finding's native source evidence, never the first changed edge.
+  // New measured findings are aggregate snapshot observations; a dependency
+  // witness can establish related context, not individual-edge causality.
+  // A different digest alone never promotes an existing finding.
   function collectNewStructuralFindings() {
     if(comparison.comparable===true) for(const f of headFindings.diagnostics) {
       if(f.external||baseById.has(f.id)||!['coupling','architecture'].includes(f.dimension)) continue;
       const files=new Set([f.subject?.file,...(f.subject?.files||[]),...(f.evidence?.imports||[]).flatMap(i=>[i.file,i.to])].filter(Boolean));
       const mods=new Set([f.subject?.module,...(f.subject?.modules||[])].filter(Boolean));
-      const witness=records.find(r=>r.kind.startsWith('dependency-')&&(files.has(r.from)||files.has(r.to)||mods.has(after.fileModules.get(r.from))||mods.has(after.fileModules.get(r.to))))
-        || (Object.keys(structuralMeasures(f)).length?records.find(r=>r.kind.startsWith('dependency-')||changed.has(f.subject?.file)&&r.path===f.subject.file):null);
-      if(witness) add({kind:'structural-finding-added',category:'architecture',path:witness.from||witness.path,name:f.id,module:f.subject?.module,code:f.code,findingId:f.id,severity:f.severity,locations:witness.locations,rank:0});
+      const witness=records.find(r=>r.kind.startsWith('dependency-')&&(files.has(r.from)||files.has(r.to)||mods.has(after.fileModules.get(r.from))||mods.has(after.fileModules.get(r.to))));
+      if(!witness&&!Object.keys(structuralMeasures(f)).length) continue;
+      const locations=locationsOf(f).filter(loc=>head.files.has(loc.file)).map(loc=>location('head',loc.file,loc.startLine||1));
+      if(locations.length) add({kind:'structural-finding-added',category:'architecture',path:f.subject?.file||locations[0].file,name:f.id,module:f.subject?.module,code:f.code,findingId:f.id,severity:f.severity,locations,rank:0});
     }
   }
   collectDependencies();
