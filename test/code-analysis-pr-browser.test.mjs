@@ -15,12 +15,16 @@ test('native PR view keeps comparison chart visible and shares localized source/
   fs.writeFileSync(path.join(roots.base,'main.mjs'),'export function run(x){return 1;}\nexport function gone(){return 1;}\n');
   fs.writeFileSync(path.join(roots.head,'main.mjs'),"import './old.mjs';\nexport function run(x){"+'if(x)return 2;'.repeat(25)+'return 0;}\nexport function fresh(){return 2;}\n');
   fs.writeFileSync(path.join(roots.base,'removed.mjs'),'export const removed = 1;\n');
-  for(const root of Object.values(roots))fs.writeFileSync(path.join(root,'old.mjs'),'export function oldHotspot(x){'+'if(x)return 1;'.repeat(35)+'return 0;}\n');
+  for(const root of Object.values(roots)){
+    fs.writeFileSync(path.join(root,'old.mjs'),'export function oldHotspot(x){'+'if(x)return 1;'.repeat(35)+'return 0;}\n');
+    fs.mkdirSync(path.join(root,'other'));fs.writeFileSync(path.join(root,'other/helper.mjs'),'export const helper=1;\n');
+  }
   const baseSHA='a'.repeat(40),headSHA='b'.repeat(40);
   const browser=new ChromeVisualBrowser(chrome);t.after(()=>browser.close());
   const session=await browser.sessionPromise,send=(m,p={})=>browser.cdp.send(m,p,session);
   await send('Page.addScriptToEvaluateOnNewDocument',{source:`window.__atlasTexts=[];window.__atlasGlyphs={};const original=CanvasRenderingContext2D.prototype.fillText;CanvasRenderingContext2D.prototype.fillText=function(value,x,y){const text=String(value);window.__atlasTexts.push(text);if(['+','−','◇'].includes(text)){const p=this.getTransform().transformPoint({x,y});window.__atlasGlyphs[text]={x:p.x,y:p.y};}return original.apply(this,arguments);};`});
   const run=async expression=>{const r=await send('Runtime.evaluate',{expression,awaitPromise:true,returnByValue:true});assert.equal(r.exceptionDetails,undefined,r.exceptionDetails?.exception?.description);return r.result?.value;};
+  const settle=()=>run("new Promise((resolve,reject)=>{const deadline=performance.now()+3000;function check(){if(!document.documentElement.hasAttribute('data-bauify-atlas-animating'))resolve();else if(performance.now()>deadline)reject(Error('Atlas animation did not settle'));else requestAnimationFrame(check);}requestAnimationFrame(check);})");
   for(const locale of ['en','zh-CN']){
     const out=path.join(dir,locale),source={root:'.',sourceKind:'git-tree',baseRevision:baseSHA,revision:baseSHA};
     analyzeRepository({root:roots.base,out:path.join(out,'base'),locale,source,language:'ts'});
@@ -32,11 +36,20 @@ test('native PR view keeps comparison chart visible and shares localized source/
     assert.deepEqual(marks.module.functions,{added:1,removed:1,modified:1});
     assert.ok(marks.texts.includes(locale==='zh-CN'?'+1/−1 函数':'+1/−1 fn'));
     for(const glyph of ['+','−','◇'])assert.ok(marks.glyphs.includes(glyph),'the canvas paints '+glyph);
+    // The merged sector zoom and PR markers share the final rendered geometry.
+    await settle();
+    const owner=await run("(()=>{const a=JSON.parse(document.getElementById('bauify-atlas-data').textContent);return a.files.find(f=>f[0]==='main.mjs')[1];})()");
+    await run(`document.querySelector('#bauify-atlas [data-module="${owner}"]').click()`);await settle();
+    assert.equal(await run("(()=>{const e=new WheelEvent('wheel',{deltaY:-180,cancelable:true});document.querySelector('#bauify-atlas canvas').dispatchEvent(e);return e.defaultPrevented;})()"),true);
+    await settle();
     await run("let p=window.__atlasGlyphs['−'],c=document.querySelector('#bauify-atlas canvas'),r=c.getBoundingClientRect();c.dispatchEvent(new MouseEvent('click',{clientX:r.left+p.x,clientY:r.top+p.y,bubbles:true}))");
     assert.equal(await run("document.getElementById('bauify-code').hidden"),false);
     assert.match(await run("document.getElementById('bauify-code').textContent"),/gone/);
     assert.doesNotMatch(await run("document.getElementById('bauify-code').textContent"),/fresh/);
-    await run("document.querySelector('#bauify-code .close').click();document.querySelector('.atlas-clear').click()");
+    await run("document.querySelector('#bauify-code .close').click();document.querySelector('.atlas-expand').click()");await settle();
+    assert.equal(await run("document.querySelector('.atlas-expand').getAttribute('aria-pressed')"),'false');
+    assert.equal(await run("(()=>{const e=new WheelEvent('wheel',{deltaY:-180,cancelable:true});document.querySelector('#bauify-atlas canvas').dispatchEvent(e);return e.defaultPrevented;})()"),false);
+    await run("document.querySelector('.atlas-expand').click();document.querySelector('.atlas-clear').click()");await settle();
     const assessments=await run(`(()=>{const a=document.querySelector('[data-assessment=architecture]'),c=document.querySelector('[data-assessment=complexity]');return {count:document.querySelectorAll('.pr-assessment').length,architecture:a.querySelector('.pr-origin').textContent,complexity:c.querySelector('.pr-origin').textContent,architecturePriorities:a.querySelectorAll('.priority-card').length,complexityPriorities:c.querySelectorAll('.priority-card').length,ai:!!document.querySelector('.pr-ai-status'),body:c.textContent};})()`);
     assert.equal(assessments.count,2);assert.equal(assessments.architecture,locale==='zh-CN'?'自动检测':'Automatic detection');assert.equal(assessments.complexity,assessments.architecture);
     assert.ok(assessments.architecturePriorities>=1);assert.ok(assessments.complexityPriorities>=1);assert.equal(assessments.ai,false);assert.match(assessments.body,/1 → 26/);
