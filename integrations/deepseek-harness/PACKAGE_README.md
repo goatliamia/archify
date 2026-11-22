@@ -52,3 +52,4 @@ The bundle mounts one filesystem Skill provider named `archify-plugin`. Its `cor
 The adapter adds no native tools, custom Web client, telemetry, credentials handling, network client, background service, dependencies, or install hooks. The bundled Skill has an optional notification-only stable Archify update checker and bounded network access for authored remote brand assets. It never upgrades this plugin automatically.
 
 `release.json` records the immutable Skill source and exact acceptance host. Reproduce this version from its adapter tag `archify-dsh-v1.1.0` once published, using the committed pack script; use the recorded source rather than a moving branch.
+<!-- Packaged README routing probe on the experiment branch. -->
