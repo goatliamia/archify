@@ -178,3 +178,4 @@ The standard plugin command removes the adapter dependency and bundle layer. The
 - No `prepare`, `install`, or `postinstall` scripts
 - Host-loaded adapter code does not spawn processes or open a second permission path
 - Package resolution, provider load, and composition errors fail during normal DSH boot
+<!-- Repository guide routing probe on the experiment branch. -->
