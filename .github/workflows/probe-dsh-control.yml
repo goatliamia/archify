@@ -1,0 +1,32 @@
+name: DSH input control
+on:
+  push:
+    branches: [codex/ci-efficiency-measure]
+    paths:
+      - 'integrations/deepseek-harness/README.md'
+      - 'integrations/deepseek-harness/test/docs-contract.test.mjs'
+      - 'integrations/deepseek-harness/PACKAGE_README.md'
+permissions:
+  contents: read
+jobs:
+  scope:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          package-manager-cache: false
+          node-version: 22
+      - id: classify
+        run: node scripts/ci-scope.mjs
+        env:
+          CI_EVENT_NAME: ${{ github.event_name }}
+          CI_BASE_SHA: ${{ github.event.before }}
+          CI_REF: ${{ github.ref }}
+      - if: steps.classify.outputs.scope == 'docs'
+        run: node scripts/run-affected-tests.mjs
+        env:
+          CI_TEST_OWNERS: ${{ steps.classify.outputs.owners }}
+          CI_CHANGED_TESTS: ${{ steps.classify.outputs.changedTests }}

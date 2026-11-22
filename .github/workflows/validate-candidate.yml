@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - codex/ci-efficiency-measure
+    paths:
+      - .github/workflows/validate-candidate.yml
 concurrency:
   group: ci-${{ github.event.pull_request.number || github.run_id }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
@@ -28,7 +30,7 @@ jobs:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         with:
           fetch-depth: 1
-          ref: a347ea6ac67fefdaf875149ed31d708106aa3be2
+          ref: c3e0c268d09e3526e6c4a31a94f3a54f8c6fc8a3
       - name: Fetch PR comparison base
         if: github.event_name == 'pull_request'
         shell: bash
@@ -88,7 +90,7 @@ jobs:
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         with:
-          ref: a347ea6ac67fefdaf875149ed31d708106aa3be2
+          ref: c3e0c268d09e3526e6c4a31a94f3a54f8c6fc8a3
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         with:
           package-manager-cache: false
@@ -99,9 +101,9 @@ jobs:
       - name: Generated outputs and representative goldens
         if: matrix.shard == 2
         run: pnpm run test:generated
-      - name: Verify community Hermes adapter
+      - name: Verify Hermes adapter and DSH documentation contracts
         if: matrix.shard == 2
-        run: node --test integrations/hermes-agent/test/plugin-contract.test.mjs
+        run: node --test integrations/hermes-agent/test/plugin-contract.test.mjs integrations/deepseek-harness/test/docs-contract.test.mjs
       - name: Install Code Analysis duplicate detector
         if: matrix.module-shard
         run: npm install --prefix "$RUNNER_TEMP/archify-jscpd" --ignore-scripts --no-audit --no-fund jscpd@5.4.3
@@ -119,7 +121,6 @@ jobs:
         run: node --test --test-shard=${{ matrix.module-shard }}/2 test/*.test.mjs
         working-directory: archify/modules/code-analysis
         env:
-          NODE_COMPILE_CACHE: ${{ runner.temp }}/archify-code-analysis-compile
           ARCHIFY_TEST_JSCPD: ${{ runner.temp }}/archify-jscpd/node_modules/.bin/jscpd
           ARCHIFY_CPP_PYTHON: ${{ runner.temp }}/archify-clang/bin/python
           ARCHIFY_CPP_REQUIRED: "1"
@@ -149,7 +150,7 @@ jobs:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         if: needs.scope.outputs.compatibility == 'true'
         with:
-          ref: a347ea6ac67fefdaf875149ed31d708106aa3be2
+          ref: c3e0c268d09e3526e6c4a31a94f3a54f8c6fc8a3
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         if: needs.scope.outputs.compatibility == 'true'
         with:
@@ -192,7 +193,7 @@ jobs:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         if: needs.scope.outputs.scope == 'core'
         with:
-          ref: a347ea6ac67fefdaf875149ed31d708106aa3be2
+          ref: c3e0c268d09e3526e6c4a31a94f3a54f8c6fc8a3
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         if: needs.scope.outputs.scope == 'core'
         with:
@@ -229,7 +230,7 @@ jobs:
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         with:
-          ref: a347ea6ac67fefdaf875149ed31d708106aa3be2
+          ref: c3e0c268d09e3526e6c4a31a94f3a54f8c6fc8a3
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         with:
           package-manager-cache: false
@@ -258,7 +259,7 @@ jobs:
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         with:
-          ref: a347ea6ac67fefdaf875149ed31d708106aa3be2
+          ref: c3e0c268d09e3526e6c4a31a94f3a54f8c6fc8a3
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         with:
           package-manager-cache: false
@@ -354,7 +355,7 @@ jobs:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         if: needs.scope.outputs.package == 'true'
         with:
-          ref: a347ea6ac67fefdaf875149ed31d708106aa3be2
+          ref: c3e0c268d09e3526e6c4a31a94f3a54f8c6fc8a3
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         if: needs.scope.outputs.package == 'true'
         with:
@@ -385,7 +386,7 @@ jobs:
           case "$CI_SCOPE" in docs|core|full) ;; *) exit 1 ;; esac
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         with:
-          ref: a347ea6ac67fefdaf875149ed31d708106aa3be2
+          ref: c3e0c268d09e3526e6c4a31a94f3a54f8c6fc8a3
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         with:
           package-manager-cache: false
@@ -465,7 +466,7 @@ jobs:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         if: needs.scope.outputs.package == 'true' || (needs.scope.outputs.windows == 'true' && runner.os != 'Linux')
         with:
-          ref: a347ea6ac67fefdaf875149ed31d708106aa3be2
+          ref: c3e0c268d09e3526e6c4a31a94f3a54f8c6fc8a3
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         if: needs.scope.outputs.package == 'true' || (needs.scope.outputs.windows == 'true' && runner.os != 'Linux')
         with:
@@ -534,7 +535,7 @@ jobs:
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         with:
-          ref: a347ea6ac67fefdaf875149ed31d708106aa3be2
+          ref: c3e0c268d09e3526e6c4a31a94f3a54f8c6fc8a3
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         with:
           package-manager-cache: false
@@ -644,7 +645,7 @@ jobs:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         if: needs.scope.outputs.windows == 'true'
         with:
-          ref: a347ea6ac67fefdaf875149ed31d708106aa3be2
+          ref: c3e0c268d09e3526e6c4a31a94f3a54f8c6fc8a3
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         if: needs.scope.outputs.windows == 'true'
         with:
@@ -722,7 +723,7 @@ jobs:
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         with:
-          ref: a347ea6ac67fefdaf875149ed31d708106aa3be2
+          ref: c3e0c268d09e3526e6c4a31a94f3a54f8c6fc8a3
       - name: Reject an obsolete deployment run
         id: deployment-head
         env:
@@ -778,7 +779,7 @@ jobs:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         with:
           persist-credentials: false
-          ref: a347ea6ac67fefdaf875149ed31d708106aa3be2
+          ref: c3e0c268d09e3526e6c4a31a94f3a54f8c6fc8a3
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         with:
           package-manager-cache: false

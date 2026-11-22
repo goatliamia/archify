@@ -1,7 +1,6 @@
 name: Measure Code Analysis on Ubuntu
 on:
-  push:
-    branches: [codex/ci-efficiency-measure]
+  workflow_dispatch:
 permissions:
   contents: read
 
