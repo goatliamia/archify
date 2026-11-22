@@ -4,6 +4,9 @@ on:
   pull_request:
     paths:
       - 'integrations/deepseek-harness/**'
+      # The CI workflow checks the repository guide. npm ships PACKAGE_README.md.
+      - '!integrations/deepseek-harness/README.md'
+      - '!integrations/deepseek-harness/test/docs-contract.test.mjs'
       - '.github/workflows/dsh.yml'
       - 'archify/renderers/shared/atomic-output.mjs'
       - 'archify/renderers/shared/output-path.mjs'
@@ -16,6 +19,8 @@ on:
     branches: [main, dev]
     paths:
       - 'integrations/deepseek-harness/**'
+      - '!integrations/deepseek-harness/README.md'
+      - '!integrations/deepseek-harness/test/docs-contract.test.mjs'
       - '.github/workflows/dsh.yml'
       - 'archify/renderers/shared/atomic-output.mjs'
       - 'archify/renderers/shared/output-path.mjs'

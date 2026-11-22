@@ -199,6 +199,12 @@ test('isolated Explainer rendering changes run its Node and Chrome cases and ret
 
 test('DeepSeek Harness documentation runs the integration docs contract without Archify product lanes', () => {
   const files = ['integrations/deepseek-harness/README.md', 'integrations/deepseek-harness/test/docs-contract.test.mjs'];
+  const dshEvents = parse(fs.readFileSync(new URL('../.github/workflows/dsh.yml', import.meta.url), 'utf8')).on;
+  for (const { paths } of [dshEvents.pull_request, dshEvents.push]) {
+    const [include, ...exceptions] = paths.filter(pattern => pattern.includes('integrations/deepseek-harness/'));
+    assert.equal(include, 'integrations/deepseek-harness/**');
+    assert.deepEqual(exceptions.sort(), files.map(file => `!${file}`).sort());
+  }
   for (const paths of [files, [files[1]]]) {
     const plan = classifyPaths(paths);
     assert.equal(plan.scope, 'docs');
