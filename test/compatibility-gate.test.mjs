@@ -64,8 +64,10 @@ test('all maintained Node check names remain and publication uses exhaustive ver
   assert.equal(rootSuite?.if, '!matrix.module-shard');
   const generated = full.steps.find(step => step.run === 'pnpm run test:generated');
   assert.equal(generated.if, 'matrix.shard == 2', 'complete generated checks run once inside a regression shard');
-  const hermes = full.steps.find(step => step.run === 'node --test integrations/hermes-agent/test/plugin-contract.test.mjs');
-  assert.equal(hermes.if, 'matrix.shard == 2');
+  for (const suite of ['integrations/hermes-agent/test/plugin-contract.test.mjs', 'integrations/deepseek-harness/test/docs-contract.test.mjs']) {
+    const owners = full.steps.filter(step => step.run?.startsWith('node --test ') && step.run.split(/\s+/).includes(suite));
+    assert.deepEqual(owners.map(step => step.if), ['matrix.shard == 2'], suite);
+  }
   const moduleSuite = full.steps.find(step => step.name === 'Code Analysis module suite');
   assert.equal(moduleSuite.if, 'matrix.module-shard');
   assert.equal(moduleSuite.run, 'node --test --test-shard=${{ matrix.module-shard }}/2 test/*.test.mjs');
