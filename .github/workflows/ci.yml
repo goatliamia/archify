@@ -122,6 +122,8 @@ jobs:
         run: node --test --test-shard=${{ matrix.module-shard }}/2 test/*.test.mjs
         working-directory: archify/modules/code-analysis
         env:
+          # CLI subprocesses in this shard repeatedly load the same analyzer modules.
+          NODE_COMPILE_CACHE: ${{ runner.temp }}/archify-code-analysis-compile
           ARCHIFY_TEST_JSCPD: ${{ runner.temp }}/archify-jscpd/node_modules/.bin/jscpd
           ARCHIFY_CPP_PYTHON: ${{ runner.temp }}/archify-clang/bin/python
           ARCHIFY_CPP_REQUIRED: '1'
