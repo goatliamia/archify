@@ -1,0 +1,76 @@
+name: Measure Code Analysis on Ubuntu
+on:
+  push:
+    branches: [codex/ci-efficiency-measure]
+permissions:
+  contents: read
+
+jobs:
+  pair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
+        first: [baseline, cached]
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: a347ea6ac67fefdaf875149ed31d708106aa3be2
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - uses: ./.github/actions/setup-pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Install the two native integration dependencies
+        run: |
+          npm install --prefix "$RUNNER_TEMP/archify-jscpd" --ignore-scripts --no-audit --no-fund jscpd@5.4.3
+          python3 -m venv "$RUNNER_TEMP/archify-clang"
+          "$RUNNER_TEMP/archify-clang/bin/python" -m pip install --disable-pip-version-check --only-binary=:all: --no-deps libclang==18.1.1
+      - name: Compare two complete executions
+        working-directory: archify/modules/code-analysis
+        env:
+          SHARD: ${{ matrix.shard }}
+          FIRST: ${{ matrix.first }}
+          ARCHIFY_TEST_JSCPD: ${{ runner.temp }}/archify-jscpd/node_modules/.bin/jscpd
+          ARCHIFY_CPP_PYTHON: ${{ runner.temp }}/archify-clang/bin/python
+          ARCHIFY_CPP_REQUIRED: '1'
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, re, subprocess, time
+          output = pathlib.Path(os.environ['RUNNER_TEMP']) / 'measurements'
+          output.mkdir()
+          first = os.environ['FIRST']
+          receipts = []
+          for mode in [first, 'cached' if first == 'baseline' else 'baseline']:
+              scratch = pathlib.Path(os.environ['RUNNER_TEMP']) / ('sample-' + mode)
+              scratch.mkdir()
+              env = dict(os.environ, TMPDIR=str(scratch), GOCACHE=str(scratch / 'go'))
+              env.pop('NODE_COMPILE_CACHE', None)
+              if mode == 'cached':
+                  env['NODE_COMPILE_CACHE'] = str(scratch / 'compile')
+              args = ['node', '--test', '--test-reporter=tap', '--test-shard=' + env['SHARD'] + '/2', *sorted(str(p) for p in pathlib.Path('test').glob('*.test.mjs'))]
+              start = time.monotonic()
+              with (output / (mode + '.tap')).open('wb') as log:
+                  run = subprocess.run(args, env=env, stdout=log, stderr=subprocess.STDOUT)
+              elapsed = round((time.monotonic() - start) * 1000)
+              tap = (output / (mode + '.tap')).read_text()
+              cases = sorted(line.strip() for line in tap.splitlines() if re.match(r'^\s*(?:not ok|ok) \d+ - ', line))
+              summary = dict(re.findall(r'^# (tests|pass|fail|cancelled|skipped|todo) (\d+)$', tap, re.M))
+              digest = hashlib.sha256(json.dumps(cases, ensure_ascii=False).encode()).hexdigest()
+              receipt = dict(mode=mode, elapsed_ms=elapsed, status=run.returncode, outcomes=digest, summary=summary)
+              print('MEASURE ' + json.dumps(receipt), flush=True)
+              receipts.append(receipt)
+          (output / 'receipts.json').write_text(json.dumps(receipts, indent=2))
+          assert all(r['status'] == 0 and int(r['summary']['tests']) > 0 and r['summary']['tests'] == r['summary']['pass'] for r in receipts)
+          assert receipts[0]['outcomes'] == receipts[1]['outcomes']
+          PY
+      - uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        if: always()
+        with:
+          name: shard-${{ matrix.shard }}-${{ matrix.first }}-first
+          path: ${{ runner.temp }}/measurements
+          retention-days: 7
